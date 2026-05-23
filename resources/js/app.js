@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initSectionNavigation = () => {
     const root = document.documentElement;
     const header = document.querySelector('.site-header');
     const navLinks = Array.from(document.querySelectorAll('.main-nav a[href^="#"]'));
@@ -117,4 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         syncAnchorOffsets();
         updateActiveSection();
     });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSectionNavigation();
 });

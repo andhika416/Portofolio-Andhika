@@ -221,35 +221,92 @@
             </section>
 
             <section id="certifications" class="content-section band-section">
+                @php
+                    $certificateCards = [
+                        [
+                            'name' => 'Kemnaker',
+                            'label' => 'Kementerian Ketenagakerjaan RI',
+                            'image' => 'Kemnaker.png',
+                            'count' => 1,
+                        ],
+                        [
+                            'name' => 'BNSP',
+                            'label' => 'Badan Nasional Sertifikasi Profesi',
+                            'image' => 'BNSP.png',
+                            'count' => 1,
+                        ],
+                        [
+                            'name' => 'MSIB',
+                            'label' => 'Magang dan Studi Independen Bersertifikat',
+                            'image' => 'MSIB.png',
+                            'count' => 1,
+                        ],
+                        [
+                            'name' => 'Dicoding',
+                            'label' => 'Dicoding Indonesia',
+                            'image' => 'dicoding.png',
+                            'url' => route('certificates.dicoding'),
+                            'count' => 2,
+                        ],
+                        [
+                            'name' => 'GNIK',
+                            'label' => 'Gerakan Nasional 1000 Startup Digital',
+                            'image' => 'GNIK.jpg',
+                            'url' => route('certificates.gnik'),
+                            'count' => 8,
+                        ],
+                        [
+                            'name' => 'Cisco',
+                            'label' => 'Cisco Networking Academy',
+                            'image' => 'Cisco.png',
+                            'count' => 1,
+                        ],
+                    ];
+                @endphp
                 <div class="page-shell">
                     <h2 class="section-title section-title--accent section-title--underlined">Sertifikasi</h2>
 
                     <div class="certificate-list">
-                        <article class="certificate-card elevated-panel">
-                            <div class="certificate-icon" aria-hidden="true">
-                                <svg viewBox="0 0 48 48">
-                                    <path d="M24 8l5 3 6-1 1 6 5 3-3 5 1 6-6 1-3 5-5-3-6 1-1-6-5-3 3-5-1-6 6-1z" />
-                                    <circle cx="24" cy="24" r="6" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3>Spesialis Laravel Lanjutan</h3>
-                                <p>Global Tech Institute • 2025</p>
-                            </div>
-                        </article>
+                        @foreach ($certificateCards as $certificateCard)
+                            @php
+                                $hasDetailPage = !empty($certificateCard['url']);
+                            @endphp
+                            <article class="certificate-card elevated-panel{{ $hasDetailPage ? ' certificate-card--interactive' : '' }}">
+                                @if ($hasDetailPage)
+                                    <a
+                                        href="{{ $certificateCard['url'] }}"
+                                        class="certificate-card__trigger"
+                                    >
+                                @else
+                                    <div class="certificate-card__body">
+                                @endif
+                                    <div class="certificate-icon" aria-hidden="true">
+                                        <img
+                                            src="{{ url('/images/' . rawurlencode($certificateCard['image'])) }}"
+                                            alt="Logo {{ $certificateCard['name'] }}"
+                                        >
+                                    </div>
+                                    <div class="certificate-content">
+                                        <div class="certificate-copy">
+                                            <h3>{{ $certificateCard['name'] }}</h3>
+                                            <p>{{ $certificateCard['label'] }}</p>
+                                        </div>
 
-                        <article class="certificate-card elevated-panel">
-                            <div class="certificate-icon" aria-hidden="true">
-                                <svg viewBox="0 0 48 48">
-                                    <path d="M24 8l5 3 6-1 1 6 5 3-3 5 1 6-6 1-3 5-5-3-6 1-1-6-5-3 3-5-1-6 6-1z" />
-                                    <circle cx="24" cy="24" r="6" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3>Desain Database Profesional</h3>
-                                <p>Database Academy • 2025</p>
-                            </div>
-                        </article>
+                                        <div class="certificate-card__meta">
+                                            <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
+
+                                            @if ($hasDetailPage)
+                                                <span class="certificate-action">Lihat sertifikat</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @if ($hasDetailPage)
+                                    </a>
+                                @else
+                                    </div>
+                                @endif
+                            </article>
+                        @endforeach
                     </div>
                 </div>
             </section>
