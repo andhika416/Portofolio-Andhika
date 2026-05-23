@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'Andhika Portfolio') }}</title>
+        <title>{{ config('app.name', 'Portofolio Andhika') }}</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
@@ -17,25 +17,19 @@
             <style>
                 {!! file_get_contents(resource_path('css/app.css')) !!}
             </style>
+            <script>
+                {!! file_get_contents(resource_path('js/app.js')) !!}
+            </script>
         @endif
     </head>
     <body>
         @php
-            $heroSlides = [
-                [
-                    'src' => url('/images/' . rawurlencode('Foto 1-cropped.png')),
-                    'alt' => 'Foto Andhika 1',
-                    'scale' => 0.98,
-                    'position' => 'center bottom',
-                    'offsetY' => '0px',
-                ],
-                [
-                    'src' => url('/images/' . rawurlencode('Foto 2-cropped.png')),
-                    'alt' => 'Foto Andhika 2',
-                    'scale' => 1.16,
-                    'position' => 'center bottom',
-                    'offsetY' => '0px',
-                ],
+            $heroSlide = [
+                'src' => url('/images/' . rawurlencode('Foto 1-cropped.png')),
+                'alt' => 'Foto Andhika',
+                'scale' => 1,
+                'position' => 'center bottom',
+                'offsetY' => '0px',
             ];
         @endphp
 
@@ -43,43 +37,31 @@
 
         <main>
             <section id="home" class="hero-band">
-                <div class="hero-cosmos" aria-hidden="true">
-                    <span class="hero-cosmos__planet hero-cosmos__planet--one"></span>
-                    <span class="hero-cosmos__planet hero-cosmos__planet--two"></span>
-                    <span class="hero-cosmos__planet hero-cosmos__planet--three"></span>
-                    <span class="hero-cosmos__orbit hero-cosmos__orbit--one"></span>
-                    <span class="hero-cosmos__orbit hero-cosmos__orbit--two"></span>
-                    <span class="hero-cosmos__orbit hero-cosmos__orbit--three"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--one"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--two"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--three"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--four"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--five"></span>
-                    <span class="hero-cosmos__star hero-cosmos__star--six"></span>
-                    <span class="hero-cosmos__dot hero-cosmos__dot--one"></span>
-                    <span class="hero-cosmos__dot hero-cosmos__dot--two"></span>
-                    <span class="hero-cosmos__dot hero-cosmos__dot--three"></span>
-                    <span class="hero-cosmos__dot hero-cosmos__dot--four"></span>
-                    <span class="hero-cosmos__trail hero-cosmos__trail--one"></span>
-                    <span class="hero-cosmos__trail hero-cosmos__trail--two"></span>
-                    <span class="hero-cosmos__nebula hero-cosmos__nebula--one"></span>
-                    <span class="hero-cosmos__nebula hero-cosmos__nebula--two"></span>
-                    <span class="hero-cosmos__cluster hero-cosmos__cluster--one"></span>
-                    <span class="hero-cosmos__cluster hero-cosmos__cluster--two"></span>
-                    <span class="hero-cosmos__grid"></span>
+                <div class="hero-sky" aria-hidden="true">
+                    <span class="hero-sky__nebula hero-sky__nebula--one"></span>
+                    <span class="hero-sky__nebula hero-sky__nebula--two"></span>
+                    <span class="hero-sky__nebula hero-sky__nebula--three"></span>
+                    <span class="hero-sky__ring hero-sky__ring--one"></span>
+                    <span class="hero-sky__ring hero-sky__ring--two"></span>
+                    <span class="hero-sky__grid"></span>
+                    <span class="hero-sky__stars hero-sky__stars--near"></span>
+                    <span class="hero-sky__stars hero-sky__stars--far"></span>
+                    <span class="hero-sky__meteor hero-sky__meteor--one"></span>
+                    <span class="hero-sky__meteor hero-sky__meteor--two"></span>
+                    <span class="hero-sky__meteor hero-sky__meteor--three"></span>
                 </div>
 
                 <div class="page-shell hero-grid">
                     <div class="hero-copy">
                         <h1>Andhika Firjatullah</h1>
                         <p>
-                            A dedicated Web Developer specializing in building robust, high-performance web
-                            applications that bridge functionality and aesthetics.
+                            Seorang Web Developer yang berdedikasi dan berfokus pada pembangunan aplikasi web
+                            yang tangguh, cepat, serta mampu menyatukan fungsionalitas dan estetika.
                         </p>
 
                         <div class="hero-actions">
-                            <a href="#projects" class="boxed-button boxed-button--solid">View Projects</a>
-                            <a href="#contact" class="boxed-button">Download CV</a>
+                            <a href="#projects" class="boxed-button boxed-button--solid">Lihat Proyek</a>
+                            <a href="#contact" class="boxed-button">Unduh CV</a>
                         </div>
                     </div>
 
@@ -88,13 +70,12 @@
                             <div class="hero-visual-stage__halo" aria-hidden="true"></div>
                             <div class="hero-visual-stage__floor" aria-hidden="true"></div>
 
-                            <div class="hero-slideshow" data-slideshow data-slides='@json($heroSlides)'>
+                            <div class="hero-slideshow">
                                 <img
-                                    src="{{ $heroSlides[0]['src'] }}"
-                                    alt="{{ $heroSlides[0]['alt'] }}"
+                                    src="{{ $heroSlide['src'] }}"
+                                    alt="{{ $heroSlide['alt'] }}"
                                     class="hero-slideshow__image"
-                                    data-slide-image
-                                    style="--slide-scale: {{ $heroSlides[0]['scale'] }}; --slide-position: {{ $heroSlides[0]['position'] }}; --slide-offset-y: {{ $heroSlides[0]['offsetY'] }};"
+                                    style="--slide-scale: {{ $heroSlide['scale'] }}; --slide-position: {{ $heroSlide['position'] }}; --slide-offset-y: {{ $heroSlide['offsetY'] }};"
                                 >
                             </div>
                         </div>
@@ -105,21 +86,21 @@
             <section id="about" class="content-section about-section">
                 <div class="page-shell">
                     <div class="about-grid">
-                        <h2 class="section-title section-title--side">About Me</h2>
+                        <h2 class="section-title section-title--side">Tentang Saya</h2>
 
                         <div class="elevated-panel about-panel">
                             <p>
-                                I am a passionate developer with a strong foundation in modern web technologies. My
-                                journey in the tech world is driven by a desire to create impactful digital solutions
-                                that solve real-world problems. With experience in both front-end and back-end
-                                development, I pride myself on writing clean, maintainable code and staying ahead of
-                                industry trends.
+                                Saya adalah seorang developer yang antusias dengan fondasi yang kuat dalam teknologi
+                                web modern. Perjalanan saya di dunia teknologi didorong oleh keinginan untuk
+                                menciptakan solusi digital yang berdampak dan mampu menyelesaikan masalah nyata.
+                                Dengan pengalaman di sisi front-end maupun back-end, saya terbiasa menulis kode yang
+                                rapi, mudah dirawat, dan tetap relevan dengan perkembangan industri.
                             </p>
                             <p>
-                                Beyond the screen, I am committed to continuous learning and professional growth.
-                                Whether it is mastering a new framework or optimizing a database query, I approach
-                                every challenge with precision and a structured mindset that ensures excellence in
-                                every pixel.
+                                Di luar layar, saya berkomitmen untuk terus belajar dan berkembang secara profesional.
+                                Baik saat mempelajari framework baru maupun mengoptimalkan query database, saya
+                                menghadapi setiap tantangan dengan ketelitian dan pola pikir terstruktur demi
+                                menghasilkan kualitas terbaik di setiap detail.
                             </p>
                         </div>
                     </div>
@@ -127,54 +108,37 @@
             </section>
 
             <section id="skills" class="content-section band-section">
-                <div class="page-shell">
-                    <h2 class="section-title section-title--center section-title--accent">Core Skills</h2>
+                @php
+                    $skillCards = [
+                        ['name' => 'Laravel', 'image' => 'Laravel.png'],
+                        ['name' => 'Bootstrap', 'image' => 'Bootstrap.png'],
+                        ['name' => 'Power BI', 'image' => 'Power BI.png'],
+                        ['name' => 'WordPress', 'image' => 'WordPress.png'],
+                        ['name' => 'XAMPP', 'image' => 'XAMPP.png'],
+                        ['name' => 'MySQL', 'image' => 'MySQL.png'],
+                        ['name' => 'CodeIgniter', 'image' => 'Codeigneter.png'],
+                    ];
+                @endphp
 
-                    <div class="skills-grid">
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <rect x="8" y="12" width="32" height="22" rx="2" />
-                                <path d="M14 28l5-6 4 4 7-8 4 5" />
-                            </svg>
-                            <span>Laravel</span>
-                        </article>
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <ellipse cx="24" cy="15" rx="12" ry="5" />
-                                <path d="M12 15v12c0 3 5 5 12 5s12-2 12-5V15" />
-                                <path d="M12 22c0 3 5 5 12 5s12-2 12-5" />
-                            </svg>
-                            <span>MySQL</span>
-                        </article>
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <path d="M18 15l-8 9 8 9" />
-                                <path d="M30 15l8 9-8 9" />
-                                <path d="M26 12l-4 24" />
-                            </svg>
-                            <span>PHP</span>
-                        </article>
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <rect x="10" y="10" width="28" height="28" />
-                                <path d="M16 18h16M16 24h10M16 30h14" />
-                            </svg>
-                            <span>Bootstrap</span>
-                        </article>
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <rect x="11" y="9" width="26" height="30" />
-                                <path d="M17 18h14M17 24h14M17 30h8" />
-                            </svg>
-                            <span>Analytics</span>
-                        </article>
-                        <article class="skill-card">
-                            <svg viewBox="0 0 48 48" aria-hidden="true">
-                                <rect x="10" y="12" width="28" height="22" />
-                                <path d="M10 18h28M18 12v22" />
-                            </svg>
-                            <span>WordPress</span>
-                        </article>
+                <div class="page-shell">
+                    <h2 class="section-title section-title--center section-title--accent">Keahlian Utama</h2>
+
+                    <div class="skills-marquee" style="--skills-count: {{ count($skillCards) }};">
+                        <div class="skills-grid" aria-label="Daftar keahlian utama">
+                            @for ($loopIndex = 0; $loopIndex < 2; $loopIndex++)
+                                <div class="skills-grid__group" @if ($loopIndex === 1) aria-hidden="true" @endif>
+                                    @foreach ($skillCards as $skillCard)
+                                        <article class="skill-card">
+                                            <img
+                                                src="{{ url('/images/' . rawurlencode($skillCard['image'])) }}"
+                                                alt="Logo {{ $skillCard['name'] }}"
+                                            >
+                                            <span>{{ $skillCard['name'] }}</span>
+                                        </article>
+                                    @endforeach
+                                </div>
+                            @endfor
+                        </div>
                     </div>
                 </div>
             </section>
@@ -182,7 +146,7 @@
             <section id="projects" class="content-section projects-section">
                 <div class="page-shell">
                     <div class="title-row">
-                        <h2 class="section-title">Featured Projects</h2>
+                        <h2 class="section-title">Proyek Unggulan</h2>
                         <span class="title-line" aria-hidden="true"></span>
                     </div>
 
@@ -200,12 +164,12 @@
                                 </svg>
                             </div>
                             <div class="project-body">
-                                <h3>E-Commerce Platform</h3>
+                                <h3>Platform E-Commerce</h3>
                                 <p>
-                                    A full-stack Laravel application featuring advanced inventory management, payment
-                                    integration, and real-time analytics.
+                                    Aplikasi Laravel full-stack dengan fitur manajemen inventaris lanjutan, integrasi
+                                    pembayaran, dan analitik real-time.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Project Details</a>
+                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
 
@@ -223,12 +187,12 @@
                                 </svg>
                             </div>
                             <div class="project-body">
-                                <h3>Data Analytics Engine</h3>
+                                <h3>Mesin Analitik Data</h3>
                                 <p>
-                                    Custom reporting for process and visualization of large-scale datasets with
-                                    interactive charts and reporting tools.
+                                    Sistem pelaporan kustom untuk pemrosesan dan visualisasi dataset berskala besar
+                                    dengan grafik interaktif dan alat pelaporan.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Project Details</a>
+                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
 
@@ -244,12 +208,12 @@
                                 </svg>
                             </div>
                             <div class="project-body">
-                                <h3>Bespoke CMS Solution</h3>
+                                <h3>Solusi CMS Kustom</h3>
                                 <p>
-                                    Tailored WordPress development with custom themes and plugins for high-traffic
-                                    corporate websites.
+                                    Pengembangan WordPress yang disesuaikan dengan tema dan plugin kustom untuk situs
+                                    perusahaan dengan trafik tinggi.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Project Details</a>
+                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
                     </div>
@@ -258,7 +222,7 @@
 
             <section id="certifications" class="content-section band-section">
                 <div class="page-shell">
-                    <h2 class="section-title section-title--accent section-title--underlined">Certifications</h2>
+                    <h2 class="section-title section-title--accent section-title--underlined">Sertifikasi</h2>
 
                     <div class="certificate-list">
                         <article class="certificate-card elevated-panel">
@@ -269,7 +233,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3>Advanced Laravel Specialist</h3>
+                                <h3>Spesialis Laravel Lanjutan</h3>
                                 <p>Global Tech Institute • 2025</p>
                             </div>
                         </article>
@@ -282,7 +246,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3>Professional Database Design</h3>
+                                <h3>Desain Database Profesional</h3>
                                 <p>Database Academy • 2025</p>
                             </div>
                         </article>
@@ -292,29 +256,29 @@
 
             <section id="contact" class="content-section contact-section">
                 <div class="page-shell contact-shell">
-                    <h2 class="section-title section-title--center">Get In Touch</h2>
-                    <p class="contact-intro">Ready to collaborate on your next project? Drop a message below.</p>
+                    <h2 class="section-title section-title--center">Hubungi Saya</h2>
+                    <p class="contact-intro">Siap berkolaborasi untuk proyek berikutnya? Tinggalkan pesan di bawah.</p>
 
                     <form class="contact-form">
                         <div class="contact-grid">
                             <label class="field-block">
-                                <span>Full Name</span>
-                                <input type="text" placeholder="Enter your name" />
+                                <span>Nama Lengkap</span>
+                                <input type="text" placeholder="Masukkan nama Anda" />
                             </label>
 
                             <label class="field-block">
-                                <span>Email Address</span>
-                                <input type="email" placeholder="Enter your email" />
+                                <span>Alamat Email</span>
+                                <input type="email" placeholder="Masukkan email Anda" />
                             </label>
                         </div>
 
                         <label class="field-block field-block--full">
-                            <span>Message</span>
-                            <textarea rows="6" placeholder="Your project details..."></textarea>
+                            <span>Pesan</span>
+                            <textarea rows="6" placeholder="Tulis detail proyek Anda..."></textarea>
                         </label>
 
                         <div class="contact-action">
-                            <button type="button" class="boxed-button boxed-button--solid">Send Message</button>
+                            <button type="button" class="boxed-button boxed-button--solid">Kirim Pesan</button>
                         </div>
                     </form>
                 </div>
@@ -322,53 +286,5 @@
         </main>
 
         @include('partials.footer')
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const slideshow = document.querySelector('[data-slideshow]');
-
-                if (!slideshow) {
-                    return;
-                }
-
-                const slideImage = slideshow.querySelector('[data-slide-image]');
-                const slides = JSON.parse(slideshow.dataset.slides || '[]');
-                let currentIndex = 0;
-                let timerId = null;
-
-                const showSlide = (nextIndex) => {
-                    if (!slides[nextIndex] || !slideImage) {
-                        return;
-                    }
-
-                    slideImage.classList.remove('is-visible');
-
-                    window.setTimeout(() => {
-                        slideImage.src = slides[nextIndex].src;
-                        slideImage.alt = slides[nextIndex].alt;
-                        slideImage.style.setProperty('--slide-scale', slides[nextIndex].scale);
-                        slideImage.style.setProperty('--slide-position', slides[nextIndex].position);
-                        slideImage.style.setProperty('--slide-offset-y', slides[nextIndex].offsetY || '0px');
-                        slideImage.classList.add('is-visible');
-                    }, 120);
-
-                    currentIndex = nextIndex;
-                };
-
-                const startAutoSlide = () => {
-                    timerId = window.setInterval(() => {
-                        const nextIndex = (currentIndex + 1) % slides.length;
-                        showSlide(nextIndex);
-                    }, 3200);
-                };
-
-                if (slides.length > 1) {
-                    slideImage.classList.add('is-visible');
-                    startAutoSlide();
-                } else if (slideImage) {
-                    slideImage.classList.add('is-visible');
-                }
-            });
-        </script>
     </body>
 </html>

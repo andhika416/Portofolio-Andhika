@@ -13,6 +13,9 @@
     --shell-width: 1100px;
     --font-display: "Poppins", "Segoe UI", sans-serif;
     --font-body: "Poppins", "Segoe UI", sans-serif;
+    --anchor-offset-top: 88px;
+    --anchor-offset-bottom: 24px;
+    --header-height: 64px;
 }
 
 *,
@@ -23,6 +26,8 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--anchor-offset-top);
+    scroll-padding-bottom: var(--anchor-offset-bottom);
 }
 
 body {
@@ -54,13 +59,22 @@ textarea {
     margin: 0 auto;
 }
 
+main > section[id] {
+    scroll-margin-top: var(--anchor-offset-top);
+    scroll-margin-bottom: var(--anchor-offset-bottom);
+}
+
 .site-header {
     position: sticky;
     top: 0;
     z-index: 20;
-    background: #ffffff;
-    border-bottom: 2px solid var(--line);
-    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.58);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 10px 30px rgba(15, 101, 118, 0.08);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
 }
 
 .nav-shell {
@@ -88,14 +102,27 @@ textarea {
 }
 
 .main-nav a {
-    padding: 6px 0;
-    border-bottom: 2px solid transparent;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 999px;
     font-weight: 700;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        backdrop-filter 0.2s ease;
 }
 
 .main-nav a.is-active,
 .main-nav a:hover {
-    border-color: var(--accent);
+    color: #105666;
+    background: rgba(213, 166, 160, 0.38);
+    border-color: rgba(255, 250, 246, 0.35);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.28),
+        0 10px 24px rgba(191, 143, 137, 0.16);
+    backdrop-filter: blur(12px);
 }
 
 .hire-button,
@@ -133,7 +160,8 @@ textarea {
 
 .hero-band {
     position: relative;
-    padding: 54px 0 0;
+    min-height: calc(100svh - var(--header-height));
+    padding: 0;
     border-bottom: 2px solid rgba(255, 255, 255, 0.18);
     overflow: hidden;
 }
@@ -483,6 +511,8 @@ textarea {
     grid-template-columns: minmax(0, 1.15fr) minmax(320px, 420px);
     align-items: center;
     gap: 36px;
+    min-height: calc(100svh - var(--header-height));
+    padding: clamp(24px, 4vh, 40px) 0;
 }
 
 .hero-copy h1 {
@@ -535,7 +565,7 @@ textarea {
 .hero-visual-stage {
     position: relative;
     width: min(100%, 420px);
-    height: 500px;
+    height: clamp(360px, 62vh, 500px);
     margin-left: auto;
     display: flex;
     align-items: flex-end;
@@ -671,14 +701,52 @@ textarea {
     padding: 60px 0;
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 18px;
+.skills-marquee {
+    --skill-gap: 18px;
+    --skill-card-width: 176px;
     margin-top: 34px;
+    overflow: hidden;
+    padding: 0 0 10px;
+}
+
+.skills-grid {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    gap: var(--skill-gap);
+    padding: 0 0 8px;
+    animation: skillsMarquee 22s linear infinite;
+    will-change: transform;
+}
+
+.skills-grid__group {
+    display: flex;
+    align-items: stretch;
+    gap: var(--skill-gap);
+    flex-shrink: 0;
+}
+
+@keyframes skillsMarquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-1 * var(--skills-count) * (var(--skill-card-width) + var(--skill-gap))));
+    }
+}
+
+.skills-marquee:hover .skills-grid {
+    animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skills-grid {
+        animation: none;
+    }
 }
 
 .skill-card {
+    width: var(--skill-card-width);
     min-height: 98px;
     padding: 18px 10px 14px;
     display: flex;
@@ -689,12 +757,19 @@ textarea {
     background: #fffefc;
     border: 2px solid var(--line);
     box-shadow: 6px 6px 0 rgba(16, 16, 16, 0.84);
-    color: var(--accent);
+    color: var(--teal);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    flex: 0 0 var(--skill-card-width);
 }
 
+.skill-card img,
 .skill-card svg {
     width: 34px;
     height: 34px;
+    object-fit: contain;
+}
+
+.skill-card svg {
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
@@ -705,6 +780,9 @@ textarea {
 .skill-card span {
     font-family: var(--font-display);
     font-size: 0.82rem;
+    text-align: center;
+    font-weight: 800;
+    color: var(--teal);
 }
 
 .title-row {
@@ -729,6 +807,7 @@ textarea {
 
 .project-card {
     overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .project-media {
@@ -767,6 +846,18 @@ textarea {
     display: flex;
     align-items: center;
     gap: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-card:hover {
+    transform: scale(0.96);
+    box-shadow: 3px 3px 0 rgba(16, 16, 16, 0.84);
+}
+
+.project-card:hover,
+.certificate-card:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0 rgba(16, 16, 16, 0.84);
 }
 
 .certificate-icon {
@@ -929,10 +1020,6 @@ textarea {
         gap: 20px;
     }
 
-    .skills-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .footer-shell {
         text-align: center;
     }
@@ -944,6 +1031,11 @@ textarea {
 }
 
 @media (max-width: 760px) {
+    :root {
+        --anchor-offset-top: 28px;
+        --header-height: 118px;
+    }
+
     .page-shell {
         width: min(calc(100% - 32px), var(--shell-width));
     }
@@ -966,7 +1058,7 @@ textarea {
     }
 
     .hero-band {
-        padding-top: 36px;
+        min-height: calc(100svh - var(--header-height));
     }
 
     .hero-copy h1 {
@@ -978,23 +1070,18 @@ textarea {
     }
 
     .hero-actions,
-    .contact-grid,
-    .skills-grid {
+    .contact-grid {
         grid-template-columns: 1fr;
     }
 
     .hero-visual-stage {
         width: min(100%, 360px);
-        height: 430px;
+        height: clamp(300px, 46vh, 430px);
     }
 
     .hero-cosmos__grid,
     .hero-cosmos__orbit--two {
         display: none;
-    }
-
-    .skills-grid {
-        display: grid;
     }
 
     .title-row {

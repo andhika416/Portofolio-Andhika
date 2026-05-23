@@ -2,15 +2,15 @@
     <div class="page-shell nav-shell">
         <a href="#home" class="brand-mark">Andhika Firjatullah</a>
 
-        <nav class="main-nav" aria-label="Primary navigation">
-            <a href="#home" class="is-active">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#certifications">Certifications</a>
-            <a href="#contact">Contact</a>
+        <nav class="main-nav" aria-label="Navigasi utama">
+            <a href="#home" class="is-active">Beranda</a>
+            <a href="#about">Tentang</a>
+            <a href="#skills">Keahlian</a>
+            <a href="#projects">Proyek</a>
+            <a href="#certifications">Sertifikasi</a>
+            <a href="#contact">Kontak</a>
         </nav>
 
-        <a href="#contact" class="hire-button">Hire Me</a>
+        <a href="#contact" class="hire-button">Hubungi Saya</a>
     </div>
 </header>
