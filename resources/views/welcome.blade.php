@@ -239,6 +239,7 @@
                             'name' => 'MSIB',
                             'label' => 'Magang dan Studi Independen Bersertifikat',
                             'image' => 'MSIB.png',
+                            'url' => route('certificates.msib'),
                             'count' => 1,
                         ],
                         [
@@ -259,7 +260,8 @@
                             'name' => 'Cisco',
                             'label' => 'Cisco Networking Academy',
                             'image' => 'Cisco.png',
-                            'count' => 1,
+                            'url' => route('certificates.cisco'),
+                            'count' => 2,
                         ],
                     ];
                 @endphp

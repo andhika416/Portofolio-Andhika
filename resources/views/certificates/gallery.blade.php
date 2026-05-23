@@ -25,24 +25,18 @@
     <body class="subpage-body">
         @php
             $homeUrl = route('home');
-            $certificationsUrl = route('home') . '#certifications';
+            $certificationsUrl = route('home', ['section' => 'certifications']);
             $activeDocument = $documents[$activeIndex];
             $activeDocumentUrl = url('/images/' . rawurlencode($activeDocument['file']));
+            $hasMultipleDocuments = count($documents) > 1;
         @endphp
 
-        <header class="site-header site-header--subpage">
-            <div class="page-shell subpage-nav">
-                <a href="{{ $homeUrl }}" class="brand-mark">Andhika Firjatullah</a>
-
-                <nav class="main-nav main-nav--subpage" aria-label="Navigasi halaman sertifikat">
-                    <a href="{{ $homeUrl }}">Beranda</a>
-                    <a href="{{ $certificationsUrl }}" class="is-active">Sertifikasi</a>
-                    <a href="{{ $homeUrl }}#contact">Kontak</a>
-                </nav>
-
-                <a href="{{ $certificationsUrl }}" class="hire-button">Kembali</a>
-            </div>
-        </header>
+        @include('partials.navbar', [
+            'navBaseUrl' => $homeUrl,
+            'activeSection' => 'certifications',
+            'brandHref' => $homeUrl . '#home',
+            'hireHref' => $homeUrl . '#contact',
+        ])
 
         <main>
             <section class="detail-hero">
@@ -51,48 +45,33 @@
                         <p class="detail-hero__eyebrow">Certification Gallery</p>
                         <h1>{{ $heroTitle }}</h1>
                         <p>{{ $heroDescription }}</p>
-
-                        <div class="detail-hero__actions">
-                            <a href="{{ $certificationsUrl }}" class="boxed-button">Kembali ke Sertifikasi</a>
-                            <a
-                                href="{{ $activeDocumentUrl }}"
-                                target="_blank"
-                                rel="noreferrer"
-                                class="boxed-button boxed-button--solid"
-                            >
-                                Buka PDF Aktif
-                            </a>
-                        </div>
                     </div>
 
-                    <aside class="detail-hero__panel elevated-panel">
-                        <div class="detail-hero__logo">
-                            <img src="{{ url('/images/' . rawurlencode($brandImage)) }}" alt="{{ $brandImageAlt }}">
-                        </div>
-                        <p class="detail-hero__count">{{ count($documents) }} Sertifikat</p>
-                        <p class="detail-hero__note">{{ $brandNote }}</p>
-                    </aside>
+                    <div class="detail-hero__actions">
+                        <a href="{{ $certificationsUrl }}" class="boxed-button">Kembali ke Sertifikasi</a>
+                    </div>
                 </div>
             </section>
 
-            <section class="content-section detail-section">
+            <section id="certificate-browser" class="content-section detail-section">
                 <div class="page-shell">
-                    <div class="document-explorer elevated-panel">
+                    <div class="document-explorer elevated-panel" data-document-explorer>
                         <div class="document-explorer__sidebar">
                             <div class="document-explorer__heading">
                                 <p class="document-explorer__eyebrow">Daftar Sertifikat</p>
-                                <h2>Pilih Dokumen</h2>
                             </div>
 
-                            <div class="document-list" aria-label="Daftar sertifikat {{ $brandName }}">
+                            <div class="document-list{{ $hasMultipleDocuments ? '' : ' document-list--static' }}" aria-label="Daftar sertifikat {{ $brandName }}">
                                 @foreach ($documents as $index => $document)
                                     @php
                                         $isActiveDocument = $index === $activeIndex;
                                         $routeParameters = array_merge(request()->route()->parameters(), ['doc' => $index]);
                                     @endphp
                                     <a
-                                        href="{{ route(request()->route()->getName(), $routeParameters) }}"
+                                        href="{{ route(request()->route()->getName(), $routeParameters) }}#certificate-browser"
                                         class="document-item{{ $isActiveDocument ? ' is-active' : '' }}"
+                                        data-document-item
+                                        data-document-src="{{ url('/images/' . rawurlencode($document['file'])) }}"
                                         @if ($isActiveDocument) aria-current="page" @endif
                                     >
                                         <span class="document-item__number">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
@@ -106,20 +85,25 @@
                         </div>
 
                         <div class="document-explorer__preview">
-                            <div class="document-preview__meta">
-                                <div>
-                                    <p class="document-preview__eyebrow">Preview Aktif</p>
-                                    <h3>{{ $activeDocument['title'] }}</h3>
-                                    <p data-document-preview-subtitle>{{ $activeDocument['subtitle'] }}</p>
-                                </div>
-                            </div>
-
                             <div class="document-preview__frame">
-                                <iframe
-                                    src="{{ $activeDocumentUrl }}#toolbar=0&navpanes=0&view=FitH"
-                                    title="Preview sertifikat {{ $brandName }}"
-                                    loading="lazy"
-                                ></iframe>
+                                <object
+                                    data="{{ $activeDocumentUrl }}#toolbar=0&navpanes=0&view=FitH"
+                                    type="application/pdf"
+                                    aria-label="Preview sertifikat {{ $brandName }}"
+                                    data-document-frame
+                                >
+                                    <div class="document-preview__fallback">
+                                        <p>Browser ini tidak menampilkan PDF secara langsung.</p>
+                                        <a
+                                            href="{{ $activeDocumentUrl }}"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            class="boxed-button boxed-button--solid"
+                                        >
+                                            Lihat Sertifikat
+                                        </a>
+                                    </div>
+                                </object>
                             </div>
                         </div>
                     </div>

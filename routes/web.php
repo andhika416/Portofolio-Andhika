@@ -36,6 +36,31 @@ Route::get('/certifications/dicoding', function () {
     ]);
 })->name('certificates.dicoding');
 
+Route::get('/certifications/msib', function () {
+    $documents = [
+        [
+            'title' => 'Sertifikat MSIB',
+            'subtitle' => 'Magang dan Studi Independen Bersertifikat',
+            'file' => 'Sertifikat MSIB.pdf',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'MSIB Certificate',
+        'heroTitle' => 'Sertifikat MSIB',
+        'heroDescription' => 'Halaman ini menampilkan sertifikat MSIB dalam tampilan galeri yang lebih fokus. Pilih dokumen pada panel kiri lalu tinjau PDF-nya langsung pada area preview utama.',
+        'brandName' => 'MSIB',
+        'brandImage' => 'MSIB.png',
+        'brandImageAlt' => 'Logo MSIB',
+        'brandNote' => 'Sertifikat program Magang dan Studi Independen Bersertifikat yang ditampilkan langsung dari koleksi dokumen pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.msib');
+
 Route::get('/certifications/gnik', function () {
     $documents = [
         [
@@ -95,3 +120,33 @@ Route::get('/certifications/gnik', function () {
         'activeIndex' => $activeIndex,
     ]);
 })->name('certificates.gnik');
+
+Route::get('/certifications/cisco', function () {
+    $documents = [
+        [
+            'title' => 'Intro Data Science',
+            'subtitle' => 'Cisco Certificate',
+            'file' => 'Cisco - Intro Data Science.pdf',
+        ],
+        [
+            'title' => 'Introduction to Cybersecurity',
+            'subtitle' => 'Cisco Certificate',
+            'file' => 'Cisco - Introduction to Cybersecurity.pdf',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'Cisco Certificates',
+        'heroTitle' => 'Sertifikat Cisco',
+        'heroDescription' => 'Koleksi sertifikat Cisco yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.',
+        'brandName' => 'Cisco',
+        'brandImage' => 'Cisco.png',
+        'brandImageAlt' => 'Logo Cisco',
+        'brandNote' => 'Kumpulan sertifikat pembelajaran Cisco Networking Academy yang berfokus pada data science dan cybersecurity.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.cisco');

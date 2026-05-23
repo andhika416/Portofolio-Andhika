@@ -106,7 +106,13 @@ const initSectionNavigation = () => {
     syncAnchorOffsets();
     updateActiveSection();
 
-    if (window.location.hash) {
+    const initialSection = new URLSearchParams(window.location.search).get('section');
+
+    if (initialSection) {
+        window.requestAnimationFrame(() => {
+            scrollToHash(`#${initialSection}`);
+        });
+    } else if (window.location.hash) {
         window.requestAnimationFrame(() => {
             scrollToHash(window.location.hash, false);
         });
@@ -119,6 +125,79 @@ const initSectionNavigation = () => {
     });
 };
 
+const initDocumentExplorer = () => {
+    const explorer = document.querySelector('[data-document-explorer]');
+
+    if (!explorer) {
+        return;
+    }
+
+    const items = Array.from(explorer.querySelectorAll('[data-document-item]'));
+    const frame = explorer.querySelector('[data-document-frame]');
+    const previewSuffix = '#toolbar=0&navpanes=0&view=FitH';
+
+    if (!frame || items.length <= 1) {
+        return;
+    }
+
+    const setActiveItem = (item, shouldPushState = true) => {
+        const src = item.dataset.documentSrc;
+
+        if (!src) {
+            return;
+        }
+
+        items.forEach((entry) => {
+            const isActive = entry === item;
+            entry.classList.toggle('is-active', isActive);
+
+            if (isActive) {
+                entry.setAttribute('aria-current', 'page');
+            } else {
+                entry.removeAttribute('aria-current');
+            }
+        });
+
+        const previewUrl = `${src}${previewSuffix}`;
+
+        if (frame.tagName === 'OBJECT') {
+            frame.setAttribute('data', previewUrl);
+        } else {
+            frame.src = previewUrl;
+        }
+
+        if (shouldPushState) {
+            window.history.pushState({ certificateHref: item.href }, '', item.href);
+        }
+    };
+
+    const findItemByUrl = (urlString) => {
+        const currentUrl = new URL(urlString, window.location.origin);
+
+        return items.find((item) => {
+            const itemUrl = new URL(item.href, window.location.origin);
+
+            return itemUrl.pathname === currentUrl.pathname && itemUrl.search === currentUrl.search;
+        });
+    };
+
+    items.forEach((item) => {
+        item.addEventListener('click', (event) => {
+            event.preventDefault();
+            setActiveItem(item);
+        });
+    });
+
+    window.addEventListener('popstate', () => {
+        const matchedItem = findItemByUrl(window.location.href) || items[0];
+        setActiveItem(matchedItem, false);
+    });
+
+    const initialItem = findItemByUrl(window.location.href) || items.find((item) => item.classList.contains('is-active')) || items[0];
+    setActiveItem(initialItem, false);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initSectionNavigation();
+    initDocumentExplorer();
 });
