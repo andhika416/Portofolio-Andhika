@@ -31,6 +31,7 @@
                 'position' => 'center bottom',
                 'offsetY' => '0px',
             ];
+            $resumeUrl = url('/images/' . rawurlencode('Resume Andhika Firjatullah.pdf'));
         @endphp
 
         @include('partials.navbar')
@@ -61,7 +62,14 @@
 
                         <div class="hero-actions">
                             <a href="#projects" class="boxed-button boxed-button--solid">Lihat Proyek</a>
-                            <a href="#contact" class="boxed-button">Unduh CV</a>
+                            <button
+                                type="button"
+                                class="boxed-button boxed-button--resume"
+                                data-resume-open
+                                data-resume-src="{{ $resumeUrl }}"
+                            >
+                                Lihat CV
+                            </button>
                         </div>
                     </div>
 
@@ -82,6 +90,30 @@
                     </div>
                 </div>
             </section>
+
+            <div class="resume-modal" data-resume-modal hidden>
+                <div class="resume-modal__backdrop" data-resume-close></div>
+                <div class="resume-modal__dialog elevated-panel" role="dialog" aria-modal="true" aria-labelledby="resume-modal-title">
+                    <div class="resume-modal__header">
+                        <div>
+                            <p class="resume-modal__eyebrow">Curriculum Vitae</p>
+                        </div>
+
+                        <button type="button" class="resume-modal__close" data-resume-close aria-label="Tutup preview CV">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="resume-modal__body">
+                        <iframe
+                            src="about:blank"
+                            title="Preview Resume Andhika Firjatullah"
+                            loading="lazy"
+                            data-resume-frame
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
 
             <section id="about" class="content-section about-section">
                 <div class="page-shell">
@@ -112,6 +144,8 @@
                     $skillCards = [
                         ['name' => 'Laravel', 'image' => 'Laravel.png'],
                         ['name' => 'Bootstrap', 'image' => 'Bootstrap.png'],
+                        ['name' => 'Figma', 'image' => 'Figma.png'],
+                        ['name' => 'Laragon', 'image' => 'Laragon.jpg'],
                         ['name' => 'Power BI', 'image' => 'Power BI.png'],
                         ['name' => 'WordPress', 'image' => 'WordPress.png'],
                         ['name' => 'XAMPP', 'image' => 'XAMPP.png'],
@@ -227,12 +261,14 @@
                             'name' => 'Kemnaker',
                             'label' => 'Kementerian Ketenagakerjaan RI',
                             'image' => 'Kemnaker.png',
+                            'url' => route('certificates.kemnaker'),
                             'count' => 1,
                         ],
                         [
                             'name' => 'BNSP',
                             'label' => 'Badan Nasional Sertifikasi Profesi',
                             'image' => 'BNSP.png',
+                            'url' => route('certificates.bnsp'),
                             'count' => 1,
                         ],
                         [
@@ -247,14 +283,14 @@
                             'label' => 'Dicoding Indonesia',
                             'image' => 'dicoding.png',
                             'url' => route('certificates.dicoding'),
-                            'count' => 2,
+                            'count' => 5,
                         ],
                         [
                             'name' => 'GNIK',
-                            'label' => 'Gerakan Nasional 1000 Startup Digital',
+                            'label' => 'GERAKAN NASIONAL INDONESIA KOMPETEN',
                             'image' => 'GNIK.jpg',
                             'url' => route('certificates.gnik'),
-                            'count' => 8,
+                            'count' => 9,
                         ],
                         [
                             'name' => 'Cisco',

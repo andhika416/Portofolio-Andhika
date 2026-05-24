@@ -134,14 +134,17 @@ const initDocumentExplorer = () => {
 
     const items = Array.from(explorer.querySelectorAll('[data-document-item]'));
     const frame = explorer.querySelector('[data-document-frame]');
-    const previewSuffix = '#toolbar=0&navpanes=0&view=FitH';
+    const frameContainer = explorer.querySelector('[data-document-frame-container]');
+    const defaultPreviewFragment = '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none';
 
-    if (!frame || items.length <= 1) {
+    if (!frame || !frameContainer || items.length <= 1) {
         return;
     }
 
     const setActiveItem = (item, shouldPushState = true) => {
         const src = item.dataset.documentSrc;
+        const ratio = item.dataset.documentRatio || '297 / 210';
+        const fragment = item.dataset.documentFragment || defaultPreviewFragment;
 
         if (!src) {
             return;
@@ -158,13 +161,15 @@ const initDocumentExplorer = () => {
             }
         });
 
-        const previewUrl = `${src}${previewSuffix}`;
+        const previewUrl = `${src}${fragment}`;
 
         if (frame.tagName === 'OBJECT') {
             frame.setAttribute('data', previewUrl);
         } else {
             frame.src = previewUrl;
         }
+
+        frameContainer.style.setProperty('--document-preview-ratio', ratio);
 
         if (shouldPushState) {
             window.history.pushState({ certificateHref: item.href }, '', item.href);
@@ -197,7 +202,57 @@ const initDocumentExplorer = () => {
     setActiveItem(initialItem, false);
 };
 
+const initResumeModal = () => {
+    const modal = document.querySelector('[data-resume-modal]');
+    const openButton = document.querySelector('[data-resume-open]');
+    const frame = document.querySelector('[data-resume-frame]');
+    const closeButtons = Array.from(document.querySelectorAll('[data-resume-close]'));
+
+    if (!modal || !openButton || !frame || !closeButtons.length) {
+        return;
+    }
+
+    const resumeSrc = openButton.dataset.resumeSrc;
+    const resumePreviewUrl = resumeSrc ? `${resumeSrc}#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none` : '';
+    let lastActiveElement = null;
+
+    const closeModal = () => {
+        modal.hidden = true;
+        document.body.classList.remove('has-modal-open');
+        frame.setAttribute('src', 'about:blank');
+
+        if (lastActiveElement instanceof HTMLElement) {
+            lastActiveElement.focus();
+        }
+    };
+
+    const openModal = () => {
+        lastActiveElement = document.activeElement;
+        modal.hidden = false;
+        document.body.classList.add('has-modal-open');
+
+        if (resumePreviewUrl) {
+            window.requestAnimationFrame(() => {
+                frame.setAttribute('src', resumePreviewUrl);
+            });
+        }
+    };
+
+    openButton.addEventListener('click', openModal);
+
+    closeButtons.forEach((button) => {
+        button.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.hidden) {
+            closeModal();
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initSectionNavigation();
     initDocumentExplorer();
+    initResumeModal();
 });

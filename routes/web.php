@@ -12,11 +12,31 @@ Route::get('/certifications/dicoding', function () {
             'title' => 'Belajar Dasar Data Science',
             'subtitle' => 'Sertifikat kelas Dicoding',
             'file' => 'Dicoding - Belajar Dasar Data Science.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Belajar Penerapan Data Science dengan Microsoft Fabric',
+            'subtitle' => 'Sertifikat kelas Dicoding',
+            'file' => 'Dicoding - Belajar Penerapan Data Science dengan Microsoft Fabric.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Membangun Aplikasi Gen AI dengan Microsoft Azure',
+            'subtitle' => 'Sertifikat kelas Dicoding',
+            'file' => 'Dicoding - Membangun Aplikasi Gen AI dengan Microsoft Azure.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Memulai Pemrograman dengan Python',
+            'subtitle' => 'Sertifikat kelas Dicoding',
+            'file' => 'Dicoding - Memulai Pemrograman dengan Python.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Introduction to Financial Literacy',
             'subtitle' => 'Sertifikat kelas Dicoding',
             'file' => 'Dicoding - Introduction to Financial Literacy.pdf',
+            'previewRatio' => '297 / 210',
         ],
     ];
 
@@ -36,12 +56,67 @@ Route::get('/certifications/dicoding', function () {
     ]);
 })->name('certificates.dicoding');
 
+Route::get('/certifications/kemnaker', function () {
+    $documents = [
+        [
+            'title' => 'Data Science for Internet of Things',
+            'subtitle' => 'Pelatihan Vokasi Nasional',
+            'file' => 'Pelatihan Vokasi Nasional.pdf',
+            'previewRatio' => '210 / 297',
+            'previewFragment' => '#page=1&view=Fit&toolbar=0&navpanes=0&pagemode=none',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'Kemnaker Certificate',
+        'heroTitle' => 'Sertifikat Kemnaker',
+        'heroDescription' => 'Halaman ini menampilkan sertifikat Kemnaker dalam format preview. Pilih dokumen dari daftar, lalu tinjau PDF-nya langsung di halaman ini.',
+        'brandName' => 'Kemnaker',
+        'brandImage' => 'Kemnaker.png',
+        'brandImageAlt' => 'Logo Kemnaker',
+        'brandNote' => 'Koleksi sertifikat pelatihan dari Kementerian Ketenagakerjaan RI yang tersedia pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.kemnaker');
+
+Route::get('/certifications/bnsp', function () {
+    $documents = [
+        [
+            'title' => 'Junior Web Developer',
+            'subtitle' => 'Sertifikat BNSP',
+            'file' => 'BNSP Junior Web Developer.pdf',
+            'previewRatio' => '210 / 297',
+            'previewFragment' => '#page=1&view=Fit&toolbar=0&navpanes=0&pagemode=none',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'BNSP Certificate',
+        'heroTitle' => 'Sertifikat BNSP',
+        'heroDescription' => 'Halaman ini menampilkan sertifikat BNSP dalam format preview. Pilih dokumen dari daftar, lalu tinjau PDF-nya langsung di halaman ini.',
+        'brandName' => 'BNSP',
+        'brandImage' => 'BNSP.png',
+        'brandImageAlt' => 'Logo BNSP',
+        'brandNote' => 'Koleksi sertifikat BNSP yang tersedia pada folder images dan dapat dipreview langsung dari halaman galeri.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.bnsp');
+
 Route::get('/certifications/msib', function () {
     $documents = [
         [
             'title' => 'Sertifikat MSIB',
             'subtitle' => 'Magang dan Studi Independen Bersertifikat',
             'file' => 'Sertifikat MSIB.pdf',
+            'previewRatio' => '297 / 210',
         ],
     ];
 
@@ -67,41 +142,55 @@ Route::get('/certifications/gnik', function () {
             'title' => 'Adaptability',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Adaptability.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Design Thinking',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Design Thinking.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Digital Disruption & Transformation',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Digital Disruption & Transformation.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Digital Literacy',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Digital Literacy.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Emotional Intelligence',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Emotional Intelligence.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Emotional Resilience',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Emotional Resilience.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Integrity at Work',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Integrity at Work.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Self Efficacy',
             'subtitle' => 'Essential Skills Certificate',
             'file' => 'Essential Skills Self Efficacy.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Social Influence',
+            'subtitle' => 'Essential Skills Certificate',
+            'file' => 'Essential Skills Social Influence.pdf',
+            'previewRatio' => '297 / 210',
         ],
     ];
 
@@ -124,14 +213,16 @@ Route::get('/certifications/gnik', function () {
 Route::get('/certifications/cisco', function () {
     $documents = [
         [
-            'title' => 'Intro Data Science',
+            'title' => 'Introduction to Data Science',
             'subtitle' => 'Cisco Certificate',
             'file' => 'Cisco - Intro Data Science.pdf',
+            'previewRatio' => '297 / 210',
         ],
         [
             'title' => 'Introduction to Cybersecurity',
             'subtitle' => 'Cisco Certificate',
             'file' => 'Cisco - Introduction to Cybersecurity.pdf',
+            'previewRatio' => '297 / 210',
         ],
     ];
 

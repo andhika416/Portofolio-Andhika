@@ -28,7 +28,9 @@
             $certificationsUrl = route('home', ['section' => 'certifications']);
             $activeDocument = $documents[$activeIndex];
             $activeDocumentUrl = url('/images/' . rawurlencode($activeDocument['file']));
-            $hasMultipleDocuments = count($documents) > 1;
+            $shouldScrollDocuments = count($documents) > 5;
+            $activeDocumentRatio = $activeDocument['previewRatio'] ?? '297 / 210';
+            $activeDocumentFragment = $activeDocument['previewFragment'] ?? '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none';
         @endphp
 
         @include('partials.navbar', [
@@ -61,7 +63,7 @@
                                 <p class="document-explorer__eyebrow">Daftar Sertifikat</p>
                             </div>
 
-                            <div class="document-list{{ $hasMultipleDocuments ? '' : ' document-list--static' }}" aria-label="Daftar sertifikat {{ $brandName }}">
+                            <div class="document-list{{ $shouldScrollDocuments ? '' : ' document-list--static' }}" aria-label="Daftar sertifikat {{ $brandName }}">
                                 @foreach ($documents as $index => $document)
                                     @php
                                         $isActiveDocument = $index === $activeIndex;
@@ -72,6 +74,8 @@
                                         class="document-item{{ $isActiveDocument ? ' is-active' : '' }}"
                                         data-document-item
                                         data-document-src="{{ url('/images/' . rawurlencode($document['file'])) }}"
+                                        data-document-ratio="{{ $document['previewRatio'] ?? '297 / 210' }}"
+                                        data-document-fragment="{{ $document['previewFragment'] ?? '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none' }}"
                                         @if ($isActiveDocument) aria-current="page" @endif
                                     >
                                         <span class="document-item__number">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
@@ -85,9 +89,9 @@
                         </div>
 
                         <div class="document-explorer__preview">
-                            <div class="document-preview__frame">
+                            <div class="document-preview__frame" data-document-frame-container style="--document-preview-ratio: {{ $activeDocumentRatio }};">
                                 <object
-                                    data="{{ $activeDocumentUrl }}#toolbar=0&navpanes=0&view=FitH"
+                                    data="{{ $activeDocumentUrl . $activeDocumentFragment }}"
                                     type="application/pdf"
                                     aria-label="Preview sertifikat {{ $brandName }}"
                                     data-document-frame

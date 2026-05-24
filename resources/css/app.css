@@ -37,6 +37,10 @@ body {
     font-family: var(--font-body);
 }
 
+body.has-modal-open {
+    overflow: hidden;
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -148,8 +152,15 @@ main > section[id] {
 .hire-button {
     min-height: 42px;
     padding: 0 18px;
+    gap: 10px;
     background: var(--teal);
     color: #fff;
+}
+
+.hire-button__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
 }
 
 .hero-band,
@@ -556,6 +567,11 @@ main > section[id] {
     font-size: 0.78rem;
 }
 
+.boxed-button--resume {
+    appearance: none;
+    cursor: pointer;
+}
+
 .portrait-frame {
     align-self: end;
     justify-self: end;
@@ -618,6 +634,118 @@ main > section[id] {
 
 .hero-slideshow__image.is-visible {
     opacity: 1;
+}
+
+.resume-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+}
+
+.resume-modal[hidden] {
+    display: none;
+}
+
+.resume-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 28, 33, 0.72);
+    backdrop-filter: blur(6px);
+}
+
+.resume-modal__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 980px);
+    max-height: min(88vh, 920px);
+    padding: 22px;
+    background:
+        radial-gradient(circle at top right, rgba(213, 166, 160, 0.18), transparent 28%),
+        #fffdf9;
+}
+
+.resume-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.resume-modal__eyebrow {
+    margin: 0;
+    color: var(--teal);
+    font-size: 0.76rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.resume-modal__header h2 {
+    margin: 0;
+    color: var(--teal);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    line-height: 1.04;
+}
+
+.resume-modal__close {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--line);
+    background: #fff;
+    color: var(--teal);
+    box-shadow: 2px 2px 0 rgba(16, 16, 16, 0.82);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    flex: 0 0 28px;
+}
+
+.resume-modal__body {
+    margin-top: 18px;
+    height: min(72vh, 760px);
+    overflow: hidden;
+    border: 2px solid var(--line);
+    background: #f8f4ee;
+    box-shadow: 8px 8px 0 rgba(16, 16, 16, 0.84);
+}
+
+.resume-modal__body object {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+}
+
+.resume-modal__body iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
+}
+
+.resume-modal__fallback {
+    width: 100%;
+    height: 100%;
+    padding: 28px;
+    display: grid;
+    place-items: center;
+    gap: 14px;
+    text-align: center;
+    color: var(--ink-soft);
+    background: #fff;
+}
+
+.resume-modal__fallback p {
+    margin: 0;
+    max-width: 320px;
+    line-height: 1.6;
 }
 
 .content-section {
@@ -1025,7 +1153,11 @@ main > section[id] {
     padding: 26px;
     display: grid;
     grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
-    gap: 24px;
+    column-gap: 24px;
+    row-gap: 22px;
+    grid-template-areas:
+        "heading spacer"
+        "list preview";
     align-items: start;
     background:
         radial-gradient(circle at top left, rgba(213, 166, 160, 0.18), transparent 28%),
@@ -1033,6 +1165,11 @@ main > section[id] {
 }
 
 .document-explorer__sidebar {
+    display: contents;
+}
+
+.document-explorer__heading {
+    grid-area: heading;
     min-width: 0;
 }
 
@@ -1045,7 +1182,8 @@ main > section[id] {
 }
 
 .document-list {
-    margin-top: 22px;
+    grid-area: list;
+    margin-top: 0;
     display: grid;
     gap: 12px;
     max-height: 508px;
@@ -1058,6 +1196,11 @@ main > section[id] {
     max-height: none;
     overflow: visible;
     padding-right: 0;
+}
+
+.document-explorer__preview {
+    grid-area: preview;
+    min-width: 0;
 }
 
 .document-item {
@@ -1115,7 +1258,8 @@ main > section[id] {
 }
 
 .document-preview__frame {
-    min-height: 520px;
+    min-height: 0;
+    aspect-ratio: var(--document-preview-ratio, 297 / 210);
     overflow: hidden;
     border: 2px solid var(--line);
     background:
@@ -1127,13 +1271,14 @@ main > section[id] {
 .document-preview__frame iframe,
 .document-preview__frame object {
     width: 100%;
-    height: 520px;
+    height: 100%;
     border: 0;
     background: #fff;
 }
 
 .document-preview__fallback {
-    min-height: 520px;
+    min-height: 100%;
+    height: 100%;
     padding: 28px;
     display: grid;
     place-items: center;
@@ -1282,6 +1427,10 @@ main > section[id] {
     .detail-hero__grid,
     .document-explorer {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "heading"
+            "list"
+            "preview";
     }
 
     .footer-shell {
@@ -1336,6 +1485,18 @@ main > section[id] {
     .hero-actions,
     .contact-grid {
         grid-template-columns: 1fr;
+    }
+
+    .resume-modal {
+        padding: 18px;
+    }
+
+    .resume-modal__dialog {
+        padding: 18px;
+    }
+
+    .resume-modal__body {
+        height: min(68vh, 620px);
     }
 
     .hero-visual-stage {
@@ -1397,8 +1558,13 @@ main > section[id] {
     .document-preview__frame iframe,
     .document-preview__frame object,
     .document-preview__fallback {
-        min-height: 380px;
-        height: 380px;
+        min-height: 0;
+    }
+
+    .resume-modal__close {
+        width: 26px;
+        height: 26px;
+        flex-basis: 26px;
     }
 
     .project-body p {
