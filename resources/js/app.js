@@ -11,6 +11,16 @@ const initSectionNavigation = () => {
         return;
     }
 
+    const revealSectionContent = (section) => {
+        if (!section) {
+            return;
+        }
+
+        section.querySelectorAll('[data-reveal]').forEach((item) => {
+            item.classList.add('is-revealed');
+        });
+    };
+
     const syncAnchorOffsets = () => {
         const headerHeight = Math.round(header.getBoundingClientRect().height);
         const headerPosition = window.getComputedStyle(header).position;
@@ -67,6 +77,7 @@ const initSectionNavigation = () => {
         }
 
         setActiveLink(target.id);
+        revealSectionContent(target);
     };
 
     controlledLinks.forEach((link) => {
@@ -251,8 +262,55 @@ const initResumeModal = () => {
     });
 };
 
+const initScrollReveal = () => {
+    const revealItems = Array.from(document.querySelectorAll('[data-reveal]'));
+
+    if (!revealItems.length) {
+        return;
+    }
+
+    revealItems.forEach((item) => {
+        const delay = item.dataset.revealDelay;
+
+        if (delay) {
+            item.style.setProperty('--reveal-delay', `${delay}ms`);
+        }
+    });
+
+    if (!('IntersectionObserver' in window)) {
+        revealItems.forEach((item) => {
+            item.classList.add('is-revealed');
+        });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+            } else {
+                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                const rect = entry.boundingClientRect;
+                const isOutsideViewport = rect.bottom <= 0 || rect.top >= viewportHeight;
+
+                if (isOutsideViewport) {
+                    entry.target.classList.remove('is-revealed');
+                }
+            }
+        });
+    }, {
+        threshold: 0.18,
+        rootMargin: '0px 0px -12% 0px',
+    });
+
+    revealItems.forEach((item) => {
+        observer.observe(item);
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     initSectionNavigation();
     initDocumentExplorer();
     initResumeModal();
+    initScrollReveal();
 });

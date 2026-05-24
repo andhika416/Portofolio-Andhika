@@ -25,7 +25,7 @@
     <body class="subpage-body">
         @php
             $homeUrl = route('home');
-            $certificationsUrl = route('home', ['section' => 'certifications']);
+            $certificationsUrl = route('home') . '#certifications';
             $activeDocument = $documents[$activeIndex];
             $activeDocumentUrl = url('/images/' . rawurlencode($activeDocument['file']));
             $shouldScrollDocuments = count($documents) > 5;

@@ -41,6 +41,33 @@ body.has-modal-open {
     overflow: hidden;
 }
 
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(42px);
+    filter: blur(10px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.85s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform, filter;
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        transition: none;
+    }
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -1307,57 +1334,62 @@ main > section[id] {
     font-size: 1rem;
 }
 
-.contact-form {
-    text-align: left;
-}
-
-.contact-grid {
+.contact-links {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.contact-card {
+    padding: 20px 18px;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
     gap: 16px;
+    align-items: center;
+    text-align: left;
+    background:
+        radial-gradient(circle at top right, rgba(213, 166, 160, 0.18), transparent 44%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(248, 242, 237, 0.96));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.field-block {
-    display: block;
+.contact-card:hover {
+    transform: translate(4px, 4px);
+    box-shadow: 4px 4px 0 rgba(16, 16, 16, 0.84);
 }
 
-.field-block span {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--accent);
-    font-size: 0.72rem;
-    font-family: var(--font-display);
-    text-transform: uppercase;
+.contact-card__icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    background: var(--teal);
+    color: #fff;
+    box-shadow: 4px 4px 0 rgba(16, 16, 16, 0.72);
 }
 
-.field-block input,
-.field-block textarea {
-    width: 100%;
-    border: 2px solid var(--line);
-    background: #fffcf8;
-    color: var(--ink);
-    padding: 12px 14px;
-    outline: none;
+.contact-card__icon svg {
+    width: 24px;
+    height: 24px;
 }
 
-.field-block textarea {
-    min-height: 170px;
-    resize: vertical;
-}
-
-.field-block input::placeholder,
-.field-block textarea::placeholder {
-    color: #cbbdb9;
-}
-
-.field-block--full {
-    margin-top: 12px;
-}
-
-.contact-action {
-    margin-top: 20px;
+.contact-card__copy {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contact-card__copy strong {
+    color: var(--teal);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    line-height: 1.1;
+}
+
+.contact-card__copy small {
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    letter-spacing: 0.04em;
 }
 
 .site-footer {
@@ -1366,29 +1398,16 @@ main > section[id] {
 }
 
 .footer-shell {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 28px;
-}
-
-.footer-name {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
+    text-align: center;
 }
 
 .footer-copy {
     margin: 0;
     font-size: 0.9rem;
     color: rgba(245, 243, 239, 0.86);
-}
-
-.footer-nav {
-    display: flex;
-    gap: 18px;
-    font-size: 0.9rem;
-    color: rgba(245, 243, 239, 0.9);
 }
 
 @media (max-width: 980px) {
@@ -1434,12 +1453,7 @@ main > section[id] {
     }
 
     .footer-shell {
-        text-align: center;
-    }
-
-    .footer-nav {
         justify-content: center;
-        flex-wrap: wrap;
     }
 }
 
@@ -1483,7 +1497,7 @@ main > section[id] {
     }
 
     .hero-actions,
-    .contact-grid {
+    .contact-links {
         grid-template-columns: 1fr;
     }
 
@@ -1559,6 +1573,21 @@ main > section[id] {
     .document-preview__frame object,
     .document-preview__fallback {
         min-height: 0;
+    }
+
+    .contact-card {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 14px;
+        padding: 18px 16px;
+    }
+
+    .contact-card__icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .contact-card__copy strong {
+        font-size: 1.08rem;
     }
 
     .resume-modal__close {
