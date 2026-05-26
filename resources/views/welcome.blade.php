@@ -11,8 +11,8 @@
             rel="stylesheet"
         >
 
-        <link rel="stylesheet" href="{{ asset('build/assets/style.css') }}">
-        <script type="module" src="{{ asset('build/assets/app.js') }}"></script>
+        <link rel="stylesheet" href="/build/assets/style.css">
+        <script type="module" src="/build/assets/app.js"></script>
     </head>
     <body>
         @php
