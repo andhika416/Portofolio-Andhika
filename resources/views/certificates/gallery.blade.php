@@ -31,13 +31,16 @@
             $shouldScrollDocuments = count($documents) > 5;
             $activeDocumentRatio = $activeDocument['previewRatio'] ?? '297 / 210';
             $activeDocumentFragment = $activeDocument['previewFragment'] ?? '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none';
+            $activePreviewUrl = $activeDocumentUrl
+                . '?preview=' . rawurlencode((string) microtime(true))
+                . $activeDocumentFragment;
         @endphp
 
         @include('partials.navbar', [
             'navBaseUrl' => $homeUrl,
             'activeSection' => 'certifications',
-            'brandHref' => $homeUrl . '#home',
-            'hireHref' => $homeUrl . '#contact',
+            'brandHref' => $homeUrl . '?section=home#home',
+            'hireHref' => $homeUrl . '?section=contact#contact',
         ])
 
         <main>
@@ -91,7 +94,7 @@
                         <div class="document-explorer__preview">
                             <div class="document-preview__frame" data-document-frame-container style="--document-preview-ratio: {{ $activeDocumentRatio }};">
                                 <object
-                                    data="{{ $activeDocumentUrl . $activeDocumentFragment }}"
+                                    data="{{ $activePreviewUrl }}"
                                     type="application/pdf"
                                     aria-label="Preview sertifikat {{ $brandName }}"
                                     data-document-frame
@@ -115,17 +118,6 @@
             </section>
         </main>
 
-        <footer class="site-footer">
-            <div class="page-shell footer-shell">
-                <p class="footer-name">Andhika Firjatullah</p>
-                <p class="footer-copy">&copy; 2026 Andhika Firjatullah. Halaman sertifikat {{ $brandName }}.</p>
-
-                <nav class="footer-nav" aria-label="Tautan halaman sertifikat">
-                    <a href="{{ $homeUrl }}">Beranda</a>
-                    <a href="{{ $certificationsUrl }}">Sertifikasi</a>
-                    <a href="{{ $homeUrl }}#contact">Kontak</a>
-                </nav>
-            </div>
-        </footer>
+        @include('partials.footer')
     </body>
 </html>

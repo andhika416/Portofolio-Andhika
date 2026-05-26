@@ -1,7 +1,14 @@
 @php
     $navBaseUrl = $navBaseUrl ?? '';
     $activeSection = $activeSection ?? 'home';
-    $brandHref = $brandHref ?? ($navBaseUrl ? $navBaseUrl . '#home' : '#home');
+    $buildSectionHref = static function (string $sectionId) use ($navBaseUrl): string {
+        if (!$navBaseUrl) {
+            return '#' . $sectionId;
+        }
+
+        return $navBaseUrl . '?section=' . rawurlencode($sectionId) . '#' . $sectionId;
+    };
+    $brandHref = $brandHref ?? $buildSectionHref('home');
     $hireHref = $hireHref ?? 'https://wa.me/6281398522929';
     $navItems = [
         ['id' => 'home', 'label' => 'Beranda'],
@@ -20,7 +27,7 @@
         <nav class="main-nav" aria-label="Navigasi utama">
             @foreach ($navItems as $navItem)
                 @php
-                    $navHref = $navBaseUrl ? $navBaseUrl . '#' . $navItem['id'] : '#' . $navItem['id'];
+                    $navHref = $buildSectionHref($navItem['id']);
                 @endphp
                 <a href="{{ $navHref }}" @class(['is-active' => $activeSection === $navItem['id']])>{{ $navItem['label'] }}</a>
             @endforeach

@@ -63,7 +63,21 @@ Route::get('/certifications/kemnaker', function () {
             'subtitle' => 'Pelatihan Vokasi Nasional',
             'file' => 'Pelatihan Vokasi Nasional.pdf',
             'previewRatio' => '210 / 297',
-            'previewFragment' => '#page=1&view=Fit&toolbar=0&navpanes=0&pagemode=none',
+            'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
+        ],
+        [
+            'title' => 'Petugas Penguji Lingkungan Kerja',
+            'subtitle' => 'Balai K3 Surabaya',
+            'file' => 'PCU.pdf',
+            'previewRatio' => '210 / 297',
+            'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
+        ],
+        [
+            'title' => 'Junior Pemrograman Komputer',
+            'subtitle' => 'Balai K3 Surabaya',
+            'file' => 'IT.pdf',
+            'previewRatio' => '210 / 297',
+            'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
         ],
     ];
 

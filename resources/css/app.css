@@ -66,6 +66,10 @@ body.has-modal-open {
         filter: none;
         transition: none;
     }
+
+    .project-media--showcase.has-pan .project-media__image {
+        animation: none;
+    }
 }
 
 a {
@@ -966,8 +970,41 @@ main > section[id] {
 }
 
 .project-media {
+    position: relative;
     aspect-ratio: 16 / 9;
-    background: #d6d6d6;
+    background: #151515;
+    overflow: hidden;
+}
+
+.project-media--showcase {
+    --project-pan-distance: 0px;
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 34%),
+        #151515;
+}
+
+.project-media__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    transform: translateY(0);
+    will-change: transform;
+}
+
+.project-media--showcase.has-pan .project-media__image {
+    animation: projectMediaPan 18s ease-in-out infinite alternate;
+}
+
+@keyframes projectMediaPan {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(calc(-1 * var(--project-pan-distance)));
+    }
 }
 
 .project-body {

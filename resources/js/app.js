@@ -64,8 +64,7 @@ const initSectionNavigation = () => {
         }
 
         const { topOffset } = syncAnchorOffsets();
-        const visualTarget = target.querySelector('.section-title') || target;
-        const targetTop = window.scrollY + visualTarget.getBoundingClientRect().top - topOffset;
+        const targetTop = window.scrollY + target.getBoundingClientRect().top - topOffset;
 
         window.scrollTo({
             top: Math.max(0, targetTop),
@@ -147,10 +146,19 @@ const initDocumentExplorer = () => {
     const frame = explorer.querySelector('[data-document-frame]');
     const frameContainer = explorer.querySelector('[data-document-frame-container]');
     const defaultPreviewFragment = '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none';
+    let previewSequence = 0;
 
     if (!frame || !frameContainer || items.length <= 1) {
         return;
     }
+
+    const buildPreviewUrl = (src, fragment) => {
+        const separator = src.includes('?') ? '&' : '?';
+
+        previewSequence += 1;
+
+        return `${src}${separator}preview=${Date.now()}-${previewSequence}${fragment}`;
+    };
 
     const setActiveItem = (item, shouldPushState = true) => {
         const src = item.dataset.documentSrc;
@@ -172,12 +180,20 @@ const initDocumentExplorer = () => {
             }
         });
 
-        const previewUrl = `${src}${fragment}`;
+        const previewUrl = buildPreviewUrl(src, fragment);
 
         if (frame.tagName === 'OBJECT') {
-            frame.setAttribute('data', previewUrl);
+            frame.setAttribute('data', 'about:blank');
+
+            window.requestAnimationFrame(() => {
+                frame.setAttribute('data', previewUrl);
+            });
         } else {
-            frame.src = previewUrl;
+            frame.src = 'about:blank';
+
+            window.requestAnimationFrame(() => {
+                frame.src = previewUrl;
+            });
         }
 
         frameContainer.style.setProperty('--document-preview-ratio', ratio);
@@ -262,6 +278,57 @@ const initResumeModal = () => {
     });
 };
 
+const initProjectMediaPan = () => {
+    const panes = Array.from(document.querySelectorAll('[data-project-pan]'));
+
+    if (!panes.length) {
+        return;
+    }
+
+    const updatePane = (pane) => {
+        const image = pane.querySelector('[data-project-pan-image]');
+
+        if (!image || !image.naturalWidth || !image.naturalHeight) {
+            return;
+        }
+
+        const paneWidth = pane.clientWidth;
+        const paneHeight = pane.clientHeight;
+
+        if (!paneWidth || !paneHeight) {
+            return;
+        }
+
+        const renderedHeight = paneWidth * (image.naturalHeight / image.naturalWidth);
+        const panDistance = Math.max(0, renderedHeight - paneHeight);
+
+        pane.style.setProperty('--project-pan-distance', `${panDistance}px`);
+        pane.classList.toggle('has-pan', panDistance > 4);
+    };
+
+    const updateAllPanes = () => {
+        panes.forEach((pane) => updatePane(pane));
+    };
+
+    panes.forEach((pane) => {
+        const image = pane.querySelector('[data-project-pan-image]');
+
+        if (!image) {
+            return;
+        }
+
+        if (image.complete) {
+            updatePane(pane);
+        } else {
+            image.addEventListener('load', () => updatePane(pane), { once: true });
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        window.requestAnimationFrame(updateAllPanes);
+    });
+};
+
 const initScrollReveal = () => {
     const revealItems = Array.from(document.querySelectorAll('[data-reveal]'));
 
@@ -312,5 +379,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initSectionNavigation();
     initDocumentExplorer();
     initResumeModal();
+    initProjectMediaPan();
     initScrollReveal();
 });

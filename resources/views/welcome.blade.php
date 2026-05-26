@@ -186,68 +186,56 @@
 
                     <div class="project-grid">
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="180">
-                            <div class="project-media">
-                                <svg viewBox="0 0 320 180" aria-hidden="true">
-                                    <rect width="320" height="180" fill="#1d1d1d" />
-                                    <rect x="22" y="24" width="108" height="56" fill="#2a2a2a" />
-                                    <rect x="143" y="24" width="58" height="56" fill="#2c2c2c" />
-                                    <rect x="212" y="24" width="84" height="122" fill="#303030" />
-                                    <rect x="22" y="92" width="84" height="54" fill="#2d2d2d" />
-                                    <rect x="116" y="92" width="84" height="54" fill="#343434" />
-                                    <path d="M34 66h84M34 58h84M154 64h34M154 56h26M224 58h60M224 74h60M224 90h60M224 106h46" stroke="#575757" stroke-width="4" opacity="0.85" />
-                                </svg>
+                            <div class="project-media project-media--showcase" data-project-pan>
+                                <img
+                                    src="{{ url('/images/' . rawurlencode('K3.png')) }}"
+                                    alt="Tampilan Website Pelayanan K3"
+                                    class="project-media__image"
+                                    data-project-pan-image
+                                >
                             </div>
                             <div class="project-body">
-                                <h3>Platform E-Commerce</h3>
+                                <h3>Website Pelayanan K3</h3>
                                 <p>
-                                    Aplikasi Laravel full-stack dengan fitur manajemen inventaris lanjutan, integrasi
-                                    pembayaran, dan analitik real-time.
+                                    Website layanan K3 yang memudahkan pengelolaan informasi, pengajuan kebutuhan,
+                                    dan penyampaian layanan keselamatan serta kesehatan kerja secara lebih terstruktur.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
 
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="280">
-                            <div class="project-media">
-                                <svg viewBox="0 0 320 180" aria-hidden="true">
-                                    <rect width="320" height="180" fill="#171717" />
-                                    <rect x="34" y="28" width="110" height="58" fill="#2a2a2a" />
-                                    <rect x="176" y="28" width="110" height="58" fill="#2d2d2d" />
-                                    <rect x="34" y="100" width="110" height="42" fill="#262626" />
-                                    <rect x="176" y="100" width="110" height="42" fill="#2a2a2a" />
-                                    <path d="M48 70c10-18 24-28 38-28s28 6 44 28M190 68c14-22 30-28 42-28s24 8 40 28M48 122h82M48 132h68M190 122h82M190 132h60" stroke="#5c5c5c" stroke-width="4" opacity="0.9" />
-                                    <circle cx="26" cy="152" r="14" fill="#121212" />
-                                    <circle cx="294" cy="152" r="14" fill="#121212" />
-                                </svg>
+                            <div class="project-media project-media--showcase" data-project-pan>
+                                <img
+                                    src="{{ url('/images/' . rawurlencode('Alat.png')) }}"
+                                    alt="Tampilan Inventarisasi Alat K3"
+                                    class="project-media__image"
+                                    data-project-pan-image
+                                >
                             </div>
                             <div class="project-body">
-                                <h3>Mesin Analitik Data</h3>
+                                <h3>Inventarisasi Alat K3</h3>
                                 <p>
-                                    Sistem pelaporan kustom untuk pemrosesan dan visualisasi dataset berskala besar
-                                    dengan grafik interaktif dan alat pelaporan.
+                                    Sistem inventarisasi alat K3 yang membantu pencatatan, pemantauan ketersediaan,
+                                    dan pengelolaan data peralatan keselamatan kerja secara lebih rapi dan efisien.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
 
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="380">
-                            <div class="project-media">
-                                <svg viewBox="0 0 320 180" aria-hidden="true">
-                                    <rect width="320" height="180" fill="#222" />
-                                    <polygon points="82,130 230,150 256,56 110,36" fill="#ece9e3" />
-                                    <polygon points="104,121 213,135 228,71 121,57" fill="#f5f3f1" />
-                                    <path d="M132 82h78M132 92h52M132 102h68" stroke="#bfc3c8" stroke-width="5" />
-                                    <rect x="132" y="112" width="46" height="12" fill="#d9dde2" />
-                                    <rect x="34" y="150" width="54" height="8" fill="#171717" opacity="0.75" />
-                                </svg>
+                            <div class="project-media project-media--showcase" data-project-pan>
+                                <img
+                                    src="{{ url('/images/' . rawurlencode('Kimia.png')) }}"
+                                    alt="Tampilan Inventarisasi Bahan Kimia"
+                                    class="project-media__image"
+                                    data-project-pan-image
+                                >
                             </div>
                             <div class="project-body">
-                                <h3>Solusi CMS Kustom</h3>
+                                <h3>Inventarisasi Bahan Kimia</h3>
                                 <p>
-                                    Pengembangan WordPress yang disesuaikan dengan tema dan plugin kustom untuk situs
-                                    perusahaan dengan trafik tinggi.
+                                    Sistem inventarisasi bahan kimia yang membantu pencatatan stok, pemantauan data
+                                    bahan, dan pengelolaan informasi penggunaan secara lebih aman dan terorganisir.
                                 </p>
-                                <a href="#contact" class="boxed-button boxed-button--small">Detail Proyek</a>
                             </div>
                         </article>
                     </div>
@@ -262,7 +250,7 @@
                             'label' => 'Kementerian Ketenagakerjaan RI',
                             'image' => 'Kemnaker.png',
                             'url' => route('certificates.kemnaker'),
-                            'count' => 1,
+                            'count' => 3,
                         ],
                         [
                             'name' => 'BNSP',
