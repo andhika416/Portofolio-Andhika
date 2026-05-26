@@ -278,6 +278,27 @@ const initResumeModal = () => {
     });
 };
 
+const initHeroSlideshow = () => {
+    const slides = Array.from(document.querySelectorAll('[data-hero-slide]'));
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let activeIndex = slides.findIndex((slide) => slide.classList.contains('is-active'));
+
+    if (activeIndex < 0) {
+        activeIndex = 0;
+        slides[0].classList.add('is-active');
+    }
+
+    window.setInterval(() => {
+        slides[activeIndex].classList.remove('is-active');
+        activeIndex = (activeIndex + 1) % slides.length;
+        slides[activeIndex].classList.add('is-active');
+    }, 4200);
+};
+
 const initProjectMediaPan = () => {
     const panes = Array.from(document.querySelectorAll('[data-project-pan]'));
 
@@ -379,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSectionNavigation();
     initDocumentExplorer();
     initResumeModal();
+    initHeroSlideshow();
     initProjectMediaPan();
     initScrollReveal();
 });

@@ -24,13 +24,6 @@
     </head>
     <body>
         @php
-            $heroSlide = [
-                'src' => url('/images/' . rawurlencode('Foto 1-cropped.png')),
-                'alt' => 'Foto Andhika',
-                'scale' => 1,
-                'position' => 'center bottom',
-                'offsetY' => '0px',
-            ];
             $resumeUrl = url('/images/' . rawurlencode('Resume Andhika Firjatullah.pdf'));
         @endphp
 
@@ -38,6 +31,24 @@
 
         <main>
             <section id="home" class="hero-band">
+                @php
+                    $heroSlides = [
+                        [
+                            'src' => url('/images/' . rawurlencode('Foto 3-trimmed.png')),
+                            'alt' => 'Foto Andhika 3',
+                            'scale' => 1.28,
+                            'position' => 'center bottom',
+                            'offsetY' => '0px',
+                        ],
+                        [
+                            'src' => url('/images/' . rawurlencode('Foto 4-trimmed.png')),
+                            'alt' => 'Foto Andhika 4',
+                            'scale' => 1.26,
+                            'position' => 'center bottom',
+                            'offsetY' => '0px',
+                        ],
+                    ];
+                @endphp
                 <div class="hero-sky" aria-hidden="true">
                     <span class="hero-sky__nebula hero-sky__nebula--one"></span>
                     <span class="hero-sky__nebula hero-sky__nebula--two"></span>
@@ -79,12 +90,16 @@
                             <div class="hero-visual-stage__floor" aria-hidden="true"></div>
 
                             <div class="hero-slideshow">
-                                <img
-                                    src="{{ $heroSlide['src'] }}"
-                                    alt="{{ $heroSlide['alt'] }}"
-                                    class="hero-slideshow__image"
-                                    style="--slide-scale: {{ $heroSlide['scale'] }}; --slide-position: {{ $heroSlide['position'] }}; --slide-offset-y: {{ $heroSlide['offsetY'] }};"
-                                >
+                                @foreach ($heroSlides as $heroSlide)
+                                    <img
+                                        src="{{ $heroSlide['src'] }}"
+                                        alt="{{ $heroSlide['alt'] }}"
+                                        class="hero-slideshow__image{{ $loop->first ? ' is-active' : '' }}"
+                                        style="--slide-scale: {{ $heroSlide['scale'] }}; --slide-position: {{ $heroSlide['position'] }}; --slide-offset-y: {{ $heroSlide['offsetY'] }};"
+                                        data-hero-slide
+                                        @if (!$loop->first) loading="lazy" @endif
+                                    >
+                                @endforeach
                             </div>
                         </div>
                     </div>
