@@ -16,7 +16,8 @@
     </head>
     <body>
         @php
-            $resumeUrl = url('/images/' . rawurlencode('Resume Andhika Firjatullah.pdf'));
+            $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
+            $resumeUrl = $imagePath('Resume Andhika Firjatullah.pdf');
         @endphp
 
         @include('partials.navbar')
@@ -26,14 +27,14 @@
                 @php
                     $heroSlides = [
                         [
-                            'src' => url('/images/' . rawurlencode('Foto 3-trimmed.png')),
+                            'src' => $imagePath('Foto 3-trimmed.png'),
                             'alt' => 'Foto Andhika 3',
                             'scale' => 1.28,
                             'position' => 'center bottom',
                             'offsetY' => '0px',
                         ],
                         [
-                            'src' => url('/images/' . rawurlencode('Foto 4-trimmed.png')),
+                            'src' => $imagePath('Foto 4-trimmed.png'),
                             'alt' => 'Foto Andhika 4',
                             'scale' => 1.26,
                             'position' => 'center bottom',
@@ -171,7 +172,7 @@
                                     @foreach ($skillCards as $skillCard)
                                         <article class="skill-card">
                                             <img
-                                                src="{{ url('/images/' . rawurlencode($skillCard['image'])) }}"
+                                                src="{{ $imagePath($skillCard['image']) }}"
                                                 alt="Logo {{ $skillCard['name'] }}"
                                             >
                                             <span>{{ $skillCard['name'] }}</span>
@@ -195,7 +196,7 @@
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="180">
                             <div class="project-media project-media--showcase" data-project-pan>
                                 <img
-                                    src="{{ url('/images/' . rawurlencode('K3.png')) }}"
+                                    src="{{ $imagePath('K3.png') }}"
                                     alt="Tampilan Website Pelayanan K3"
                                     class="project-media__image"
                                     data-project-pan-image
@@ -213,7 +214,7 @@
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="280">
                             <div class="project-media project-media--showcase" data-project-pan>
                                 <img
-                                    src="{{ url('/images/' . rawurlencode('Alat.png')) }}"
+                                    src="{{ $imagePath('Alat.png') }}"
                                     alt="Tampilan Inventarisasi Alat K3"
                                     class="project-media__image"
                                     data-project-pan-image
@@ -231,7 +232,7 @@
                         <article class="project-card elevated-panel" data-reveal data-reveal-delay="380">
                             <div class="project-media project-media--showcase" data-project-pan>
                                 <img
-                                    src="{{ url('/images/' . rawurlencode('Kimia.png')) }}"
+                                    src="{{ $imagePath('Kimia.png') }}"
                                     alt="Tampilan Inventarisasi Bahan Kimia"
                                     class="project-media__image"
                                     data-project-pan-image
@@ -319,7 +320,7 @@
                                 @endif
                                     <div class="certificate-icon" aria-hidden="true">
                                         <img
-                                            src="{{ url('/images/' . rawurlencode($certificateCard['image'])) }}"
+                                            src="{{ $imagePath($certificateCard['image']) }}"
                                             alt="Logo {{ $certificateCard['name'] }}"
                                         >
                                     </div>

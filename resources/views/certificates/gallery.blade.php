@@ -16,10 +16,11 @@
     </head>
     <body class="subpage-body">
         @php
+            $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
             $homeUrl = route('home');
             $certificationsUrl = route('home') . '#certifications';
             $activeDocument = $documents[$activeIndex];
-            $activeDocumentUrl = url('/images/' . rawurlencode($activeDocument['file']));
+            $activeDocumentUrl = $imagePath($activeDocument['file']);
             $shouldScrollDocuments = count($documents) > 5;
             $activeDocumentRatio = $activeDocument['previewRatio'] ?? '297 / 210';
             $activeDocumentFragment = $activeDocument['previewFragment'] ?? '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none';
@@ -68,7 +69,7 @@
                                         href="{{ route(request()->route()->getName(), $routeParameters) }}#certificate-browser"
                                         class="document-item{{ $isActiveDocument ? ' is-active' : '' }}"
                                         data-document-item
-                                        data-document-src="{{ url('/images/' . rawurlencode($document['file'])) }}"
+                                        data-document-src="{{ $imagePath($document['file']) }}"
                                         data-document-ratio="{{ $document['previewRatio'] ?? '297 / 210' }}"
                                         data-document-fragment="{{ $document['previewFragment'] ?? '#page=1&toolbar=0&navpanes=0&view=FitH&pagemode=none' }}"
                                         @if ($isActiveDocument) aria-current="page" @endif
