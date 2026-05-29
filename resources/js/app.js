@@ -135,6 +135,68 @@ const initSectionNavigation = () => {
     });
 };
 
+const initMobileNavigation = () => {
+    const navShell = document.querySelector('.nav-shell');
+    const toggleButton = document.querySelector('[data-nav-toggle]');
+    const mobileMenu = document.querySelector('[data-mobile-menu]');
+
+    if (!navShell || !toggleButton || !mobileMenu) {
+        return;
+    }
+
+    const mobileQuery = window.matchMedia('(max-width: 760px)');
+    const menuLinks = Array.from(navShell.querySelectorAll('.main-nav a, .hire-button'));
+
+    const closeMenu = () => {
+        navShell.classList.remove('is-open');
+        toggleButton.setAttribute('aria-expanded', 'false');
+        toggleButton.setAttribute('aria-label', 'Buka menu navigasi');
+    };
+
+    const openMenu = () => {
+        navShell.classList.add('is-open');
+        toggleButton.setAttribute('aria-expanded', 'true');
+        toggleButton.setAttribute('aria-label', 'Tutup menu navigasi');
+    };
+
+    toggleButton.addEventListener('click', () => {
+        if (navShell.classList.contains('is-open')) {
+            closeMenu();
+            return;
+        }
+
+        openMenu();
+    });
+
+    menuLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            if (mobileQuery.matches) {
+                closeMenu();
+            }
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navShell.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+
+    const syncMenuState = () => {
+        if (!mobileQuery.matches) {
+            closeMenu();
+        }
+    };
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', syncMenuState);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(syncMenuState);
+    }
+
+    syncMenuState();
+};
+
 const initDocumentExplorer = () => {
     const explorer = document.querySelector('[data-document-explorer]');
 
@@ -397,6 +459,7 @@ const initScrollReveal = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    initMobileNavigation();
     initSectionNavigation();
     initDocumentExplorer();
     initResumeModal();

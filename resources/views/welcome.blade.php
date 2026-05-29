@@ -69,6 +69,7 @@
                             <button
                                 type="button"
                                 class="boxed-button boxed-button--resume"
+                                style="color: #ffffff; background: #d3968c;"
                                 data-resume-open
                                 data-resume-src="{{ $resumeUrl }}"
                             >
@@ -208,6 +209,12 @@
                                     Website layanan K3 yang memudahkan pengelolaan informasi, pengajuan kebutuhan,
                                     dan penyampaian layanan keselamatan serta kesehatan kerja secara lebih terstruktur.
                                 </p>
+                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                    <span class="project-stack-chip__icon" aria-hidden="true">
+                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                    </span>
+                                    <span class="project-stack-chip__label">Laravel</span>
+                                </div>
                             </div>
                         </article>
 
@@ -226,6 +233,12 @@
                                     Sistem inventarisasi alat K3 yang membantu pencatatan, pemantauan ketersediaan,
                                     dan pengelolaan data peralatan keselamatan kerja secara lebih rapi dan efisien.
                                 </p>
+                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                    <span class="project-stack-chip__icon" aria-hidden="true">
+                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                    </span>
+                                    <span class="project-stack-chip__label">Laravel</span>
+                                </div>
                             </div>
                         </article>
 
@@ -244,6 +257,12 @@
                                     Sistem inventarisasi bahan kimia yang membantu pencatatan stok, pemantauan data
                                     bahan, dan pengelolaan informasi penggunaan secara lebih aman dan terorganisir.
                                 </p>
+                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                    <span class="project-stack-chip__icon" aria-hidden="true">
+                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                    </span>
+                                    <span class="project-stack-chip__label">Laravel</span>
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -326,7 +345,7 @@
                                     </div>
                                     <div class="certificate-content">
                                         <div class="certificate-copy">
-                                            <h3>{{ $certificateCard['name'] }}</h3>
+                                            <h3 style="color: #105666;">{{ $certificateCard['name'] }}</h3>
                                             <p>{{ $certificateCard['label'] }}</p>
                                         </div>
 
@@ -334,7 +353,7 @@
                                             <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
 
                                             @if ($hasDetailPage)
-                                                <span class="certificate-action">Lihat sertifikat</span>
+                                                <span class="certificate-action" style="color: #ffffff; background: #d3968c; border-color: #d3968c;">Lihat sertifikat</span>
                                             @endif
                                         </div>
                                     </div>
