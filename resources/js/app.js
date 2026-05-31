@@ -21,11 +21,25 @@ const initSectionNavigation = () => {
         });
     };
 
+    const getScrollTarget = (section) => {
+        if (!section) {
+            return null;
+        }
+
+        const directShell = section.querySelector(':scope > .page-shell');
+
+        if (!directShell) {
+            return section;
+        }
+
+        return directShell.querySelector('.title-row, .section-title') || directShell;
+    };
+
     const syncAnchorOffsets = () => {
         const headerHeight = Math.round(header.getBoundingClientRect().height);
         const headerPosition = window.getComputedStyle(header).position;
         const hasOverlayHeader = headerPosition === 'sticky' || headerPosition === 'fixed';
-        const topOffset = hasOverlayHeader ? headerHeight + 24 : 28;
+        const topOffset = hasOverlayHeader ? headerHeight + 8 : 12;
 
         root.style.setProperty('--anchor-offset-top', `${topOffset}px`);
         root.style.setProperty('--anchor-offset-bottom', '24px');
@@ -64,7 +78,8 @@ const initSectionNavigation = () => {
         }
 
         const { topOffset } = syncAnchorOffsets();
-        const targetTop = window.scrollY + target.getBoundingClientRect().top - topOffset;
+        const scrollTarget = getScrollTarget(target);
+        const targetTop = window.scrollY + scrollTarget.getBoundingClientRect().top - topOffset;
 
         window.scrollTo({
             top: Math.max(0, targetTop),

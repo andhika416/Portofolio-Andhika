@@ -830,7 +830,7 @@ main > section[id] {
 }
 
 .content-section {
-    padding: 54px 0;
+    padding: 24px 0;
 }
 
 .about-section,
@@ -907,7 +907,7 @@ main > section[id] {
 }
 
 .band-section {
-    padding: 60px 0;
+    padding: 28px 0;
 }
 
 .skills-marquee {
@@ -924,7 +924,7 @@ main > section[id] {
     width: max-content;
     gap: var(--skill-gap);
     padding: 0 0 8px;
-    animation: skillsMarquee 22s linear infinite;
+    animation: skillsMarquee 15s linear infinite;
     will-change: transform;
 }
 

@@ -152,6 +152,9 @@
                 @php
                     $skillCards = [
                         ['name' => 'Laravel', 'image' => 'Laravel.png'],
+                        ['name' => 'React', 'image' => 'React.png'],
+                        ['name' => 'Vue', 'image' => 'Vue.png'],
+                        ['name' => 'Python', 'image' => 'Python.png'],
                         ['name' => 'Bootstrap', 'image' => 'Bootstrap.png'],
                         ['name' => 'Figma', 'image' => 'Figma.png'],
                         ['name' => 'Laragon', 'image' => 'Laragon.jpg'],
@@ -312,6 +315,20 @@
                             'label' => 'Cisco Networking Academy',
                             'image' => 'Cisco.png',
                             'url' => route('certificates.cisco'),
+                            'count' => 2,
+                        ],
+                        [
+                            'name' => 'Microsoft',
+                            'label' => 'Microsoft',
+                            'image' => 'Microsoft.png',
+                            'url' => route('certificates.microsoft'),
+                            'count' => 5,
+                        ],
+                        [
+                            'name' => 'Digitalent',
+                            'label' => 'Digital Talent Scholarship',
+                            'image' => 'Digitalent.png',
+                            'url' => route('certificates.digitalent'),
                             'count' => 2,
                         ],
                     ];

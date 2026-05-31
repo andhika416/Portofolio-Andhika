@@ -255,3 +255,85 @@ Route::get('/certifications/cisco', function () {
         'activeIndex' => $activeIndex,
     ]);
 })->name('certificates.cisco');
+
+Route::get('/certifications/microsoft', function () {
+    $documents = [
+        [
+            'title' => 'Microsoft Office Dekstop Application',
+            'subtitle' => 'Microsoft Certificate',
+            'file' => 'Microsoft Office Dekstop Application.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Microsoft Power BI Data Analyst',
+            'subtitle' => 'Microsoft Certificate',
+            'file' => 'Microsoft Power BI Data Analyst.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Microsoft Azure Data Fundamentals',
+            'subtitle' => 'Microsoft Certificate',
+            'file' => 'Microsoft Azure Data Fundamentals.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Microsoft Azure AI Fundamentals',
+            'subtitle' => 'Microsoft Certificate',
+            'file' => 'Microsoft Azure AI Fundamentals.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Designing and Implementing a Microsoft',
+            'subtitle' => 'Microsoft Certificate',
+            'file' => 'Designing and Implementing a Microsoft.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'Microsoft Certificates',
+        'heroTitle' => 'Sertifikat Microsoft',
+        'heroDescription' => 'Koleksi sertifikat Microsoft yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.',
+        'brandName' => 'Microsoft',
+        'brandImage' => 'Microsoft.png',
+        'brandImageAlt' => 'Logo Microsoft',
+        'brandNote' => 'Kumpulan sertifikat pembelajaran dan kompetensi Microsoft yang tersedia pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.microsoft');
+
+Route::get('/certifications/digitalent', function () {
+    $documents = [
+        [
+            'title' => 'Pengenalan Data Science dan Pemanfaatannya di Berbagai Sektor',
+            'subtitle' => 'Digitalent Certificate',
+            'file' => 'Pengenalan Data Science dan Pemanfaatannya di Berbagai Sektor.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Introduction To Cloud Computing',
+            'subtitle' => 'Digitalent Certificate',
+            'file' => 'Introduction To Cloud Computing.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'Digitalent Certificates',
+        'heroTitle' => 'Sertifikat Digitalent',
+        'heroDescription' => 'Koleksi sertifikat Digitalent yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.',
+        'brandName' => 'Digitalent',
+        'brandImage' => 'Digitalent.png',
+        'brandImageAlt' => 'Logo Digitalent',
+        'brandNote' => 'Kumpulan sertifikat pelatihan Digitalent yang tersedia pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.digitalent');
