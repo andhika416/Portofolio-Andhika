@@ -13,6 +13,7 @@
     $navItems = [
         ['id' => 'home', 'label' => 'Beranda'],
         ['id' => 'about', 'label' => 'Tentang'],
+        ['id' => 'education', 'label' => 'Pendidikan'],
         ['id' => 'skills', 'label' => 'Keahlian'],
         ['id' => 'projects', 'label' => 'Proyek'],
         ['id' => 'certifications', 'label' => 'Sertifikasi'],

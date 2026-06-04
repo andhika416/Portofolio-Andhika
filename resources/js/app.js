@@ -427,6 +427,223 @@ const initProjectMediaPan = () => {
     });
 };
 
+const initProjectCarousel = () => {
+    const carousel = document.querySelector('[data-project-carousel]');
+
+    if (!carousel) {
+        return;
+    }
+
+    const track = carousel.querySelector('[data-project-track]');
+    const list = carousel.querySelector('.project-grid');
+    const cards = Array.from(carousel.querySelectorAll('.project-card'));
+    const prevButton = carousel.querySelector('[data-project-scroll="prev"]');
+    const nextButton = carousel.querySelector('[data-project-scroll="next"]');
+
+    if (!track || !list || cards.length === 0 || !prevButton || !nextButton) {
+        return;
+    }
+
+    let currentIndex = 0;
+    let visibleCards = 3;
+    let cardWidth = 348;
+    let gap = 22;
+    let dragOffset = 0;
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const getStep = () => cardWidth + gap;
+
+    const getMaxIndex = () => Math.max(0, cards.length - visibleCards);
+
+    const getOffsetForIndex = (index) => -1 * getStep() * index;
+
+    const applyOffset = (offset) => {
+        carousel.style.setProperty('--project-track-offset', `${offset}px`);
+    };
+
+    const updateButtons = () => {
+        prevButton.disabled = currentIndex <= 0;
+        nextButton.disabled = currentIndex >= getMaxIndex();
+    };
+
+    const syncCardWidth = () => {
+        const viewportWidth = track.clientWidth;
+
+        if (!viewportWidth) {
+            return;
+        }
+
+        if (window.innerWidth <= 760) {
+            visibleCards = 1;
+            gap = 18;
+            cardWidth = Math.min(viewportWidth * 0.84, 320);
+        } else if (window.innerWidth <= 1080) {
+            visibleCards = 2;
+            gap = 22;
+            cardWidth = Math.max(300, Math.floor((viewportWidth - gap) / 2));
+        } else {
+            visibleCards = 3;
+            gap = 22;
+            cardWidth = Math.max(300, Math.floor((viewportWidth - gap * 2) / 3));
+        }
+
+        carousel.style.setProperty('--project-card-width', `${cardWidth}px`);
+        currentIndex = clamp(currentIndex, 0, getMaxIndex());
+        applyOffset(getOffsetForIndex(currentIndex));
+        updateButtons();
+    };
+
+    const snapToIndex = (index) => {
+        currentIndex = clamp(index, 0, getMaxIndex());
+        applyOffset(getOffsetForIndex(currentIndex));
+        updateButtons();
+    };
+
+    prevButton.addEventListener('click', () => snapToIndex(currentIndex - 1));
+    nextButton.addEventListener('click', () => snapToIndex(currentIndex + 1));
+
+    let isPointerDown = false;
+    let pointerId = null;
+    let startX = 0;
+    let startOffset = 0;
+    let hasDragged = false;
+
+    track.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) {
+            return;
+        }
+
+        isPointerDown = true;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startOffset = getOffsetForIndex(currentIndex);
+        dragOffset = startOffset;
+        hasDragged = false;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(pointerId);
+    });
+
+    track.addEventListener('pointermove', (event) => {
+        if (!isPointerDown) {
+            return;
+        }
+
+        const deltaX = event.clientX - startX;
+
+        if (Math.abs(deltaX) > 6) {
+            hasDragged = true;
+        }
+
+        const minOffset = getOffsetForIndex(getMaxIndex());
+        dragOffset = clamp(startOffset + deltaX, minOffset, 0);
+        applyOffset(dragOffset);
+    });
+
+    const releasePointer = () => {
+        if (isPointerDown) {
+            const nearestIndex = Math.round(Math.abs(dragOffset) / getStep());
+            currentIndex = clamp(nearestIndex, 0, getMaxIndex());
+            applyOffset(getOffsetForIndex(currentIndex));
+            updateButtons();
+        }
+
+        isPointerDown = false;
+        pointerId = null;
+        track.classList.remove('is-dragging');
+    };
+
+    track.addEventListener('pointerup', () => {
+        window.setTimeout(() => {
+            hasDragged = false;
+        }, 0);
+        releasePointer();
+    });
+
+    track.addEventListener('pointercancel', releasePointer);
+    track.addEventListener('lostpointercapture', releasePointer);
+
+    track.addEventListener('click', (event) => {
+        if (hasDragged) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }, true);
+
+    window.addEventListener('resize', syncCardWidth);
+
+    syncCardWidth();
+};
+
+const initEducationPhotoStack = () => {
+    const stack = document.querySelector('[data-education-stack]');
+
+    if (!stack) {
+        return;
+    }
+
+    const photos = Array.from(stack.querySelectorAll('[data-education-photo]'));
+
+    if (photos.length < 2) {
+        return;
+    }
+
+    const slotClasses = ['is-slot-1', 'is-slot-2', 'is-slot-3', 'is-slot-4'];
+    let order = photos.map((_, index) => index);
+    let intervalId = null;
+
+    const applySlots = () => {
+        photos.forEach((photo) => {
+            photo.classList.remove(...slotClasses);
+        });
+
+        order.forEach((photoIndex, slotIndex) => {
+            const photo = photos[photoIndex];
+            const slotClass = slotClasses[slotIndex];
+
+            if (photo && slotClass) {
+                photo.classList.add(slotClass);
+            }
+        });
+    };
+
+    const rotateStack = () => {
+        order = [...order.slice(1), order[0]];
+        applySlots();
+    };
+
+    const startRotation = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || intervalId) {
+            return;
+        }
+
+        intervalId = window.setInterval(rotateStack, 3200);
+    };
+
+    const stopRotation = () => {
+        if (!intervalId) {
+            return;
+        }
+
+        window.clearInterval(intervalId);
+        intervalId = null;
+    };
+
+    applySlots();
+    startRotation();
+
+    stack.addEventListener('mouseenter', stopRotation);
+    stack.addEventListener('mouseleave', startRotation);
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopRotation();
+            return;
+        }
+
+        startRotation();
+    });
+};
+
 const initScrollReveal = () => {
     const revealItems = Array.from(document.querySelectorAll('[data-reveal]'));
 
@@ -480,5 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initResumeModal();
     initHeroSlideshow();
     initProjectMediaPan();
+    initProjectCarousel();
+    initEducationPhotoStack();
     initScrollReveal();
 });

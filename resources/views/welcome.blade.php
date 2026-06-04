@@ -131,18 +131,96 @@
 
                         <div class="elevated-panel about-panel" data-reveal data-reveal-delay="180">
                             <p>
-                                Saya adalah seorang developer yang antusias dengan fondasi yang kuat dalam teknologi
-                                web modern. Perjalanan saya di dunia teknologi didorong oleh keinginan untuk
-                                menciptakan solusi digital yang berdampak dan mampu menyelesaikan masalah nyata.
-                                Dengan pengalaman di sisi front-end maupun back-end, saya terbiasa menulis kode yang
-                                rapi, mudah dirawat, dan tetap relevan dengan perkembangan industri.
+                                Saya adalah seorang developer dengan ketertarikan mendalam pada bagaimana teknologi
+                                web dapat digunakan untuk menciptakan solusi digital yang relevan, efisien, dan
+                                berdampak. Perjalanan saya di dunia teknologi berawal dari rasa ingin tahu, yang
+                                kemudian berkembang menjadi komitmen untuk terus belajar dan membangun sistem yang
+                                lebih baik.
                             </p>
                             <p>
-                                Di luar layar, saya berkomitmen untuk terus belajar dan berkembang secara profesional.
-                                Baik saat mempelajari framework baru maupun mengoptimalkan query database, saya
-                                menghadapi setiap tantangan dengan ketelitian dan pola pikir terstruktur demi
-                                menghasilkan kualitas terbaik di setiap detail.
+                                Saya terbiasa mengembangkan aplikasi baik di sisi front-end maupun back-end, dengan
+                                fokus pada kode yang bersih, terstruktur, scalable, dan mudah dipelihara. Dalam setiap
+                                proses pengembangan, saya tidak hanya berfokus pada fungsi, tetapi juga pada kualitas
+                                arsitektur, pengalaman pengguna, dan keberlanjutan sistem.
                             </p>
+                            <p>
+                                Sebagai developer, saya percaya bahwa kemampuan teknis perlu didukung oleh pola pikir
+                                analitis, ketelitian, dan kemampuan beradaptasi. Karena itu, saya terus aktif
+                                mempelajari teknologi baru, mengeksplorasi framework modern, serta meningkatkan
+                                pemahaman dalam pengelolaan database dan optimasi sistem.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="education" class="content-section education-section">
+                @php
+                    $educationPhotos = [
+                        ['file' => 'Andhika 1.jpg', 'alt' => 'Foto dokumentasi pendidikan Andhika 1'],
+                        ['file' => 'Andhika 2.jpg', 'alt' => 'Foto dokumentasi pendidikan Andhika 2'],
+                        ['file' => 'Andhika 3.jpg', 'alt' => 'Foto dokumentasi pendidikan Andhika 3'],
+                        ['file' => 'Andhika 4.jpg', 'alt' => 'Foto dokumentasi pendidikan Andhika 4'],
+                    ];
+                @endphp
+
+                <div class="page-shell">
+                    <h2 class="education-title" data-reveal>Pendidikan</h2>
+
+                    <div class="education-grid">
+                        <article class="education-panel" data-reveal data-reveal-delay="120">
+                            <span class="education-badge">Pendidikan Terakhir</span>
+
+                            <div class="education-heading">
+                                <div class="education-logo">
+                                    <img
+                                        src="{{ $imagePath('Brawijaya.png') }}"
+                                        alt="Logo Universitas Brawijaya"
+                                        loading="lazy"
+                                    >
+                                </div>
+                                <div>
+                                    <h3>D3 Teknologi Informasi</h3>
+                                    <p>Universitas Brawijaya</p>
+                                </div>
+                            </div>
+
+                            <p class="education-copy">
+                                Lulusan D3 Teknologi Informasi dengan minat pada pengembangan dan perancangan aplikasi berbasis web, serta memiliki ketertarikan dalam membangun sistem yang efisien, responsif, dan user-friendly.
+                            </p>
+
+                            <div class="education-facts" aria-label="Ringkasan pendidikan">
+                                <div class="education-fact">
+                                    <span>Jenjang</span>
+                                    <strong>Diploma</strong>
+                                </div>
+                                <div class="education-fact">
+                                    <span>PEMINATAN</span>
+                                    <strong>Sistem Informasi</strong>
+                                </div>
+                                <div class="education-fact">
+                                    <span>Fokus</span>
+                                    <strong>Perancangan dan Pengembangan Web</strong>
+                                </div>
+                                <div class="education-fact">
+                                    <span>IPK</span>
+                                    <strong>3.86 / 4.00</strong>
+                                </div>
+                            </div>
+
+                            
+                        </article>
+
+                        <div class="education-photos" data-reveal data-reveal-delay="240" data-education-stack aria-label="Dokumentasi foto Andhika">
+                            @foreach ($educationPhotos as $photo)
+                                <figure class="education-photo" data-education-photo>
+                                    <img
+                                        src="{{ $imagePath($photo['file']) }}"
+                                        alt="{{ $photo['alt'] }}"
+                                        loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                                    >
+                                </figure>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -196,78 +274,118 @@
                         <span class="title-line" aria-hidden="true"></span>
                     </div>
 
-                    <div class="project-grid">
-                        <article class="project-card elevated-panel" data-reveal data-reveal-delay="180">
-                            <div class="project-media project-media--showcase" data-project-pan>
-                                <img
-                                    src="{{ $imagePath('K3.png') }}"
-                                    alt="Tampilan Website Pelayanan K3"
-                                    class="project-media__image"
-                                    data-project-pan-image
-                                >
-                            </div>
-                            <div class="project-body">
-                                <h3>Website Pelayanan K3</h3>
-                                <p>
-                                    Website layanan K3 yang memudahkan pengelolaan informasi, pengajuan kebutuhan,
-                                    dan penyampaian layanan keselamatan serta kesehatan kerja secara lebih terstruktur.
-                                </p>
-                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                    <span class="project-stack-chip__icon" aria-hidden="true">
-                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                    </span>
-                                    <span class="project-stack-chip__label">Laravel</span>
-                                </div>
-                            </div>
-                        </article>
+                    <p class="project-scroll-hint" data-reveal data-reveal-delay="100">
+                        Geser kanan kiri untuk melihat proyek.
+                    </p>
 
-                        <article class="project-card elevated-panel" data-reveal data-reveal-delay="280">
-                            <div class="project-media project-media--showcase" data-project-pan>
-                                <img
-                                    src="{{ $imagePath('Alat.png') }}"
-                                    alt="Tampilan Inventarisasi Alat K3"
-                                    class="project-media__image"
-                                    data-project-pan-image
-                                >
-                            </div>
-                            <div class="project-body">
-                                <h3>Inventarisasi Alat K3</h3>
-                                <p>
-                                    Sistem inventarisasi alat K3 yang membantu pencatatan, pemantauan ketersediaan,
-                                    dan pengelolaan data peralatan keselamatan kerja secara lebih rapi dan efisien.
-                                </p>
-                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                    <span class="project-stack-chip__icon" aria-hidden="true">
-                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                    </span>
-                                    <span class="project-stack-chip__label">Laravel</span>
-                                </div>
-                            </div>
-                        </article>
+                    <div class="project-carousel" data-reveal data-reveal-delay="180" data-project-carousel>
+                        <button type="button" class="project-carousel__button project-carousel__button--prev" data-project-scroll="prev" aria-label="Lihat proyek sebelumnya">
+                            <span aria-hidden="true">&#8249;</span>
+                        </button>
 
-                        <article class="project-card elevated-panel" data-reveal data-reveal-delay="380">
-                            <div class="project-media project-media--showcase" data-project-pan>
-                                <img
-                                    src="{{ $imagePath('Kimia.png') }}"
-                                    alt="Tampilan Inventarisasi Bahan Kimia"
-                                    class="project-media__image"
-                                    data-project-pan-image
-                                >
+                        <div class="project-scroller" data-project-track>
+                            <div class="project-grid">
+                                <article class="project-card elevated-panel">
+                                    <div class="project-media project-media--showcase" data-project-pan>
+                                        <img
+                                            src="{{ $imagePath('K3.png') }}"
+                                            alt="Tampilan Website Pelayanan K3"
+                                            class="project-media__image"
+                                            data-project-pan-image
+                                        >
+                                    </div>
+                                    <div class="project-body">
+                                        <h3>Website Pelayanan K3</h3>
+                                        <p>
+                                            Website layanan K3 yang memudahkan pengelolaan informasi, pengajuan kebutuhan,
+                                            dan penyampaian layanan keselamatan serta kesehatan kerja secara lebih terstruktur.
+                                        </p>
+                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                            <span class="project-stack-chip__icon" aria-hidden="true">
+                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                            </span>
+                                            <span class="project-stack-chip__label">Laravel</span>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="project-card elevated-panel">
+                                    <div class="project-media project-media--showcase" data-project-pan>
+                                        <img
+                                            src="{{ $imagePath('Alat.png') }}"
+                                            alt="Tampilan Inventarisasi Alat K3"
+                                            class="project-media__image"
+                                            data-project-pan-image
+                                        >
+                                    </div>
+                                    <div class="project-body">
+                                        <h3>Inventarisasi Alat K3</h3>
+                                        <p>
+                                            Sistem inventarisasi alat K3 yang membantu pencatatan, pemantauan ketersediaan,
+                                            dan pengelolaan data peralatan keselamatan kerja secara lebih rapi dan efisien.
+                                        </p>
+                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                            <span class="project-stack-chip__icon" aria-hidden="true">
+                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                            </span>
+                                            <span class="project-stack-chip__label">Laravel</span>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="project-card elevated-panel">
+                                    <div class="project-media project-media--showcase" data-project-pan>
+                                        <img
+                                            src="{{ $imagePath('Kimia.png') }}"
+                                            alt="Tampilan Inventarisasi Bahan Kimia"
+                                            class="project-media__image"
+                                            data-project-pan-image
+                                        >
+                                    </div>
+                                    <div class="project-body">
+                                        <h3>Inventarisasi Bahan Kimia</h3>
+                                        <p>
+                                            Sistem inventarisasi bahan kimia yang membantu pencatatan stok, pemantauan data
+                                            bahan, dan pengelolaan informasi penggunaan secara lebih aman dan terorganisir.
+                                        </p>
+                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
+                                            <span class="project-stack-chip__icon" aria-hidden="true">
+                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
+                                            </span>
+                                            <span class="project-stack-chip__label">Laravel</span>
+                                        </div>
+                                    </div>
+                                </article>
+
+                                <article class="project-card elevated-panel">
+                                    <div class="project-media project-media--showcase" data-project-pan>
+                                        <img
+                                            src="{{ $imagePath('RW.png') }}"
+                                            alt="Tampilan Sistem Informasi RW"
+                                            class="project-media__image"
+                                            data-project-pan-image
+                                        >
+                                    </div>
+                                    <div class="project-body">
+                                        <h3>Sistem Informasi RW</h3>
+                                        <p>
+                                            Sistem informasi RW yang membantu pengelolaan data warga, pencatatan layanan,
+                                            dan penyampaian informasi lingkungan secara lebih tertata dan mudah diakses.
+                                        </p>
+                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: CodeIgniter">
+                                            <span class="project-stack-chip__icon" aria-hidden="true">
+                                                <img src="{{ $imagePath('Codeigneter.png') }}" alt="" loading="lazy">
+                                            </span>
+                                            <span class="project-stack-chip__label">CodeIgniter</span>
+                                        </div>
+                                    </div>
+                                </article>
                             </div>
-                            <div class="project-body">
-                                <h3>Inventarisasi Bahan Kimia</h3>
-                                <p>
-                                    Sistem inventarisasi bahan kimia yang membantu pencatatan stok, pemantauan data
-                                    bahan, dan pengelolaan informasi penggunaan secara lebih aman dan terorganisir.
-                                </p>
-                                <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                    <span class="project-stack-chip__icon" aria-hidden="true">
-                                        <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                    </span>
-                                    <span class="project-stack-chip__label">Laravel</span>
-                                </div>
-                            </div>
-                        </article>
+                        </div>
+
+                        <button type="button" class="project-carousel__button project-carousel__button--next" data-project-scroll="next" aria-label="Lihat proyek berikutnya">
+                            <span aria-hidden="true">&#8250;</span>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -280,7 +398,7 @@
                             'label' => 'Kementerian Ketenagakerjaan RI',
                             'image' => 'Kemnaker.png',
                             'url' => route('certificates.kemnaker'),
-                            'count' => 3,
+                            'count' => 4,
                         ],
                         [
                             'name' => 'BNSP',
@@ -367,7 +485,9 @@
                                         </div>
 
                                         <div class="certificate-card__meta">
-                                            <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
+                                            @if (!empty($certificateCard['count']))
+                                                <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
+                                            @endif
 
                                             @if ($hasDetailPage)
                                                 <span class="certificate-action" style="color: #ffffff; background: #d3968c; border-color: #d3968c;">Lihat sertifikat</span>

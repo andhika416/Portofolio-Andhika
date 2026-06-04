@@ -59,6 +59,13 @@ Route::get('/certifications/dicoding', function () {
 Route::get('/certifications/kemnaker', function () {
     $documents = [
         [
+            'title' => 'MagangHub',
+            'subtitle' => 'Program Pemagangan Nasional',
+            'file' => 'MagangHub.pdf',
+            'previewRatio' => '297 / 210',
+            'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
+        ],
+        [
             'title' => 'Data Science for Internet of Things',
             'subtitle' => 'Pelatihan Vokasi Nasional',
             'file' => 'Pelatihan Vokasi Nasional.pdf',
