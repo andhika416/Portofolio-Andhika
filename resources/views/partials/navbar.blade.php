@@ -24,7 +24,7 @@
 <header class="site-header">
     <div class="page-shell nav-shell">
         <div class="nav-topbar">
-            <a href="{{ $brandHref }}" class="brand-mark" style="color: #105666;">Andhika Firjatullah</a>
+            <a href="{{ $brandHref }}" class="brand-mark">Andhika Firjatullah</a>
 
             <button
                 type="button"
