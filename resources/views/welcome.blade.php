@@ -6,6 +6,19 @@
         <title>{{ config('app.name', 'Portofolio Andhika') }}</title>
         <script>
             (() => {
+                document.documentElement.classList.add('has-page-intro');
+
+                if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                }
+
+                if (window.location.hash) {
+                    history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+                }
+
+                window.scrollTo(0, 0);
+                window.addEventListener('pageshow', () => window.scrollTo(0, 0), { once: true });
+
                 try {
                     document.documentElement.dataset.theme = localStorage.getItem('portfolio-theme') === 'dark' ? 'dark' : 'light';
                     document.documentElement.dataset.language = localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'id';
@@ -13,6 +26,10 @@
                     document.documentElement.dataset.theme = 'light';
                     document.documentElement.dataset.language = 'id';
                 }
+
+                window.setTimeout(() => {
+                    document.documentElement.classList.remove('has-page-intro');
+                }, 6000);
             })();
         </script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +43,22 @@
         <script type="module" src="/build/assets/app.js"></script>
     </head>
     <body>
+        <div class="page-intro" data-page-intro aria-hidden="true">
+            <div class="page-intro__stage" aria-label="Andhika">
+                <span class="page-intro__letter" style="--intro-index: 0; --intro-color: #0f6576;">A</span>
+                <span class="page-intro__letter" style="--intro-index: 1; --intro-color: #4c92dc;">N</span>
+                <span class="page-intro__letter" style="--intro-index: 2; --intro-color: #d3968c;">D</span>
+                <span class="page-intro__letter" style="--intro-index: 3; --intro-color: #0f6576;">H</span>
+                <span class="page-intro__letter" style="--intro-index: 4; --intro-color: #4c92dc;">I</span>
+                <span class="page-intro__letter" style="--intro-index: 5; --intro-color: #d3968c;">K</span>
+                <span class="page-intro__letter" style="--intro-index: 6; --intro-color: #0f6576;">A</span>
+                <div class="page-intro__name">
+                    <span class="page-intro__name-word page-intro__name-word--first">ANDHIKA</span>
+                    <span class="page-intro__name-word page-intro__name-word--last">FIRJATULLAH</span>
+                </div>
+            </div>
+        </div>
+
         @php
             $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
             $techImagePath = static fn (string $file): string => '/images/tech/' . rawurlencode($file);

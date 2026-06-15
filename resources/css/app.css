@@ -41,13 +41,168 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--anchor-offset-top);
     scroll-padding-bottom: var(--anchor-offset-bottom);
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
     margin: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
     background: var(--page-bg);
     color: var(--ink);
     font-family: var(--font-body);
+}
+
+html.has-page-intro,
+html.has-page-intro body {
+    overflow: hidden;
+}
+
+.page-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    place-items: center;
+    overflow: hidden;
+    background: var(--surface);
+    transform: translate3d(0, 0, 0);
+    transition: transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: transform;
+    contain: layout paint style;
+    isolation: isolate;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+html.has-page-intro .page-intro {
+    display: grid;
+}
+
+.page-intro.is-leaving {
+    transform: translate3d(0, -100%, 0);
+}
+
+.page-intro__stage {
+    position: relative;
+    width: min(calc(100vw - 32px), 980px);
+    height: clamp(110px, 14vw, 180px);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    contain: layout paint style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition:
+        opacity 420ms ease,
+        transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-intro.is-leaving .page-intro__stage {
+    opacity: 0;
+    transform: translate3d(0, -24px, 0);
+}
+
+.page-intro__letter {
+    position: absolute;
+    color: var(--intro-color);
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 7vw, 6.8rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    opacity: 0;
+    transform: translate3d(0, 72px, 0) scale(0.96);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.page-intro.is-running .page-intro__letter {
+    animation: page-intro-letter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(80ms + (var(--intro-index) * 210ms));
+}
+
+.page-intro__name {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(7px, 1.4vw, 22px);
+    padding: 0 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.page-intro__name-word {
+    display: inline-block;
+    max-width: 100%;
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 5.2vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.055em;
+    opacity: 0;
+    transform: translate3d(0, 54px, 0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.page-intro__name-word--first {
+    color: #d3968c;
+}
+
+.page-intro__name-word--last {
+    color: #4c92dc;
+}
+
+.page-intro.is-running .page-intro__name-word {
+    animation: page-intro-name 720ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.page-intro.is-running .page-intro__name-word--first {
+    animation-delay: 1880ms;
+}
+
+.page-intro.is-running .page-intro__name-word--last {
+    animation-delay: 2000ms;
+}
+
+@keyframes page-intro-letter {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 72px, 0) scale(0.96);
+    }
+
+    30%,
+    68% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate3d(0, -72px, 0) scale(0.98);
+    }
+}
+
+@keyframes page-intro-name {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 54px, 0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 body.has-modal-open {
@@ -68,6 +223,15 @@ body.has-modal-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .page-intro {
+        display: none;
+        transition: none;
+    }
+
+    .page-intro__letter {
+        animation: none;
+    }
+
     [data-reveal] {
         opacity: 1;
         transform: none;
@@ -1623,6 +1787,8 @@ html[data-theme="dark"] .theme-toggle__icon--dark {
 
 .skills-section {
     background: #ffffff;
+    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 .skills-section .section-title--accent {

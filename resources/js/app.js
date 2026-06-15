@@ -1,3 +1,57 @@
+const initPageIntro = (onComplete) => {
+    const intro = document.querySelector('[data-page-intro]');
+    const root = document.documentElement;
+
+    if (!intro) {
+        root.classList.remove('has-page-intro');
+        onComplete();
+        return;
+    }
+
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let leaveTimer = null;
+    let cleanupTimer = null;
+    let hasFinished = false;
+
+    const cleanup = () => {
+        if (hasFinished) {
+            return;
+        }
+
+        hasFinished = true;
+        window.clearTimeout(leaveTimer);
+        window.clearTimeout(cleanupTimer);
+        root.classList.remove('has-page-intro');
+        intro.remove();
+        onComplete();
+    };
+
+    if (reducedMotionQuery.matches) {
+        cleanup();
+        return;
+    }
+
+    const leaveIntro = () => {
+        const handleTransitionEnd = (event) => {
+            if (event.target !== intro || event.propertyName !== 'transform') {
+                return;
+            }
+
+            intro.removeEventListener('transitionend', handleTransitionEnd);
+            cleanup();
+        };
+
+        intro.classList.add('is-leaving');
+        intro.addEventListener('transitionend', handleTransitionEnd);
+        cleanupTimer = window.setTimeout(cleanup, 1100);
+    };
+
+    window.requestAnimationFrame(() => {
+        intro.classList.add('is-running');
+        leaveTimer = window.setTimeout(leaveIntro, 3200);
+    });
+};
+
 const translationsEn = new Map(Object.entries({
     'Beranda': 'Home',
     'Tentang': 'About',
@@ -1477,7 +1531,7 @@ const initScrollReveal = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+const initPage = () => {
     initThemePicker();
     initLanguagePicker();
     initMobileNavigation();
@@ -1490,4 +1544,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initEducationPhotoStack();
     initSkillsShowcase();
     initScrollReveal();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initPageIntro(initPage);
 });
