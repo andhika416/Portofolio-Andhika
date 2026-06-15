@@ -28,6 +28,7 @@
     <body>
         @php
             $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
+            $techImagePath = static fn (string $file): string => '/images/tech/' . rawurlencode($file);
             $resumeUrl = $imagePath('Resume Andhika Firjatullah.pdf');
         @endphp
 
@@ -227,11 +228,19 @@
 
                         <div class="education-photos" data-reveal data-reveal-delay="240" data-education-stack aria-label="Dokumentasi foto Andhika">
                             @foreach ($educationPhotos as $photo)
-                                <figure class="education-photo" data-education-photo>
+                                <figure
+                                    class="education-photo"
+                                    data-education-photo
+                                    role="button"
+                                    tabindex="-1"
+                                    aria-label="Tampilkan foto pendidikan berikutnya"
+                                >
                                     <img
                                         src="{{ $imagePath($photo['file']) }}"
                                         alt="{{ $photo['alt'] }}"
                                         loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                                        decoding="async"
+                                        draggable="false"
                                     >
                                 </figure>
                             @endforeach
@@ -240,43 +249,54 @@
                 </div>
             </section>
 
-            <section id="skills" class="content-section band-section">
+            <section id="skills" class="content-section band-section skills-section">
                 @php
-                    $skillCards = [
-                        ['name' => 'Laravel', 'image' => 'Laravel.png'],
-                        ['name' => 'React', 'image' => 'React.png'],
-                        ['name' => 'Vue', 'image' => 'Vue.png'],
-                        ['name' => 'Python', 'image' => 'Python.png'],
-                        ['name' => 'Bootstrap', 'image' => 'Bootstrap.png'],
-                        ['name' => 'Figma', 'image' => 'Figma.png'],
-                        ['name' => 'Laragon', 'image' => 'Laragon.jpg'],
-                        ['name' => 'Power BI', 'image' => 'Power BI.png'],
-                        ['name' => 'WordPress', 'image' => 'WordPress.png'],
-                        ['name' => 'XAMPP', 'image' => 'XAMPP.png'],
-                        ['name' => 'MySQL', 'image' => 'MySQL.png'],
-                        ['name' => 'CodeIgniter', 'image' => 'Codeigneter.png'],
+                    $skillRows = [
+                        [
+                            ['name' => 'Next.js', 'image' => 'nextjs.svg'],
+                            ['name' => 'Laravel', 'image' => 'laravel.svg'],
+                            ['name' => 'ReactJS', 'image' => 'react.svg'],
+                            ['name' => 'Tailwind CSS', 'image' => 'tailwindcss.svg'],
+                            ['name' => 'PostgreSQL', 'image' => 'postgresql.svg'],
+                        ],
+                        [
+                            ['name' => 'MySQL', 'image' => 'mysql.svg'],
+                            ['name' => 'TypeScript', 'image' => 'typescript.svg'],
+                            ['name' => 'Figma', 'image' => 'figma.svg'],
+                            ['name' => 'Git', 'image' => 'git.svg'],
+                            ['name' => 'PHP', 'image' => 'php.svg'],
+                        ],
                     ];
                 @endphp
 
                 <div class="page-shell">
                     <h2 class="section-title section-title--center section-title--accent" data-reveal>Keahlian Utama</h2>
 
-                    <div class="skills-marquee" style="--skills-count: {{ count($skillCards) }};" data-reveal data-reveal-delay="220">
-                        <div class="skills-grid" aria-label="Daftar keahlian utama">
-                            @for ($loopIndex = 0; $loopIndex < 2; $loopIndex++)
-                                <div class="skills-grid__group" @if ($loopIndex === 1) aria-hidden="true" @endif>
-                                    @foreach ($skillCards as $skillCard)
-                                        <article class="skill-card">
-                                            <img
-                                                src="{{ $imagePath($skillCard['image']) }}"
-                                                alt="Logo {{ $skillCard['name'] }}"
-                                            >
-                                            <span>{{ $skillCard['name'] }}</span>
-                                        </article>
-                                    @endforeach
+                    <div class="skills-showcase" data-reveal data-reveal-delay="220" aria-label="Daftar keahlian utama">
+                        @foreach ($skillRows as $skillRow)
+                            <div
+                                class="skills-showcase__lane{{ $loop->even ? ' skills-showcase__lane--reverse' : '' }}"
+                                style="--skill-row-count: {{ count($skillRow) }};"
+                                data-skills-showcase-lane
+                            >
+                                <div class="skills-showcase__track" data-skills-showcase-track>
+                                    @for ($groupIndex = 0; $groupIndex < 2; $groupIndex++)
+                                        <div class="skills-showcase__group" @if ($groupIndex === 1) aria-hidden="true" @endif>
+                                            @foreach ($skillRow as $skill)
+                                                <article class="skills-showcase__item">
+                                                    <img
+                                                        src="{{ $techImagePath($skill['image']) }}"
+                                                        alt="Logo {{ $skill['name'] }}"
+                                                        loading="lazy"
+                                                    >
+                                                    <span>{{ $skill['name'] }}</span>
+                                                </article>
+                                            @endforeach
+                                        </div>
+                                    @endfor
                                 </div>
-                            @endfor
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </section>

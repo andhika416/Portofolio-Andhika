@@ -24,7 +24,9 @@
 <header class="site-header">
     <div class="page-shell nav-shell">
         <div class="nav-topbar">
-            <a href="{{ $brandHref }}" class="brand-mark">Andhika Firjatullah</a>
+            <a href="{{ $brandHref }}" class="brand-mark">
+                <span class="brand-mark__initials">AF<span class="brand-mark__dot">.</span></span>
+            </a>
 
             <div class="nav-mobile-controls" data-mobile-nav-controls></div>
 
@@ -135,7 +137,7 @@
                         aria-controls="language-menu"
                         aria-label="Pilih bahasa"
                     >
-                        <span class="language-toggle__code" data-language-code>IN</span>
+                        <span class="language-toggle__code" data-language-code>ID</span>
                         <svg class="language-toggle__chevron" viewBox="0 0 20 20" aria-hidden="true">
                             <path d="m6 8 4 4 4-4"></path>
                         </svg>
@@ -143,7 +145,7 @@
 
                     <div id="language-menu" class="language-menu" data-language-menu role="menu" aria-label="Pilihan bahasa">
                         <button type="button" class="language-option" data-language-option="id" role="menuitemradio">
-                            <span class="language-option__code">IN</span>
+                            <span class="language-option__code">ID</span>
                             <span>Indonesia</span>
                         </button>
                         <button type="button" class="language-option" data-language-option="en" role="menuitemradio">
