@@ -341,6 +341,7 @@
                         'title' => 'Website Pelayanan K3',
                         'category' => 'Sistem Informasi K3',
                         'image' => 'Pelayanan_K3.png',
+                        'mobile_image' => 'Pelayanan_Mobile.png',
                         'summary' => 'Website layanan K3 yang memudahkan pengajuan kebutuhan, pemantauan status, dan penyampaian layanan keselamatan & kesehatan kerja secara terstruktur.',
                         'stack' => [
                             ['name' => 'Laravel', 'icon' => 'Laravel.png'],
@@ -380,6 +381,7 @@
                         'title' => 'Inventarisasi Alat K3',
                         'category' => 'Sistem Logistik & Inventaris',
                         'image' => 'Inventarisasi_Alat_K3.png',
+                        'mobile_image' => 'Alat_Mobile.png',
                         'scope' => 'publik',
                         'summary' => 'Sistem inventarisasi peralatan K3 yang membantu pencatatan, pemantauan stok, kalibrasi, dan pengelolaan logistik keselamatan kerja secara efisien.',
                         'stack' => [
@@ -562,12 +564,39 @@
                         @foreach ($featuredProjects as $project)
                             <article class="project-card-v2 elevated-panel" data-project-card-id="{{ $project['id'] }}" data-project-scope="{{ $project['scope'] }}">
                                 <div class="project-card-v2__media-wrapper" data-tilt-wrapper>
+                                    @if (!empty($project['mobile_image']))
+                                        <button
+                                            type="button"
+                                            class="project-device-toggle"
+                                            data-device-toggle
+                                            data-desktop-src="{{ $imagePath($project['image']) }}"
+                                            data-mobile-src="{{ $imagePath($project['mobile_image']) }}"
+                                            aria-label="Tukar tampilan Laptop / HP"
+                                            title="Ubah Tampilan Laptop / HP"
+                                        >
+                                            <span class="project-device-toggle__icon project-device-toggle__icon--mobile" aria-hidden="true">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                                                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                                                </svg>
+                                            </span>
+                                            <span class="project-device-toggle__icon project-device-toggle__icon--desktop" aria-hidden="true" style="display: none;">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                                </svg>
+                                            </span>
+                                            <span class="project-device-toggle__label" data-device-label>HP</span>
+                                        </button>
+                                    @endif
+
                                     <div class="project-card-v2__media" data-tilt-card>
                                         <img
                                             src="{{ $imagePath($project['image']) }}"
                                             alt="Tampilan {{ $project['title'] }}"
                                             class="project-card-v2__image"
-                                            data-tilt-image
+                                            data-project-card-image
                                             loading="lazy"
                                         >
                                     </div>

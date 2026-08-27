@@ -1024,7 +1024,53 @@ const initProjectShowcase = () => {
         });
     });
 
-    // 2. Modal Data & Open/Close Handlers
+    // 2. Device Toggle Buttons (Laptop <-> HP View Switcher)
+    const deviceToggles = Array.from(document.querySelectorAll('[data-device-toggle]'));
+    deviceToggles.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.project-card-v2');
+            if (!card) return;
+
+            const img = card.querySelector('[data-project-card-image]');
+            if (!img) return;
+
+            const desktopSrc = btn.getAttribute('data-desktop-src');
+            const mobileSrc = btn.getAttribute('data-mobile-src');
+            const mobileIcon = btn.querySelector('.project-device-toggle__icon--mobile');
+            const desktopIcon = btn.querySelector('.project-device-toggle__icon--desktop');
+            const label = btn.querySelector('[data-device-label]');
+
+            const isMobileView = btn.classList.contains('is-active');
+
+            // Fade transition on image swap
+            img.style.transition = 'opacity 0.2s ease, transform 0.3s ease';
+            img.style.opacity = '0.3';
+
+            setTimeout(() => {
+                if (isMobileView) {
+                    // Switch to Desktop
+                    btn.classList.remove('is-active');
+                    img.src = desktopSrc;
+                    if (label) label.textContent = 'HP';
+                    if (mobileIcon) mobileIcon.style.display = 'flex';
+                    if (desktopIcon) desktopIcon.style.display = 'none';
+                    btn.setAttribute('title', 'Ubah ke tampilan HP');
+                } else {
+                    // Switch to Mobile
+                    btn.classList.add('is-active');
+                    img.src = mobileSrc;
+                    if (label) label.textContent = 'Laptop';
+                    if (mobileIcon) mobileIcon.style.display = 'none';
+                    if (desktopIcon) desktopIcon.style.display = 'flex';
+                    btn.setAttribute('title', 'Ubah ke tampilan Laptop');
+                }
+                img.style.opacity = '1';
+            }, 180);
+        });
+    });
+
+    // 3. Modal Data & Open/Close Handlers
     const modal = document.getElementById('project-detail-modal');
     if (!modal) return;
 

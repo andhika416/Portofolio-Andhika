@@ -2164,6 +2164,61 @@ html[data-theme="dark"] .theme-toggle__icon--dark {
     border-bottom-color: rgba(255, 255, 255, 0.05);
 }
 
+/* Device Toggle Button (Pojok Kanan Atas Card Media) */
+.project-device-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line-subtle, rgba(0, 0, 0, 0.12));
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .project-device-toggle {
+    background: rgba(24, 24, 36, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.project-device-toggle:hover {
+    transform: scale(1.05);
+    background: var(--teal);
+    color: #ffffff;
+    border-color: var(--teal);
+}
+
+.project-device-toggle.is-active {
+    background: var(--teal);
+    color: #ffffff;
+    border-color: var(--teal);
+    box-shadow: 0 4px 14px rgba(15, 101, 118, 0.35);
+}
+
+.project-device-toggle__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-device-toggle__label {
+    letter-spacing: 0.03em;
+    line-height: 1;
+}
+
 .project-card-v2__media {
     position: relative;
     width: 100%;
