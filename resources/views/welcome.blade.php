@@ -62,7 +62,7 @@
         @php
             $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
             $techImagePath = static fn (string $file): string => '/images/tech/' . rawurlencode($file);
-            $resumeUrl = $imagePath('Resume Andhika Firjatullah.pdf');
+            $resumeUrl = $imagePath('CV Andhika Firjatullah.pdf');
         @endphp
 
         @include('partials.navbar')
@@ -334,6 +334,207 @@
                 </div>
             </section>
 
+            @php
+                $featuredProjects = [
+                    [
+                        'id' => 'pelayanan-k3',
+                        'title' => 'Website Pelayanan K3',
+                        'category' => 'Sistem Informasi K3',
+                        'image' => 'Pelayanan_K3.png',
+                        'summary' => 'Website layanan K3 yang memudahkan pengajuan kebutuhan, pemantauan status, dan penyampaian layanan keselamatan & kesehatan kerja secara terstruktur.',
+                        'stack' => [
+                            ['name' => 'Laravel', 'icon' => 'Laravel.png'],
+                            ['name' => 'MySQL', 'icon' => 'MySQL.png'],
+                            ['name' => 'Bootstrap', 'icon' => 'Bootstrap.png'],
+                        ],
+                        'description' => 'Platform digital terpadu untuk pengelolaan dan pelayanan Keselamatan dan Kesehatan Kerja (K3). Sistem ini mengotomatiskan alur pengajuan layanan K3, verifikasi dokumen, pemantauan tindak lanjut, dan pelaporan eksekutif guna mewujudkan lingkungan kerja yang aman dan patuh regulasi.',
+                        'roles' => [
+                            [
+                                'name' => 'Super Admin / Pengelola K3',
+                                'badge' => 'Administrator',
+                                'desc' => 'Akses penuh untuk manajemen data, validasi pengajuan tingkat akhir, konfigurasi alur persetujuan, dan pemantauan laporan eksekutif.'
+                            ],
+                            [
+                                'name' => 'Petugas K3',
+                                'badge' => 'Verifikator Field',
+                                'desc' => 'Bertanggung jawab melakukan pemeriksaan kelayakan dokumen, pemrosesan teknis, penjadwalan inspeksi, dan pengisian catatan evaluasi.'
+                            ],
+                            [
+                                'name' => 'Pemohon / Worker',
+                                'badge' => 'User Mandiri',
+                                'desc' => 'Dapat mengajukan permohonan layanan K3 secara online, mengunggah persyaratan, serta melacak progres pengajuan secara real-time.'
+                            ]
+                        ],
+                        'scope' => 'publik',
+                        'features' => [
+                            'Portal Pengajuan Layanan K3 Online Mandiri',
+                            'Tracking Status Pengajuan Real-time dengan Status Timeline',
+                            'Verifikasi Multi-level & Penjadwalan Inspeksi K3',
+                            'Dashboard Analytics & Rekapitulasi Layanan K3',
+                            'Cetak Laporan Rekapitulasi dalam Format PDF/Excel',
+                            'Notifikasi Pengumuman & Standar Keselamatan Kerja'
+                        ]
+                    ],
+                    [
+                        'id' => 'inventarisasi-alat-k3',
+                        'title' => 'Inventarisasi Alat K3',
+                        'category' => 'Sistem Logistik & Inventaris',
+                        'image' => 'Inventarisasi_Alat_K3.png',
+                        'scope' => 'publik',
+                        'summary' => 'Sistem inventarisasi peralatan K3 yang membantu pencatatan, pemantauan stok, kalibrasi, dan pengelolaan logistik keselamatan kerja secara efisien.',
+                        'stack' => [
+                            ['name' => 'Laravel', 'icon' => 'Laravel.png'],
+                            ['name' => 'MySQL', 'icon' => 'MySQL.png'],
+                            ['name' => 'Bootstrap', 'icon' => 'Bootstrap.png'],
+                        ],
+                        'description' => 'Sistem manajemen dan pengawasan stok alat Keselamatan dan Kesehatan Kerja (K3) berbasis web. Dirancang untuk memastikan seluruh inventaris APD, perlengkapan rescue, APAR, dan sensor terdata dengan akurat, siap pakai, serta terpantau masa perawatannya.',
+                        'roles' => [
+                            [
+                                'name' => 'Admin Inventaris',
+                                'badge' => 'Admin Logistik',
+                                'desc' => 'Mengelola master data peralatan, menentukan lokasi penyimpanan, menyetujui peminjaman alat, serta melakukan audit stok tahunan.'
+                            ],
+                            [
+                                'name' => 'Petugas Gudang',
+                                'badge' => 'Operator Gudang',
+                                'desc' => 'Mencatat transaksi kelayakan alat, keluar-masuk barang, kondisi fisik peralatan, dan memperbarui status perawatan/kalibrasi.'
+                            ],
+                            [
+                                'name' => 'Staff Operasional',
+                                'badge' => 'Pengguna Alat',
+                                'desc' => 'Melihat ketersediaan stok peralatan K3 di katalog digital dan mengajukan permohonan peminjaman alat operasional.'
+                            ]
+                        ],
+                        'features' => [
+                            'Katalog Inventaris Peralatan K3 Terkategori Rapi',
+                            'Pencatatan Transaksi Mutasi Keluar, Masuk & Peminjaman Alat',
+                            'Monitoring Jadwal Kalibrasi & Masa Pakai Peralatan K3',
+                            'Sistem Labeling Kode Inventaris & Barcode Tagging',
+                            'Export Laporan Rekapitulasi Stok Peralatan (PDF & Excel)',
+                            'Peringatan Stok Minimum & Alerts Perlu Maintenance'
+                        ]
+                    ],
+                    [
+                        'id' => 'inventarisasi-kimia-k3',
+                        'title' => 'Inventarisasi Bahan Kimia K3',
+                        'category' => 'Sistem Manajerial K3 B3',
+                        'image' => 'Kimia_K3.png',
+                        'scope' => 'publik',
+                        'summary' => 'Sistem inventarisasi bahan kimia yang membantu pencatatan stok, klasifikasi bahaya GHS, MSDS, dan pengelolaan penggunaan bahan berbahaya.',
+                        'stack' => [
+                            ['name' => 'Laravel', 'icon' => 'Laravel.png'],
+                            ['name' => 'MySQL', 'icon' => 'MySQL.png'],
+                            ['name' => 'Tailwind', 'icon' => 'tech/tailwindcss.svg'],
+                        ],
+                        'description' => 'Aplikasi web khusus untuk tata kelola dan pengawasan inventaris bahan kimia berbahaya (B3) di laboratorium/industri. Menyediakan integrasi dokumen Lembar Data Keselamatan Bahan (MSDS/LDKB), klasifikasi tingkat bahaya (GHS), dan pemantauan masa berlaku bahan.',
+                        'roles' => [
+                            [
+                                'name' => 'Admin Laboratorium K3',
+                                'badge' => 'Lab Manager',
+                                'desc' => 'Mengontrol akses bahan kimia sensitif, mengesahkan batas ambang penyimpanan aman, dan menyetujui dokumen MSDS baru.'
+                            ],
+                            [
+                                'name' => 'Petugas Analis / Kimiawan',
+                                'badge' => 'Analis Lab',
+                                'desc' => 'Mencatat penggunaan harian reagen/bahan kimia, mengunggah file MSDS, serta memperbarui kuantitas stok terpakai.'
+                            ],
+                            [
+                                'name' => 'Auditor / Inspector K3',
+                                'badge' => 'Safety Auditor',
+                                'desc' => 'Memeriksa riwayat penggunaan bahan kimia, memantau tingkat risiko penyimpanan, dan mencetak rekap kepatuhan B3.'
+                            ]
+                        ],
+                        'features' => [
+                            'Katalog Bahan Kimia dengan Klasifikasi GHS & Simbol Bahaya',
+                            'Integrasi Repository Lembar Data Keselamatan Bahan (MSDS/LDKB)',
+                            'Tracking Volume Storage, Expired Date & Ambang Toleransi',
+                            'Log Pemakaian & Mutasi Stok Bahan Kimia Real-time',
+                            'Dashboard Analytics Potensi Bahaya & Kepatuhan Keselamatan',
+                            'Notifikasi Alert Kedaluwarsa & Peringatan Ambang Batas Stok'
+                        ]
+                    ],
+                    [
+                        'id' => 'e-rukun-warga',
+                        'title' => 'E-Rukun Warga (Sistem Informasi RW)',
+                        'category' => 'Portal Digital Kependudukan',
+                        'image' => 'E_Rukun_Warga.png',
+                        'scope' => 'lokal',
+                        'summary' => 'Sistem informasi RW yang membantu pengurusan pengantar digital, pendataan kependudukan warga, pengumuman, dan transparansi kegiatan.',
+                        'stack' => [
+                            ['name' => 'CodeIgniter', 'icon' => 'Codeigneter.png'],
+                            ['name' => 'MySQL', 'icon' => 'MySQL.png'],
+                            ['name' => 'Bootstrap', 'icon' => 'Bootstrap.png'],
+                        ],
+                        'description' => 'Platform layanan publik dan administrasi tingkat Rukun Warga (RW) berbasis web. Mempermudah warga dalam pengajuan pengantar surat mandiri, menyajikan papan informasi & agenda lingkungan, serta membantu transparansi tata kelola wilayah.',
+                        'roles' => [
+                            [
+                                'name' => 'Ketua RW / Admin RW',
+                                'badge' => 'Administrator RW',
+                                'desc' => 'Mengelola data kewilayahan seluruh RT, menyetujui pengantar tingkat RW, menerbitkan pengumuman resmi, dan mengelola transparansi.'
+                            ],
+                            [
+                                'name' => 'Ketua RT',
+                                'badge' => 'Verifikator RT',
+                                'desc' => 'Memverifikasi status kependudukan warga di tingkat RT sebelum surat diajukan ke tingkat RW.'
+                            ],
+                            [
+                                'name' => 'Warga / Masyarakat',
+                                'badge' => 'Warga Lingkungan',
+                                'desc' => 'Mengajukan permohonan surat pengantar online, memantau pengumuman lingkungan, dan mengirimkan aspirasi/aduan.'
+                            ]
+                        ],
+                        'features' => [
+                            'Layanan Mandiri Surat Pengantar Digital (Domisili, Keterangan, dll)',
+                            'Database Kependudukan & Demografi Warga Terintegrasi',
+                            'Portal Pengumuman Digital & Kalender Agenda Lingkungan RW',
+                            'Kanal Pengaduan & Aspirasi Lingkungan Warga',
+                            'Modul Transparansi Kas & Laporan Iuran Kegiatan RW',
+                            'Tampilan Mobile Responsive & Cetak Dokumen PDF Pengantar'
+                        ]
+                    ],
+                    [
+                        'id' => 'hris-system',
+                        'title' => 'Sistem Informasi HRIS',
+                        'category' => 'Sistem Manajemen SDM',
+                        'image' => 'HRIS.png',
+                        'scope' => 'lokal',
+                        'summary' => 'Sistem informasi manajemen sumber daya manusia (HRIS) yang mengintegrasikan pengelolaan data pegawai, absensi, pengajuan cuti, dan struktur organisasi.',
+                        'stack' => [
+                            ['name' => 'React', 'icon' => 'React.png'],
+                            ['name' => 'Laravel', 'icon' => 'Laravel.png'],
+                            ['name' => 'MySQL', 'icon' => 'MySQL.png'],
+                            ['name' => 'Tailwind', 'icon' => 'tech/tailwindcss.svg'],
+                        ],
+                        'description' => 'Platform Human Resource Information System (HRIS) berbasis web terpadu untuk efisiensi tata kelola kepegawaian perusahaan. Sistem ini mengotomatiskan pencatatan absensi digital, pengajuan dan persetujuan cuti/izin mandiri, manajemen struktur peran & hak akses pengguna (RBAC), pengumuman internal, serta pelaporan kepegawaian.',
+                        'roles' => [
+                            [
+                                'name' => 'Super Admin HR',
+                                'badge' => 'Administrator',
+                                'desc' => 'Akses penuh ke manajemen data pegawai, pengaturan peran & hak akses (RBAC), verifikasi pengajuan kepegawaian, dan pelaporan eksekutif.'
+                            ],
+                            [
+                                'name' => 'Manajer / Supervisor',
+                                'badge' => 'Verifikator Divisi',
+                                'desc' => 'Memverifikasi dan menyetujui pengajuan cuti, lembur, dan izin anggota tim di bawah divisinya.'
+                            ],
+                            [
+                                'name' => 'Karyawan / Pegawai',
+                                'badge' => 'User Mandiri',
+                                'desc' => 'Melakukan absensi harian, mengajukan permohonan cuti/izin mandiri, melihat struktur organisasi, dan memantau status pengajuan.'
+                            ]
+                        ],
+                        'features' => [
+                            'Manajemen Data Induk Kepegawaian & Struktur Organisasi',
+                            'Sistem Pengajuan & Approval Cuti, Lembur, dan Izin Online',
+                            'Role-Based Access Control (RBAC) & Management Hak Akses',
+                            'Portal Absensi Digital Real-time & Monitoring Kehadiran',
+                            'Dashboard Analytics SDM & Notifikasi Pengumuman Internal',
+                            'Export Laporan Kepegawaian & Rekapitulasi Presensi (PDF/Excel)'
+                        ]
+                    ],
+                ];
+            @endphp
+
             <section id="projects" class="content-section projects-section">
                 <div class="page-shell">
                     <div class="title-row" data-reveal>
@@ -341,121 +542,139 @@
                         <span class="title-line" aria-hidden="true"></span>
                     </div>
 
-                    <p class="project-scroll-hint" data-reveal data-reveal-delay="100">
-                        Geser kanan kiri untuk melihat proyek.
+                    <p class="project-showcase-hint" data-reveal data-reveal-delay="100">
+                        Klik tombol Detail pada kartu proyek untuk melihat deskripsi, role pengguna, dan fitur lengkap.
                     </p>
 
-                    <div class="project-carousel" data-reveal data-reveal-delay="180" data-project-carousel>
-                        <button type="button" class="project-carousel__button project-carousel__button--prev" data-project-scroll="prev" aria-label="Lihat proyek sebelumnya">
-                            <span aria-hidden="true">&#8249;</span>
+                    <div class="project-filter-bar" data-reveal data-reveal-delay="140">
+                        <button type="button" class="project-filter-btn is-active" data-project-filter="all">
+                            Semua
                         </button>
-
-                        <div class="project-scroller" data-project-track>
-                            <div class="project-grid">
-                                <article class="project-card elevated-panel">
-                                    <div class="project-media project-media--showcase" data-project-pan>
-                                        <img
-                                            src="{{ $imagePath('K3.png') }}"
-                                            alt="Tampilan Website Pelayanan K3"
-                                            class="project-media__image"
-                                            data-project-pan-image
-                                        >
-                                    </div>
-                                    <div class="project-body">
-                                        <h3>Website Pelayanan K3</h3>
-                                        <p>
-                                            Website layanan K3 yang memudahkan pengelolaan informasi, pengajuan kebutuhan,
-                                            dan penyampaian layanan keselamatan serta kesehatan kerja secara lebih terstruktur.
-                                        </p>
-                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                            <span class="project-stack-chip__icon" aria-hidden="true">
-                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                            </span>
-                                            <span class="project-stack-chip__label">Laravel</span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article class="project-card elevated-panel">
-                                    <div class="project-media project-media--showcase" data-project-pan>
-                                        <img
-                                            src="{{ $imagePath('Alat.png') }}"
-                                            alt="Tampilan Inventarisasi Alat K3"
-                                            class="project-media__image"
-                                            data-project-pan-image
-                                        >
-                                    </div>
-                                    <div class="project-body">
-                                        <h3>Inventarisasi Alat K3</h3>
-                                        <p>
-                                            Sistem inventarisasi alat K3 yang membantu pencatatan, pemantauan ketersediaan,
-                                            dan pengelolaan data peralatan keselamatan kerja secara lebih rapi dan efisien.
-                                        </p>
-                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                            <span class="project-stack-chip__icon" aria-hidden="true">
-                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                            </span>
-                                            <span class="project-stack-chip__label">Laravel</span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article class="project-card elevated-panel">
-                                    <div class="project-media project-media--showcase" data-project-pan>
-                                        <img
-                                            src="{{ $imagePath('Kimia.png') }}"
-                                            alt="Tampilan Inventarisasi Bahan Kimia"
-                                            class="project-media__image"
-                                            data-project-pan-image
-                                        >
-                                    </div>
-                                    <div class="project-body">
-                                        <h3>Inventarisasi Bahan Kimia</h3>
-                                        <p>
-                                            Sistem inventarisasi bahan kimia yang membantu pencatatan stok, pemantauan data
-                                            bahan, dan pengelolaan informasi penggunaan secara lebih aman dan terorganisir.
-                                        </p>
-                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: Laravel">
-                                            <span class="project-stack-chip__icon" aria-hidden="true">
-                                                <img src="{{ $imagePath('Laravel.png') }}" alt="" loading="lazy">
-                                            </span>
-                                            <span class="project-stack-chip__label">Laravel</span>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article class="project-card elevated-panel">
-                                    <div class="project-media project-media--showcase" data-project-pan>
-                                        <img
-                                            src="{{ $imagePath('RW.png') }}"
-                                            alt="Tampilan Sistem Informasi RW"
-                                            class="project-media__image"
-                                            data-project-pan-image
-                                        >
-                                    </div>
-                                    <div class="project-body">
-                                        <h3>Sistem Informasi RW</h3>
-                                        <p>
-                                            Sistem informasi RW yang membantu pengelolaan data warga, pencatatan layanan,
-                                            dan penyampaian informasi lingkungan secara lebih tertata dan mudah diakses.
-                                        </p>
-                                        <div class="project-stack-chip" aria-label="Framework yang digunakan: CodeIgniter">
-                                            <span class="project-stack-chip__icon" aria-hidden="true">
-                                                <img src="{{ $imagePath('Codeigneter.png') }}" alt="" loading="lazy">
-                                            </span>
-                                            <span class="project-stack-chip__label">CodeIgniter</span>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-
-                        <button type="button" class="project-carousel__button project-carousel__button--next" data-project-scroll="next" aria-label="Lihat proyek berikutnya">
-                            <span aria-hidden="true">&#8250;</span>
+                        <button type="button" class="project-filter-btn" data-project-filter="publik">
+                            Publik
                         </button>
+                        <button type="button" class="project-filter-btn" data-project-filter="lokal">
+                            Lokal
+                        </button>
+                    </div>
+
+                    <div class="project-showcase-grid" data-reveal data-reveal-delay="180">
+                        @foreach ($featuredProjects as $project)
+                            <article class="project-card-v2 elevated-panel" data-project-card-id="{{ $project['id'] }}" data-project-scope="{{ $project['scope'] }}">
+                                <div class="project-card-v2__media-wrapper" data-tilt-wrapper>
+                                    <div class="project-card-v2__media" data-tilt-card>
+                                        <img
+                                            src="{{ $imagePath($project['image']) }}"
+                                            alt="Tampilan {{ $project['title'] }}"
+                                            class="project-card-v2__image"
+                                            data-tilt-image
+                                            loading="lazy"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="project-card-v2__body">
+                                    <span class="project-card-v2__category">{{ $project['category'] }}</span>
+                                    <h3 class="project-card-v2__title">{{ $project['title'] }}</h3>
+                                    <p class="project-card-v2__summary">{{ $project['summary'] }}</p>
+
+                                    <div class="project-card-v2__footer">
+                                        <div class="project-card-v2__capsules" aria-label="Framework dan Teknologi">
+                                            @foreach ($project['stack'] as $tech)
+                                                <div class="project-capsule">
+                                                    <span class="project-capsule__icon" aria-hidden="true">
+                                                        <img src="{{ $imagePath($tech['icon']) }}" alt="" loading="lazy">
+                                                    </span>
+                                                    <span class="project-capsule__label">{{ $tech['name'] }}</span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            class="project-card-v2__detail-btn"
+                                            data-project-modal-open="{{ $project['id'] }}"
+                                            aria-label="Lihat detail {{ $project['title'] }}"
+                                        >
+                                            Detail
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        @endforeach
                     </div>
                 </div>
             </section>
+
+            <div id="project-detail-modal" class="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+                <div class="project-modal__backdrop" data-project-modal-close></div>
+                <div class="project-modal__wrapper">
+                    <div class="project-modal__card elevated-panel">
+                        <button type="button" class="project-modal__close-btn" data-project-modal-close aria-label="Tutup modal detail proyek">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+
+                        <div class="project-modal__header">
+                            <span class="project-modal__category" id="modal-project-category"></span>
+                            <h2 class="project-modal__title" id="modal-project-title"></h2>
+                            <div class="project-modal__stack-row" id="modal-project-stack"></div>
+                        </div>
+
+                        <div class="project-modal__body">
+                            <div class="project-modal__block">
+                                <div class="project-modal__block-title">
+                                    <span class="project-modal__block-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        </svg>
+                                    </span>
+                                    <h3>Deskripsi Web</h3>
+                                </div>
+                                <p id="modal-project-description" class="project-modal__desc-text"></p>
+                            </div>
+
+                            <div class="project-modal__block">
+                                <div class="project-modal__block-title">
+                                    <span class="project-modal__block-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                    </span>
+                                    <h3>Role Apa Saja</h3>
+                                </div>
+                                <div id="modal-project-roles" class="project-modal__roles-grid"></div>
+                            </div>
+
+                            <div class="project-modal__block">
+                                <div class="project-modal__block-title">
+                                    <span class="project-modal__block-icon" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="9 11 12 14 22 4"></polyline>
+                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                        </svg>
+                                    </span>
+                                    <h3>Fitur Apa Saja</h3>
+                                </div>
+                                <ul id="modal-project-features" class="project-modal__features-list"></ul>
+                            </div>
+                        </div>
+
+                        <div class="project-modal__footer">
+                            <button type="button" class="project-modal__btn-close" data-project-modal-close>
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <section id="certifications" class="content-section band-section">
                 @php

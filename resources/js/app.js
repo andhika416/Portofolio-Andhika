@@ -1001,203 +1001,243 @@ const initHeroSlideshow = () => {
     }, 4200);
 };
 
-const initProjectMediaPan = () => {
-    const panes = Array.from(document.querySelectorAll('[data-project-pan]'));
+const initProjectShowcase = () => {
+    // 1. Filter Bar Buttons (Semua, Publik, Lokal)
+    const filterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
+    const projectCards = Array.from(document.querySelectorAll('[data-project-scope]'));
 
-    if (!panes.length) {
-        return;
-    }
+    filterButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-project-filter');
 
-    const updatePane = (pane) => {
-        const image = pane.querySelector('[data-project-pan-image]');
+            filterButtons.forEach((b) => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
 
-        if (!image || !image.naturalWidth || !image.naturalHeight) {
-            return;
-        }
-
-        const paneWidth = pane.clientWidth;
-        const paneHeight = pane.clientHeight;
-
-        if (!paneWidth || !paneHeight) {
-            return;
-        }
-
-        const renderedHeight = paneWidth * (image.naturalHeight / image.naturalWidth);
-        const panDistance = Math.max(0, renderedHeight - paneHeight);
-
-        pane.style.setProperty('--project-pan-distance', `${panDistance}px`);
-        pane.classList.toggle('has-pan', panDistance > 4);
-    };
-
-    const updateAllPanes = () => {
-        panes.forEach((pane) => updatePane(pane));
-    };
-
-    panes.forEach((pane) => {
-        const image = pane.querySelector('[data-project-pan-image]');
-
-        if (!image) {
-            return;
-        }
-
-        if (image.complete) {
-            updatePane(pane);
-        } else {
-            image.addEventListener('load', () => updatePane(pane), { once: true });
-        }
+            projectCards.forEach((card) => {
+                const scope = card.getAttribute('data-project-scope');
+                if (filter === 'all' || scope === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     });
 
-    window.addEventListener('resize', () => {
-        window.requestAnimationFrame(updateAllPanes);
+    // 2. Modal Data & Open/Close Handlers
+    const modal = document.getElementById('project-detail-modal');
+    if (!modal) return;
+
+    const modalCategory = modal.querySelector('#modal-project-category');
+    const modalTitle = modal.querySelector('#modal-project-title');
+    const modalStack = modal.querySelector('#modal-project-stack');
+    const modalDescription = modal.querySelector('#modal-project-description');
+    const modalRoles = modal.querySelector('#modal-project-roles');
+    const modalFeatures = modal.querySelector('#modal-project-features');
+
+    const openTriggers = Array.from(document.querySelectorAll('[data-project-modal-open]'));
+    const closeTriggers = Array.from(document.querySelectorAll('[data-project-modal-close]'));
+
+    const projectsData = {
+        'pelayanan-k3': {
+            title: 'Website Pelayanan K3',
+            category: 'Sistem Informasi K3',
+            image: '/images/Pelayanan_K3.png',
+            stack: [
+                { name: 'Laravel', icon: '/images/Laravel.png' },
+                { name: 'MySQL', icon: '/images/MySQL.png' },
+                { name: 'Bootstrap', icon: '/images/Bootstrap.png' }
+            ],
+            description: 'Platform digital terpadu untuk pengelolaan dan pelayanan Keselamatan dan Kesehatan Kerja (K3). Sistem ini mengotomatiskan alur pengajuan layanan K3, verifikasi dokumen, pemantauan tindak lanjut, dan pelaporan eksekutif guna mewujudkan lingkungan kerja yang aman dan patuh regulasi.',
+            roles: [
+                { name: 'Super Admin / Pengelola K3', badge: 'Administrator', desc: 'Akses penuh untuk manajemen data, validasi pengajuan tingkat akhir, konfigurasi alur persetujuan, dan pemantauan laporan eksekutif.' },
+                { name: 'Petugas K3', badge: 'Verifikator Field', desc: 'Bertanggung jawab melakukan pemeriksaan kelayakan dokumen, pemrosesan teknis, penjadwalan inspeksi, dan pengisian catatan evaluasi.' },
+                { name: 'Pemohon / Worker', badge: 'User Mandiri', desc: 'Dapat mengajukan permohonan layanan K3 secara online, mengunggah persyaratan, serta melacak progres pengajuan secara real-time.' }
+            ],
+            features: [
+                'Portal Pengajuan Layanan K3 Online Mandiri',
+                'Tracking Status Pengajuan Real-time dengan Status Timeline',
+                'Verifikasi Multi-level & Penjadwalan Inspeksi K3',
+                'Dashboard Analytics & Rekapitulasi Layanan K3',
+                'Cetak Laporan Rekapitulasi dalam Format PDF/Excel',
+                'Notifikasi Pengumuman & Standar Keselamatan Kerja'
+            ]
+        },
+        'inventarisasi-alat-k3': {
+            title: 'Inventarisasi Alat K3',
+            category: 'Sistem Logistik & Inventaris',
+            image: '/images/Inventarisasi_Alat_K3.png',
+            stack: [
+                { name: 'Laravel', icon: '/images/Laravel.png' },
+                { name: 'MySQL', icon: '/images/MySQL.png' },
+                { name: 'Bootstrap', icon: '/images/Bootstrap.png' }
+            ],
+            description: 'Sistem manajemen dan pengawasan stok alat Keselamatan dan Kesehatan Kerja (K3) berbasis web. Dirancang untuk memastikan seluruh inventaris APD, perlengkapan rescue, APAR, dan sensor terdata dengan akurat, siap pakai, serta terpantau masa perawatannya.',
+            roles: [
+                { name: 'Admin Inventaris', badge: 'Admin Logistik', desc: 'Mengelola master data peralatan, menentukan lokasi penyimpanan, menyetujui peminjaman alat, serta melakukan audit stok tahunan.' },
+                { name: 'Petugas Gudang', badge: 'Operator Gudang', desc: 'Mencatat transaksi kelayakan alat, keluar-masuk barang, kondisi fisik peralatan, dan memperbarui status perawatan/kalibrasi.' },
+                { name: 'Staff Operasional', badge: 'Pengguna Alat', desc: 'Melihat ketersediaan stok peralatan K3 di katalog digital dan mengajukan permohonan peminjaman alat operasional.' }
+            ],
+            features: [
+                'Katalog Inventaris Peralatan K3 Terkategori Rapi',
+                'Pencatatan Transaksi Mutasi Keluar, Masuk & Peminjaman Alat',
+                'Monitoring Jadwal Kalibrasi & Masa Pakai Peralatan K3',
+                'Sistem Labeling Kode Inventaris & Barcode Tagging',
+                'Export Laporan Rekapitulasi Stok Peralatan (PDF & Excel)',
+                'Peringatan Stok Minimum & Alerts Perlu Maintenance'
+            ]
+        },
+        'inventarisasi-kimia-k3': {
+            title: 'Inventarisasi Bahan Kimia K3',
+            category: 'Sistem Manajerial K3 B3',
+            image: '/images/Kimia_K3.png',
+            stack: [
+                { name: 'Laravel', icon: '/images/Laravel.png' },
+                { name: 'MySQL', icon: '/images/MySQL.png' },
+                { name: 'Tailwind', icon: '/images/tech/tailwindcss.svg' }
+            ],
+            description: 'Aplikasi web khusus untuk tata kelola dan pengawasan inventaris bahan kimia berbahaya (B3) di laboratorium/industri. Menyediakan integrasi dokumen Lembar Data Keselamatan Bahan (MSDS/LDKB), klasifikasi tingkat bahaya (GHS), dan pemantauan masa berlaku bahan.',
+            roles: [
+                { name: 'Admin Laboratorium K3', badge: 'Lab Manager', desc: 'Mengontrol akses bahan kimia sensitif, mengesahkan batas ambang penyimpanan aman, dan menyetujui dokumen MSDS baru.' },
+                { name: 'Petugas Analis / Kimiawan', badge: 'Analis Lab', desc: 'Mencatat penggunaan harian reagen/bahan kimia, mengunggah file MSDS, serta memperbarui kuantitas stok terpakai.' },
+                { name: 'Auditor / Inspector K3', badge: 'Safety Auditor', desc: 'Memeriksa riwayat penggunaan bahan kimia, memantau tingkat risiko penyimpanan, dan mencetak rekap kepatuhan B3.' }
+            ],
+            features: [
+                'Katalog Bahan Kimia dengan Klasifikasi GHS & Simbol Bahaya',
+                'Integrasi Repository Lembar Data Keselamatan Bahan (MSDS/LDKB)',
+                'Tracking Volume Storage, Expired Date & Ambang Toleransi',
+                'Log Pemakaian & Mutasi Stok Bahan Kimia Real-time',
+                'Dashboard Analytics Potensi Bahaya & Kepatuhan Keselamatan',
+                'Notifikasi Alert Kedaluwarsa & Peringatan Ambang Batas Stok'
+            ]
+        },
+        'e-rukun-warga': {
+            title: 'E-Rukun Warga (Sistem Informasi RW)',
+            category: 'Portal Digital Kependudukan',
+            image: '/images/E_Rukun_Warga.png',
+            stack: [
+                { name: 'CodeIgniter', icon: '/images/Codeigneter.png' },
+                { name: 'MySQL', icon: '/images/MySQL.png' },
+                { name: 'Bootstrap', icon: '/images/Bootstrap.png' }
+            ],
+            description: 'Platform layanan publik dan administrasi tingkat Rukun Warga (RW) berbasis web. Mempermudah warga dalam pengajuan pengantar surat mandiri, menyajikan papan informasi & agenda lingkungan, serta membantu transparansi tata kelola wilayah.',
+            roles: [
+                { name: 'Ketua RW / Admin RW', badge: 'Administrator RW', desc: 'Mengelola data kewilayahan seluruh RT, menyetujui pengantar tingkat RW, menerbitkan pengumuman resmi, dan mengelola transparansi.' },
+                { name: 'Ketua RT', badge: 'Verifikator RT', desc: 'Memverifikasi status kependudukan warga di tingkat RT sebelum surat diajukan ke tingkat RW.' },
+                { name: 'Warga / Masyarakat', badge: 'Warga Lingkungan', desc: 'Mengajukan permohonan surat pengantar online, memantau pengumuman lingkungan, dan mengirimkan aspirasi/aduan.' }
+            ],
+            features: [
+                'Layanan Mandiri Surat Pengantar Digital (Domisili, Keterangan, dll)',
+                'Database Kependudukan & Demografi Warga Terintegrasi',
+                'Portal Pengumuman Digital & Kalender Agenda Lingkungan RW',
+                'Kanal Pengaduan & Aspirasi Lingkungan Warga',
+                'Modul Transparansi Kas & Laporan Iuran Kegiatan RW',
+                'Tampilan Mobile Responsive & Cetak Dokumen PDF Pengantar'
+            ]
+        },
+        'hris-system': {
+            title: 'Sistem Informasi HRIS',
+            category: 'Sistem Manajemen SDM',
+            image: '/images/HRIS.png',
+            stack: [
+                { name: 'React', icon: '/images/React.png' },
+                { name: 'Laravel', icon: '/images/Laravel.png' },
+                { name: 'MySQL', icon: '/images/MySQL.png' },
+                { name: 'Tailwind', icon: '/images/tech/tailwindcss.svg' }
+            ],
+            description: 'Platform Human Resource Information System (HRIS) berbasis web terpadu untuk efisiensi tata kelola kepegawaian perusahaan. Sistem ini mengotomatiskan pencatatan absensi digital, pengajuan dan persetujuan cuti/izin mandiri, manajemen struktur peran & hak akses pengguna (RBAC), pengumuman internal, serta pelaporan kepegawaian.',
+            roles: [
+                { name: 'Super Admin HR', badge: 'Administrator', desc: 'Akses penuh ke manajemen data pegawai, pengaturan peran & hak akses (RBAC), verifikasi pengajuan kepegawaian, dan pelaporan eksekutif.' },
+                { name: 'Manajer / Supervisor', badge: 'Verifikator Divisi', desc: 'Memverifikasi dan menyetujui pengajuan cuti, lembur, dan izin anggota tim di bawah divisinya.' },
+                { name: 'Karyawan / Pegawai', badge: 'User Mandiri', desc: 'Melakukan absensi harian, mengajukan permohonan cuti/izin mandiri, melihat struktur organisasi, dan memantau status pengajuan.' }
+            ],
+            features: [
+                'Manajemen Data Induk Kepegawaian & Struktur Organisasi',
+                'Sistem Pengajuan & Approval Cuti, Lembur, dan Izin Online',
+                'Role-Based Access Control (RBAC) & Management Hak Akses',
+                'Portal Absensi Digital Real-time & Monitoring Kehadiran',
+                'Dashboard Analytics SDM & Notifikasi Pengumuman Internal',
+                'Export Laporan Kepegawaian & Rekapitulasi Presensi (PDF/Excel)'
+            ]
+        }
+    };
+
+    const populateModal = (data) => {
+        if (!data) return;
+
+        if (modalCategory) modalCategory.textContent = data.category || '';
+        if (modalTitle) modalTitle.textContent = data.title || '';
+        if (modalDescription) modalDescription.textContent = data.description || '';
+
+        if (modalStack) {
+            modalStack.innerHTML = (data.stack || []).map(tech => `
+                <div class="project-capsule">
+                    <span class="project-capsule__icon">
+                        <img src="${tech.icon}" alt="" loading="lazy">
+                    </span>
+                    <span class="project-capsule__label">${tech.name}</span>
+                </div>
+            `).join('');
+        }
+
+        if (modalRoles) {
+            modalRoles.innerHTML = (data.roles || []).map(role => `
+                <div class="project-modal__role-card">
+                    <div class="project-modal__role-header">
+                        <span class="project-modal__role-name">${role.name}</span>
+                        <span class="project-modal__role-badge">${role.badge}</span>
+                    </div>
+                    <p class="project-modal__role-desc">${role.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        if (modalFeatures) {
+            modalFeatures.innerHTML = (data.features || []).map(feature => `
+                <li class="project-modal__feature-item">
+                    <span class="project-modal__feature-check">✓</span>
+                    <span>${feature}</span>
+                </li>
+            `).join('');
+        }
+    };
+
+    const openModal = (projectId) => {
+        const data = projectsData[projectId];
+        if (!data) return;
+
+        populateModal(data);
+        modal.classList.add('is-active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('project-modal-open');
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('project-modal-open');
+    };
+
+    openTriggers.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const id = btn.getAttribute('data-project-modal-open');
+            openModal(id);
+        });
     });
-};
 
-const initProjectCarousel = () => {
-    const carousel = document.querySelector('[data-project-carousel]');
-
-    if (!carousel) {
-        return;
-    }
-
-    const track = carousel.querySelector('[data-project-track]');
-    const list = carousel.querySelector('.project-grid');
-    const cards = Array.from(carousel.querySelectorAll('.project-card'));
-    const prevButton = carousel.querySelector('[data-project-scroll="prev"]');
-    const nextButton = carousel.querySelector('[data-project-scroll="next"]');
-
-    if (!track || !list || cards.length === 0 || !prevButton || !nextButton) {
-        return;
-    }
-
-    let currentIndex = 0;
-    let visibleCards = 3;
-    let cardWidth = 348;
-    let gap = 22;
-    let dragOffset = 0;
-
-    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-    const getStep = () => cardWidth + gap;
-
-    const getMaxIndex = () => Math.max(0, cards.length - visibleCards);
-
-    const getOffsetForIndex = (index) => -1 * getStep() * index;
-
-    const applyOffset = (offset) => {
-        carousel.style.setProperty('--project-track-offset', `${offset}px`);
-    };
-
-    const updateButtons = () => {
-        prevButton.disabled = currentIndex <= 0;
-        nextButton.disabled = currentIndex >= getMaxIndex();
-    };
-
-    const syncCardWidth = () => {
-        const viewportWidth = track.clientWidth;
-
-        if (!viewportWidth) {
-            return;
-        }
-
-        if (window.innerWidth <= 760) {
-            visibleCards = 1;
-            gap = 18;
-            cardWidth = Math.min(viewportWidth * 0.84, 320);
-        } else if (window.innerWidth <= 1080) {
-            visibleCards = 2;
-            gap = 22;
-            cardWidth = Math.max(300, Math.floor((viewportWidth - gap) / 2));
-        } else {
-            visibleCards = 3;
-            gap = 22;
-            cardWidth = Math.max(300, Math.floor((viewportWidth - gap * 2) / 3));
-        }
-
-        carousel.style.setProperty('--project-card-width', `${cardWidth}px`);
-        currentIndex = clamp(currentIndex, 0, getMaxIndex());
-        applyOffset(getOffsetForIndex(currentIndex));
-        updateButtons();
-    };
-
-    const snapToIndex = (index) => {
-        currentIndex = clamp(index, 0, getMaxIndex());
-        applyOffset(getOffsetForIndex(currentIndex));
-        updateButtons();
-    };
-
-    prevButton.addEventListener('click', () => snapToIndex(currentIndex - 1));
-    nextButton.addEventListener('click', () => snapToIndex(currentIndex + 1));
-
-    let isPointerDown = false;
-    let pointerId = null;
-    let startX = 0;
-    let startOffset = 0;
-    let hasDragged = false;
-
-    track.addEventListener('pointerdown', (event) => {
-        if (event.pointerType === 'mouse' && event.button !== 0) {
-            return;
-        }
-
-        isPointerDown = true;
-        pointerId = event.pointerId;
-        startX = event.clientX;
-        startOffset = getOffsetForIndex(currentIndex);
-        dragOffset = startOffset;
-        hasDragged = false;
-        track.classList.add('is-dragging');
-        track.setPointerCapture(pointerId);
+    closeTriggers.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal();
+        });
     });
 
-    track.addEventListener('pointermove', (event) => {
-        if (!isPointerDown) {
-            return;
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+            closeModal();
         }
-
-        const deltaX = event.clientX - startX;
-
-        if (Math.abs(deltaX) > 6) {
-            hasDragged = true;
-        }
-
-        const minOffset = getOffsetForIndex(getMaxIndex());
-        dragOffset = clamp(startOffset + deltaX, minOffset, 0);
-        applyOffset(dragOffset);
     });
-
-    const releasePointer = () => {
-        if (isPointerDown) {
-            const nearestIndex = Math.round(Math.abs(dragOffset) / getStep());
-            currentIndex = clamp(nearestIndex, 0, getMaxIndex());
-            applyOffset(getOffsetForIndex(currentIndex));
-            updateButtons();
-        }
-
-        isPointerDown = false;
-        pointerId = null;
-        track.classList.remove('is-dragging');
-    };
-
-    track.addEventListener('pointerup', () => {
-        window.setTimeout(() => {
-            hasDragged = false;
-        }, 0);
-        releasePointer();
-    });
-
-    track.addEventListener('pointercancel', releasePointer);
-    track.addEventListener('lostpointercapture', releasePointer);
-
-    track.addEventListener('click', (event) => {
-        if (hasDragged) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    }, true);
-
-    window.addEventListener('resize', syncCardWidth);
-
-    syncCardWidth();
 };
 
 const initEducationPhotoStack = () => {
@@ -1539,8 +1579,7 @@ const initPage = () => {
     initDocumentExplorer();
     initResumeModal();
     initHeroSlideshow();
-    initProjectMediaPan();
-    initProjectCarousel();
+    initProjectShowcase();
     initEducationPhotoStack();
     initSkillsShowcase();
     initScrollReveal();
