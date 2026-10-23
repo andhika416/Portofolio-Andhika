@@ -13,11 +13,17 @@
                 }
 
                 if (window.location.hash) {
+                    window.__initialHash = window.location.hash;
                     history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
                 }
 
                 window.scrollTo(0, 0);
-                window.addEventListener('pageshow', () => window.scrollTo(0, 0), { once: true });
+                window.addEventListener('pageshow', () => {
+                    const hasSectionTarget = new URLSearchParams(window.location.search).get('section') || window.__initialHash;
+                    if (!hasSectionTarget) {
+                        window.scrollTo(0, 0);
+                    }
+                }, { once: true });
 
                 try {
                     document.documentElement.dataset.theme = localStorage.getItem('portfolio-theme') === 'dark' ? 'dark' : 'light';

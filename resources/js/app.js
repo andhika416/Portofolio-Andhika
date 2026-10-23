@@ -525,7 +525,7 @@ const initSectionNavigation = () => {
         }
     };
 
-    const scrollToHash = (hash, shouldUpdateUrl = true) => {
+    const scrollToHash = (hash, shouldUpdateUrl = true, behavior = 'smooth') => {
         const target = document.querySelector(hash);
 
         if (!target) {
@@ -537,7 +537,7 @@ const initSectionNavigation = () => {
 
         window.scrollTo({
             top: Math.max(0, targetTop),
-            behavior: 'smooth',
+            behavior,
         });
 
         if (shouldUpdateUrl) {
@@ -586,16 +586,80 @@ const initSectionNavigation = () => {
     updateActiveSection();
 
     const initialSection = new URLSearchParams(window.location.search).get('section');
+    const initialHash = window.__initialHash || window.location.hash;
+    const targetSectionId = initialSection || (initialHash ? initialHash.replace(/^#/, '') : null);
 
-    if (initialSection) {
-        window.requestAnimationFrame(() => {
-            scrollToHash(`#${initialSection}`);
-        });
-    } else if (window.location.hash) {
-        window.requestAnimationFrame(() => {
-            scrollToHash(window.location.hash, false);
-        });
+    if (targetSectionId) {
+        const target = document.querySelector(`#${targetSectionId}`);
+        if (target) {
+            let userInteracted = false;
+            const onInteraction = () => {
+                userInteracted = true;
+                window.removeEventListener('wheel', onInteraction);
+                window.removeEventListener('touchstart', onInteraction);
+                window.removeEventListener('keydown', onInteraction);
+            };
+
+            window.addEventListener('wheel', onInteraction, { passive: true });
+            window.addEventListener('touchstart', onInteraction, { passive: true });
+            window.addEventListener('keydown', onInteraction, { passive: true });
+
+            const alignToTarget = () => {
+                if (userInteracted) return;
+                const { topOffset } = syncAnchorOffsets();
+                const rect = target.getBoundingClientRect();
+                const diff = rect.top - topOffset;
+                if (Math.abs(diff) > 1) {
+                    window.scrollTo({
+                        top: Math.max(0, window.scrollY + diff),
+                        behavior: 'auto',
+                    });
+                }
+                setActiveLink(target.id);
+                revealSectionContent(target);
+            };
+
+            // Align immediately
+            alignToTarget();
+
+            if (window.location.hash !== `#${targetSectionId}`) {
+                window.history.replaceState(null, '', `#${targetSectionId}`);
+            }
+
+            // Re-align on layout settlements (as cached/lazy images or fonts load)
+            [50, 150, 300, 600, 1000].forEach((delay) => {
+                window.setTimeout(alignToTarget, delay);
+            });
+
+            window.addEventListener('load', alignToTarget, { once: true });
+            if (document.fonts?.ready) {
+                document.fonts.ready.then(alignToTarget);
+            }
+        }
     }
+
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            const currentSection = new URLSearchParams(window.location.search).get('section');
+            const currentHash = window.__initialHash || window.location.hash;
+            const sectionId = currentSection || (currentHash ? currentHash.replace(/^#/, '') : null);
+            if (sectionId) {
+                const target = document.querySelector(`#${sectionId}`);
+                if (target) {
+                    const { topOffset } = syncAnchorOffsets();
+                    const diff = target.getBoundingClientRect().top - topOffset;
+                    if (Math.abs(diff) > 1) {
+                        window.scrollTo({
+                            top: Math.max(0, window.scrollY + diff),
+                            behavior: 'auto',
+                        });
+                    }
+                    setActiveLink(target.id);
+                    revealSectionContent(target);
+                }
+            }
+        }
+    });
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', () => {
@@ -873,19 +937,27 @@ const initDocumentExplorer = () => {
     }
 
     const items = Array.from(explorer.querySelectorAll('[data-document-item]'));
-    const viewer = createPdfCanvasViewer(explorer.querySelector('[data-pdf-viewer]'));
+    const entries = Array.from(explorer.querySelectorAll('[data-document-entry]'));
+    const desktopSlot = explorer.querySelector('[data-document-desktop-preview]');
     const frameContainer = explorer.querySelector('[data-document-frame-container]');
+    const viewer = createPdfCanvasViewer(explorer.querySelector('[data-pdf-viewer]'));
 
     if (!viewer || !frameContainer || items.length === 0) {
         return;
     }
 
-    const setActiveItem = (item, shouldPushState = true) => {
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+
+    const setDesktopActiveItem = (item, shouldPushState = true) => {
         const src = item.dataset.documentSrc;
         const ratio = item.dataset.documentRatio || '297 / 210';
 
         if (!src) {
             return;
+        }
+
+        if (desktopSlot && !desktopSlot.contains(frameContainer)) {
+            desktopSlot.append(frameContainer);
         }
 
         items.forEach((entry) => {
@@ -894,8 +966,10 @@ const initDocumentExplorer = () => {
 
             if (isActive) {
                 entry.setAttribute('aria-current', 'page');
+                entry.setAttribute('aria-expanded', 'true');
             } else {
                 entry.removeAttribute('aria-current');
+                entry.setAttribute('aria-expanded', 'false');
             }
         });
 
@@ -904,6 +978,73 @@ const initDocumentExplorer = () => {
 
         if (shouldPushState) {
             window.history.pushState({ certificateHref: item.href }, '', item.href);
+        }
+    };
+
+    const toggleMobileItem = (item, shouldPushState = true) => {
+        const entry = item.closest('[data-document-entry]');
+        const drawer = entry ? entry.querySelector('[data-document-drawer]') : null;
+        const isOpen = entry ? entry.classList.contains('is-open') : false;
+
+        if (isOpen) {
+            entry.classList.remove('is-open');
+            item.classList.remove('is-active', 'is-open');
+            item.removeAttribute('aria-current');
+            item.setAttribute('aria-expanded', 'false');
+
+            if (desktopSlot && !desktopSlot.contains(frameContainer)) {
+                desktopSlot.append(frameContainer);
+            }
+            return;
+        }
+
+        entries.forEach((otherEntry) => {
+            if (otherEntry !== entry) {
+                otherEntry.classList.remove('is-open');
+                const otherItem = otherEntry.querySelector('[data-document-item]');
+                if (otherItem) {
+                    otherItem.classList.remove('is-active', 'is-open');
+                    otherItem.removeAttribute('aria-current');
+                    otherItem.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        const src = item.dataset.documentSrc;
+        const ratio = item.dataset.documentRatio || '297 / 210';
+
+        if (!src || !drawer) {
+            return;
+        }
+
+        entry.classList.add('is-open');
+        item.classList.add('is-active', 'is-open');
+        item.setAttribute('aria-current', 'page');
+        item.setAttribute('aria-expanded', 'true');
+
+        drawer.append(frameContainer);
+
+        window.requestAnimationFrame(() => {
+            frameContainer.style.setProperty('--document-preview-ratio', ratio);
+            viewer.render(src);
+
+            const rect = item.getBoundingClientRect();
+            if (rect.top < 80 || rect.top > window.innerHeight - 180) {
+                const targetY = window.scrollY + rect.top - 84;
+                window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+            }
+        });
+
+        if (shouldPushState) {
+            window.history.pushState({ certificateHref: item.href }, '', item.href);
+        }
+    };
+
+    const handleItemClick = (item) => {
+        if (isMobile()) {
+            toggleMobileItem(item, true);
+        } else {
+            setDesktopActiveItem(item, true);
         }
     };
 
@@ -920,17 +1061,62 @@ const initDocumentExplorer = () => {
     items.forEach((item) => {
         item.addEventListener('click', (event) => {
             event.preventDefault();
-            setActiveItem(item);
+            handleItemClick(item);
         });
     });
 
     window.addEventListener('popstate', () => {
         const matchedItem = findItemByUrl(window.location.href) || items[0];
-        setActiveItem(matchedItem, false);
+        if (isMobile()) {
+            toggleMobileItem(matchedItem, false);
+        } else {
+            setDesktopActiveItem(matchedItem, false);
+        }
     });
 
+    const mediaQuery = window.matchMedia('(max-width: 760px)');
+    const handleMediaChange = (e) => {
+        if (!e.matches) {
+            entries.forEach((entry) => entry.classList.remove('is-open'));
+            if (desktopSlot && !desktopSlot.contains(frameContainer)) {
+                desktopSlot.append(frameContainer);
+            }
+            const activeItem = items.find((item) => item.classList.contains('is-active')) || items[0];
+            setDesktopActiveItem(activeItem, false);
+        } else {
+            const openEntry = entries.find((entry) => entry.classList.contains('is-open'));
+            if (!openEntry && desktopSlot && !desktopSlot.contains(frameContainer)) {
+                desktopSlot.append(frameContainer);
+            }
+        }
+    };
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleMediaChange);
+    } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(handleMediaChange);
+    }
+
     const initialItem = findItemByUrl(window.location.href) || items.find((item) => item.classList.contains('is-active')) || items[0];
-    setActiveItem(initialItem, false);
+
+    if (!isMobile()) {
+        setDesktopActiveItem(initialItem, false);
+    } else {
+        const hasDocParam = window.location.search.includes('doc=');
+        if (hasDocParam) {
+            toggleMobileItem(initialItem, false);
+        } else {
+            items.forEach((item) => {
+                item.classList.remove('is-active', 'is-open');
+                item.removeAttribute('aria-current');
+                item.setAttribute('aria-expanded', 'false');
+            });
+            entries.forEach((entry) => entry.classList.remove('is-open'));
+            if (desktopSlot && !desktopSlot.contains(frameContainer)) {
+                desktopSlot.append(frameContainer);
+            }
+        }
+    }
 };
 
 const initResumeModal = () => {

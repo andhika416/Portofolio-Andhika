@@ -29,7 +29,7 @@
         @php
             $imagePath = static fn (string $file): string => '/images/' . rawurlencode($file);
             $homeUrl = route('home');
-            $certificationsUrl = route('home') . '#certifications';
+            $certificationsUrl = route('home', ['section' => 'certifications']) . '#certifications';
             $activeDocument = $documents[$activeIndex];
             $activeDocumentUrl = $imagePath($activeDocument['file']);
             $shouldScrollDocuments = count($documents) > 5;
@@ -72,25 +72,34 @@
                                         $isActiveDocument = $index === $activeIndex;
                                         $routeParameters = array_merge(request()->route()->parameters(), ['doc' => $index]);
                                     @endphp
-                                    <a
-                                        href="{{ route(request()->route()->getName(), $routeParameters) }}#certificate-browser"
-                                        class="document-item{{ $isActiveDocument ? ' is-active' : '' }}"
-                                        data-document-item
-                                        data-document-src="{{ $imagePath($document['file']) }}"
-                                        data-document-ratio="{{ $document['previewRatio'] ?? '297 / 210' }}"
-                                        @if ($isActiveDocument) aria-current="page" @endif
-                                    >
-                                        <span class="document-item__number">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
-                                        <span class="document-item__copy">
-                                            <strong>{{ $document['title'] }}</strong>
-                                            <small>{{ $document['subtitle'] }}</small>
-                                        </span>
-                                    </a>
+                                    <div class="document-entry" data-document-entry>
+                                        <a
+                                            href="{{ route(request()->route()->getName(), $routeParameters) }}#certificate-browser"
+                                            class="document-item{{ $isActiveDocument ? ' is-active' : '' }}"
+                                            data-document-item
+                                            data-document-src="{{ $imagePath($document['file']) }}"
+                                            data-document-ratio="{{ $document['previewRatio'] ?? '297 / 210' }}"
+                                            @if ($isActiveDocument) aria-current="page" @endif
+                                            aria-expanded="{{ $isActiveDocument ? 'true' : 'false' }}"
+                                        >
+                                            <span class="document-item__number">{{ str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT) }}</span>
+                                            <span class="document-item__copy">
+                                                <strong>{{ $document['title'] }}</strong>
+                                                <small>{{ $document['subtitle'] }}</small>
+                                            </span>
+                                            <span class="document-item__chevron" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                                </svg>
+                                            </span>
+                                        </a>
+                                        <div class="document-entry__drawer" data-document-drawer></div>
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
 
-                        <div class="document-explorer__preview">
+                        <div class="document-explorer__preview document-explorer__preview--desktop" data-document-desktop-preview>
                             <div
                                 class="document-preview__frame pdf-canvas-viewer"
                                 style="--document-preview-ratio: {{ $activeDocumentRatio }};"
