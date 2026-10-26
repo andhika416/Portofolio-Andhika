@@ -719,7 +719,7 @@
                             'label' => 'Kementerian Ketenagakerjaan RI',
                             'image' => 'Kemnaker.png',
                             'url' => route('certificates.kemnaker'),
-                            'count' => 4,
+                            'count' => 5,
                         ],
                         [
                             'name' => 'BNSP',
@@ -771,57 +771,114 @@
                             'count' => 2,
                         ],
                     ];
+                    $certificateLayers = array_chunk($certificateCards, 4);
                 @endphp
                 <div class="page-shell">
                     <h2 class="section-title section-title--accent section-title--underlined" data-reveal>Sertifikasi</h2>
 
-                    <div class="certificate-list">
-                        @foreach ($certificateCards as $certificateCard)
-                            @php
-                                $hasDetailPage = !empty($certificateCard['url']);
-                            @endphp
-                            <article
-                                class="certificate-card elevated-panel{{ $hasDetailPage ? ' certificate-card--interactive' : '' }}"
-                                data-reveal
-                                data-reveal-delay="{{ 180 + ($loop->index * 90) }}"
-                            >
-                                @if ($hasDetailPage)
-                                    <a
-                                        href="{{ $certificateCard['url'] }}"
-                                        class="certificate-card__trigger"
-                                    >
-                                @else
-                                    <div class="certificate-card__body">
-                                @endif
-                                    <div class="certificate-icon" aria-hidden="true">
-                                        <img
-                                            src="{{ $imagePath($certificateCard['image']) }}"
-                                            alt="Logo {{ $certificateCard['name'] }}"
+                    <div class="certificate-slider-wrapper" data-certificate-slider>
+                        <div class="certificate-list certificate-slider-track" data-certificate-track>
+                            @foreach ($certificateLayers as $layerIndex => $layerCards)
+                                <div class="certificate-slide" data-slide-index="{{ $layerIndex }}">
+                                    @foreach ($layerCards as $cardIndex => $certificateCard)
+                                        @php
+                                            $globalIndex = ($layerIndex * 4) + $cardIndex;
+                                            $hasDetailPage = !empty($certificateCard['url']);
+                                        @endphp
+                                        <article
+                                            class="certificate-card elevated-panel{{ $hasDetailPage ? ' certificate-card--interactive' : '' }}"
+                                            data-reveal
+                                            data-reveal-delay="{{ 180 + ($globalIndex * 90) }}"
                                         >
-                                    </div>
-                                    <div class="certificate-content">
-                                        <div class="certificate-copy">
-                                            <h3 style="color: #105666;">{{ $certificateCard['name'] }}</h3>
-                                            <p>{{ $certificateCard['label'] }}</p>
-                                        </div>
-
-                                        <div class="certificate-card__meta">
-                                            @if (!empty($certificateCard['count']))
-                                                <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
-                                            @endif
-
                                             @if ($hasDetailPage)
-                                                <span class="certificate-action" style="color: #ffffff; background: #d3968c; border-color: #d3968c;">Lihat sertifikat</span>
+                                                <a
+                                                    href="{{ $certificateCard['url'] }}"
+                                                    class="certificate-card__trigger"
+                                                >
+                                            @else
+                                                <div class="certificate-card__body">
                                             @endif
-                                        </div>
-                                    </div>
-                                @if ($hasDetailPage)
-                                    </a>
-                                @else
-                                    </div>
-                                @endif
-                            </article>
-                        @endforeach
+                                                <div class="certificate-icon" aria-hidden="true">
+                                                    <img
+                                                        src="{{ $imagePath($certificateCard['image']) }}"
+                                                        alt="Logo {{ $certificateCard['name'] }}"
+                                                    >
+                                                </div>
+                                                <div class="certificate-content">
+                                                    <div class="certificate-copy">
+                                                        <h3 style="color: #105666;">{{ $certificateCard['name'] }}</h3>
+                                                        <p>{{ $certificateCard['label'] }}</p>
+                                                    </div>
+
+                                                    <div class="certificate-card__meta">
+                                                        @if (!empty($certificateCard['count']))
+                                                            <span class="certificate-chip">{{ $certificateCard['count'] }} sertifikat</span>
+                                                        @endif
+
+                                                        @if ($hasDetailPage)
+                                                            <span class="certificate-action" style="color: #ffffff; background: #d3968c; border-color: #d3968c;">Lihat sertifikat</span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @if ($hasDetailPage)
+                                                </a>
+                                            @else
+                                                </div>
+                                            @endif
+                                        </article>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="certificate-mobile-controls" data-certificate-controls>
+                            <button
+                                type="button"
+                                class="certificate-nav-btn certificate-nav-btn--prev"
+                                data-certificate-nav="prev"
+                                aria-label="Lihat sertifikasi sebelumnya"
+                                disabled
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+
+                            <div class="certificate-nav-indicator" data-certificate-indicator>
+                                <span class="certificate-layer-badge">GESER</span>
+                                <div class="certificate-nav-dots" role="tablist" aria-label="Navigasi layer sertifikasi">
+                                    <button
+                                        type="button"
+                                        class="certificate-nav-dot is-active"
+                                        role="tab"
+                                        aria-selected="true"
+                                        data-certificate-dot="0"
+                                        aria-label="Layer 1 (4 sertifikasi)"
+                                    ></button>
+                                    <button
+                                        type="button"
+                                        class="certificate-nav-dot"
+                                        role="tab"
+                                        aria-selected="false"
+                                        data-certificate-dot="1"
+                                        aria-label="Layer 2 (4 sertifikasi)"
+                                    ></button>
+                                </div>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="certificate-nav-btn certificate-nav-btn--next"
+                                data-certificate-nav="next"
+                                aria-label="Lihat sertifikasi berikutnya"
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <p class="certificate-mobile-hint">Geser untuk melihat sertifikasi lainnya &rarr;</p>
                     </div>
                 </div>
             </section>

@@ -112,6 +112,14 @@ const translationsEn = new Map(Object.entries({
     'Magang dan Studi Independen Bersertifikat': 'Certified Internship and Independent Study',
     'GERAKAN NASIONAL INDONESIA KOMPETEN': 'INDONESIA COMPETENT NATIONAL MOVEMENT',
     'Lihat sertifikat': 'View certificates',
+    'GESER': 'SWIPE',
+    'Geser untuk melihat sertifikasi lainnya →': 'Swipe to view more certifications →',
+    '← Geser untuk kembali ke sertifikasi pertama': '← Swipe to return to first certifications',
+    'Lihat sertifikasi sebelumnya': 'View previous certifications',
+    'Lihat sertifikasi berikutnya': 'View next certifications',
+    'Navigasi layer sertifikasi': 'Certification layer navigation',
+    'Layer 1 (4 sertifikasi)': 'Layer 1 (4 certificates)',
+    'Layer 2 (4 sertifikasi)': 'Layer 2 (4 certificates)',
     'Siap berkolaborasi untuk proyek berikutnya? Langsung hubungi saja.': 'Ready to collaborate on your next project? Get in touch.',
     'Daftar kontak dan sosial media': 'Contact and social media list',
     'Galeri Sertifikasi': 'Certification Gallery',
@@ -139,6 +147,8 @@ const translationsEn = new Map(Object.entries({
     'Pelatihan Vokasi Nasional': 'National Vocational Training',
     'Petugas Penguji Lingkungan Kerja': 'Workplace Environment Testing Officer',
     'Junior Pemrograman Komputer': 'Junior Computer Programmer',
+    'Ahli K3 Umum (AK3U)': 'Occupational Safety and Health Expert (AK3U)',
+    'Pembinaan Calon Ahli K3': 'Occupational Safety and Health Expert Training',
     'Sertifikat BNSP': 'BNSP Certificate',
     'Belajar Dasar Data Science': 'Data Science Fundamentals',
     'Belajar Penerapan Data Science dengan Microsoft Fabric': 'Applying Data Science with Microsoft Fabric',
@@ -1803,6 +1813,157 @@ const initScrollReveal = () => {
     });
 };
 
+const initCertificateSlider = () => {
+    const slider = document.querySelector('[data-certificate-slider]');
+    if (!slider) return;
+
+    const track = slider.querySelector('[data-certificate-track]');
+    const slides = Array.from(slider.querySelectorAll('.certificate-slide'));
+    const prevBtn = slider.querySelector('[data-certificate-nav="prev"]');
+    const nextBtn = slider.querySelector('[data-certificate-nav="next"]');
+    const dots = Array.from(slider.querySelectorAll('[data-certificate-dot]'));
+    const hintEl = slider.querySelector('.certificate-mobile-hint');
+
+    if (!track || slides.length === 0) return;
+
+    const getCurrentIndex = () => {
+        const trackRect = track.getBoundingClientRect();
+        let closestIndex = 0;
+        let minDiff = Infinity;
+
+        slides.forEach((slide, index) => {
+            const slideRect = slide.getBoundingClientRect();
+            const diff = Math.abs(slideRect.left - trackRect.left);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closestIndex = index;
+            }
+        });
+
+        return closestIndex;
+    };
+
+    const updateState = (activeIndex) => {
+        dots.forEach((dot, index) => {
+            const isActive = index === activeIndex;
+            dot.classList.toggle('is-active', isActive);
+            dot.setAttribute('aria-selected', String(isActive));
+        });
+
+        if (prevBtn) {
+            prevBtn.disabled = activeIndex === 0;
+        }
+
+        if (nextBtn) {
+            nextBtn.disabled = activeIndex === slides.length - 1;
+        }
+
+        if (hintEl) {
+            const isEnglish = document.documentElement.dataset.language === 'en';
+            if (activeIndex === 0) {
+                hintEl.textContent = isEnglish
+                    ? 'Swipe to view more certifications →'
+                    : 'Geser untuk melihat sertifikasi lainnya →';
+            } else {
+                hintEl.textContent = isEnglish
+                    ? '← Swipe to return to first certifications'
+                    : '← Geser untuk kembali ke sertifikasi pertama';
+            }
+        }
+    };
+
+    const scrollToIndex = (index) => {
+        if (index < 0 || index >= slides.length) return;
+        const targetSlide = slides[index];
+        if (!targetSlide) return;
+
+        const trackRect = track.getBoundingClientRect();
+        const slideRect = targetSlide.getBoundingClientRect();
+        const targetLeft = track.scrollLeft + (slideRect.left - trackRect.left);
+
+        track.scrollTo({
+            left: targetLeft,
+            behavior: 'smooth',
+        });
+    };
+
+    prevBtn?.addEventListener('click', () => {
+        const currentIndex = getCurrentIndex();
+        scrollToIndex(Math.max(0, currentIndex - 1));
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        const currentIndex = getCurrentIndex();
+        scrollToIndex(Math.min(slides.length - 1, currentIndex + 1));
+    });
+
+    dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+            const targetIndex = Number(dot.dataset.certificateDot);
+            if (!Number.isNaN(targetIndex)) {
+                scrollToIndex(targetIndex);
+            }
+        });
+    });
+
+    let scrollTicking = false;
+    track.addEventListener('scroll', () => {
+        if (scrollTicking) return;
+        scrollTicking = true;
+        window.requestAnimationFrame(() => {
+            updateState(getCurrentIndex());
+            scrollTicking = false;
+        });
+    }, { passive: true });
+
+    let isPointerDown = false;
+    let startX = 0;
+    let initialScrollLeft = 0;
+    let hasDragged = false;
+
+    track.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.target.closest('a, button')) return;
+
+        isPointerDown = true;
+        hasDragged = false;
+        startX = e.pageX;
+        initialScrollLeft = track.scrollLeft;
+        track.style.scrollBehavior = 'auto';
+        track.style.scrollSnapType = 'none';
+    });
+
+    window.addEventListener('pointermove', (e) => {
+        if (!isPointerDown) return;
+        const diffX = e.pageX - startX;
+        if (Math.abs(diffX) > 4) {
+            hasDragged = true;
+            track.scrollLeft = initialScrollLeft - diffX;
+        }
+    });
+
+    const endPointer = () => {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        track.style.scrollBehavior = 'smooth';
+        track.style.scrollSnapType = 'x mandatory';
+
+        if (hasDragged) {
+            const nextIndex = getCurrentIndex();
+            scrollToIndex(nextIndex);
+        }
+    };
+
+    window.addEventListener('pointerup', endPointer);
+    window.addEventListener('pointercancel', endPointer);
+
+    window.addEventListener('resize', () => {
+        updateState(getCurrentIndex());
+    });
+
+    updateState(0);
+};
+
 const initPage = () => {
     initThemePicker();
     initLanguagePicker();
@@ -1814,6 +1975,7 @@ const initPage = () => {
     initProjectShowcase();
     initEducationPhotoStack();
     initSkillsShowcase();
+    initCertificateSlider();
     initScrollReveal();
 };
 

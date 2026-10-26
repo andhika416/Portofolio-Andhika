@@ -86,6 +86,13 @@ Route::get('/certifications/kemnaker', function () {
             'previewRatio' => '210 / 297',
             'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
         ],
+        [
+            'title' => 'Ahli K3 Umum (AK3U)',
+            'subtitle' => 'Pembinaan Calon Ahli K3',
+            'file' => 'Sertifikat AK3U.pdf',
+            'previewRatio' => '612 / 1008',
+            'previewFragment' => '#page=1&view=FitH&toolbar=0&navpanes=0&pagemode=none',
+        ],
     ];
 
     $requestedIndex = (int) request()->query('doc', 0);
