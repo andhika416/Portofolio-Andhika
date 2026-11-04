@@ -297,6 +297,7 @@
                             ['name' => 'ReactJS', 'image' => 'react.svg'],
                             ['name' => 'Tailwind CSS', 'image' => 'tailwindcss.svg'],
                             ['name' => 'PostgreSQL', 'image' => 'postgresql.svg'],
+                            ['name' => 'Docker', 'image' => 'docker.svg'],
                         ],
                         [
                             ['name' => 'MySQL', 'image' => 'mysql.svg'],
@@ -304,6 +305,8 @@
                             ['name' => 'Figma', 'image' => 'figma.svg'],
                             ['name' => 'Git', 'image' => 'git.svg'],
                             ['name' => 'PHP', 'image' => 'php.svg'],
+                            ['name' => '9router', 'image' => '9router.svg'],
+                            ['name' => 'Vue', 'image' => 'vue.svg'],
                         ],
                     ];
                 @endphp
