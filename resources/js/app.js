@@ -1401,8 +1401,35 @@ const initProjectShowcase = () => {
                 'Dashboard Analytics SDM & Notifikasi Pengumuman Internal',
                 'Export Laporan Kepegawaian & Rekapitulasi Presensi (PDF/Excel)'
             ]
+        },
+        'sistem-wms': {
+            title: 'Sistem Manajemen Penerimaan Barang (WMS)',
+            category: 'Sistem Manajemen Gudang',
+            image: '/images/Sistem WMS.png',
+            stack: [
+                { name: 'ReactJS', icon: '/images/React.png' },
+                { name: 'Node.js', icon: '/images/tech/nodejs.svg' },
+                { name: 'PostgreSQL', icon: '/images/tech/postgresql.svg' },
+                { name: 'Tailwind', icon: '/images/tech/tailwindcss.svg' }
+            ],
+            description: 'Platform Warehouse Management System (WMS) berbasis web untuk pengelolaan penerimaan barang secara digital dan terstruktur. Sistem ini menyediakan fitur pencatatan inbound barang, validasi kualitas penerimaan, manajemen lokasi penyimpanan gudang, pelacakan stok real-time, serta pelaporan rekapitulasi penerimaan guna meningkatkan efisiensi operasional logistik.',
+            roles: [
+                { name: 'Admin Gudang', badge: 'Administrator', desc: 'Akses penuh untuk manajemen master data barang, konfigurasi lokasi gudang, persetujuan penerimaan barang, dan pemantauan laporan eksekutif gudang.' },
+                { name: 'Petugas Penerimaan', badge: 'Operator Inbound', desc: 'Mencatat barang masuk, memverifikasi kuantitas dan kualitas penerimaan, menginput data pengiriman dari supplier, serta memperbarui status penerimaan.' },
+                { name: 'Staff Logistik', badge: 'User Operasional', desc: 'Memantau ketersediaan stok, melihat riwayat penerimaan barang, serta mengakses laporan stok dan rekapitulasi gudang.' }
+            ],
+            features: [
+                'Pencatatan Penerimaan Barang Masuk (Inbound) Secara Digital',
+                'Validasi Kualitas & Kuantitas Barang Saat Penerimaan',
+                'Manajemen Lokasi Penyimpanan & Mapping Area Gudang',
+                'Monitoring Stok Real-time & Tracking Pergerakan Barang',
+                'Dashboard Analytics Gudang & Rekapitulasi Penerimaan',
+                'Export Laporan Penerimaan & Stok Gudang (PDF/Excel)'
+            ]
         }
     };
+
+    const mergedProjectsData = Object.assign({}, projectsData, window.__PROJECTS_DATA__ || {});
 
     const populateModal = (data) => {
         if (!data) return;
@@ -1412,18 +1439,21 @@ const initProjectShowcase = () => {
         if (modalDescription) modalDescription.textContent = data.description || '';
 
         if (modalStack) {
-            modalStack.innerHTML = (data.stack || []).map(tech => `
-                <div class="project-capsule">
-                    <span class="project-capsule__icon">
-                        <img src="${tech.icon}" alt="" loading="lazy">
-                    </span>
-                    <span class="project-capsule__label">${tech.name}</span>
-                </div>
-            `).join('');
+            modalStack.innerHTML = (data.stack || []).map(tech => {
+                const iconSrc = tech.icon ? (tech.icon.startsWith('/') ? tech.icon : '/images/' + tech.icon) : '';
+                return `
+                < div class= "project-capsule" >
+                <span class="project-capsule__icon">
+                        <img src="${iconSrc}" alt="" loading="lazy">
+                        </span>
+                        <span class="project-capsule__label">${tech.name}</span>
+                    </div>
+                    `;
+            }).join('');
         }
 
-        if (modalRoles) {
-            modalRoles.innerHTML = (data.roles || []).map(role => `
+                    if (modalRoles) {
+                        modalRoles.innerHTML = (data.roles || []).map(role => `
                 <div class="project-modal__role-card">
                     <div class="project-modal__role-header">
                         <span class="project-modal__role-name">${role.name}</span>
@@ -1434,8 +1464,8 @@ const initProjectShowcase = () => {
             `).join('');
         }
 
-        if (modalFeatures) {
-            modalFeatures.innerHTML = (data.features || []).map(feature => `
+                    if (modalFeatures) {
+                        modalFeatures.innerHTML = (data.features || []).map(feature => `
                 <li class="project-modal__feature-item">
                     <span class="project-modal__feature-check">✓</span>
                     <span>${feature}</span>
@@ -1445,39 +1475,39 @@ const initProjectShowcase = () => {
     };
 
     const openModal = (projectId) => {
-        const data = projectsData[projectId];
-        if (!data) return;
+                    const currentData = (window.__PROJECTS_DATA__ && window.__PROJECTS_DATA__[projectId]) || mergedProjectsData[projectId] || projectsData[projectId];
+                    if (!currentData) return;
 
-        populateModal(data);
-        modal.classList.add('is-active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('project-modal-open');
+                    populateModal(currentData);
+                    modal.classList.add('is-active');
+                    modal.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('project-modal-open');
     };
 
     const closeModal = () => {
-        modal.classList.remove('is-active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('project-modal-open');
+                        modal.classList.remove('is-active');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('project-modal-open');
     };
 
     openTriggers.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const id = btn.getAttribute('data-project-modal-open');
-            openModal(id);
-        });
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const id = btn.getAttribute('data-project-modal-open');
+                            openModal(id);
+                        });
     });
 
     closeTriggers.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeModal();
-        });
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            closeModal();
+                        });
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('is-active')) {
-            closeModal();
+                        closeModal();
         }
     });
 };
@@ -1485,41 +1515,41 @@ const initProjectShowcase = () => {
 const initEducationPhotoStack = () => {
     const stack = document.querySelector('[data-education-stack]');
 
-    if (!stack) {
+                    if (!stack) {
         return;
     }
 
-    const photos = Array.from(stack.querySelectorAll('[data-education-photo]'));
+                    const photos = Array.from(stack.querySelectorAll('[data-education-photo]'));
 
-    if (photos.length < 2) {
+                    if (photos.length < 2) {
         return;
     }
 
-    const slotClasses = ['is-slot-1', 'is-slot-2', 'is-slot-3', 'is-slot-4'];
-    const transitionDuration = 720;
-    const rotationDelay = 3200;
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+                    const slotClasses = ['is-slot-1', 'is-slot-2', 'is-slot-3', 'is-slot-4'];
+                    const transitionDuration = 720;
+                    const rotationDelay = 3200;
+                    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let order = photos.map((_, index) => index);
-    let timerId = null;
-    let transitionId = null;
-    let isTransitioning = false;
+                    let timerId = null;
+                    let transitionId = null;
+                    let isTransitioning = false;
 
     const applySlots = () => {
-        photos.forEach((photo) => {
-            photo.classList.remove(...slotClasses);
-            photo.removeAttribute('aria-current');
-            photo.tabIndex = -1;
-        });
+                        photos.forEach((photo) => {
+                            photo.classList.remove(...slotClasses);
+                            photo.removeAttribute('aria-current');
+                            photo.tabIndex = -1;
+                        });
 
         order.forEach((photoIndex, slotIndex) => {
             const photo = photos[photoIndex];
-            const slotClass = slotClasses[slotIndex];
+                    const slotClass = slotClasses[slotIndex];
 
-            if (photo && slotClass) {
-                photo.classList.add(slotClass);
+                    if (photo && slotClass) {
+                        photo.classList.add(slotClass);
 
-                if (slotIndex === 0) {
-                    photo.setAttribute('aria-current', 'true');
+                    if (slotIndex === 0) {
+                        photo.setAttribute('aria-current', 'true');
                     photo.tabIndex = 0;
                 }
             }
@@ -1531,454 +1561,454 @@ const initEducationPhotoStack = () => {
             return;
         }
 
-        window.clearTimeout(timerId);
-        timerId = null;
+                    window.clearTimeout(timerId);
+                    timerId = null;
     };
 
     const scheduleRotation = () => {
-        clearRotationTimer();
+                        clearRotationTimer();
 
-        if (reducedMotionQuery.matches || document.hidden) {
+                    if (reducedMotionQuery.matches || document.hidden) {
             return;
         }
 
-        timerId = window.setTimeout(rotateStack, rotationDelay);
+                    timerId = window.setTimeout(rotateStack, rotationDelay);
     };
 
     const finishTransition = (outgoingPhoto) => {
-        outgoingPhoto.classList.remove('is-transitioning-out');
-        stack.classList.remove('is-changing-photo');
-        isTransitioning = false;
-        transitionId = null;
-        scheduleRotation();
+                        outgoingPhoto.classList.remove('is-transitioning-out');
+                    stack.classList.remove('is-changing-photo');
+                    isTransitioning = false;
+                    transitionId = null;
+                    scheduleRotation();
     };
 
-    function rotateStack() {
+                    function rotateStack() {
         if (isTransitioning) {
             return false;
         }
 
-        clearRotationTimer();
-        isTransitioning = true;
+                    clearRotationTimer();
+                    isTransitioning = true;
 
-        const outgoingPhoto = photos[order[0]];
-        outgoingPhoto.classList.add('is-transitioning-out');
-        stack.classList.add('is-changing-photo');
+                    const outgoingPhoto = photos[order[0]];
+                    outgoingPhoto.classList.add('is-transitioning-out');
+                    stack.classList.add('is-changing-photo');
 
         window.requestAnimationFrame(() => {
-            order = [...order.slice(1), order[0]];
-            applySlots();
+                        order = [...order.slice(1), order[0]];
+                    applySlots();
 
-            transitionId = window.setTimeout(
+                    transitionId = window.setTimeout(
                 () => finishTransition(outgoingPhoto),
-                transitionDuration,
-            );
+                    transitionDuration,
+                    );
         });
 
-        return true;
+                    return true;
     }
 
     const prepareImage = async (image) => {
         if (!image.complete) {
-            await new Promise((resolve) => {
-                image.addEventListener('load', resolve, { once: true });
-                image.addEventListener('error', resolve, { once: true });
-            });
+                        await new Promise((resolve) => {
+                            image.addEventListener('load', resolve, { once: true });
+                            image.addEventListener('error', resolve, { once: true });
+                        });
         }
 
-        if (typeof image.decode === 'function') {
-            await image.decode().catch(() => undefined);
+                    if (typeof image.decode === 'function') {
+                        await image.decode().catch(() => undefined);
         }
     };
 
-    applySlots();
+                    applySlots();
 
-    const images = photos
+                    const images = photos
         .map((photo) => photo.querySelector('img'))
-        .filter(Boolean);
+                    .filter(Boolean);
 
-    Promise.allSettled(images.map(prepareImage)).then(scheduleRotation);
+                    Promise.allSettled(images.map(prepareImage)).then(scheduleRotation);
 
     stack.addEventListener('click', (event) => {
         if (!event.target.closest('[data-education-photo]')) {
             return;
         }
 
-        rotateStack();
+                    rotateStack();
     });
 
     stack.addEventListener('keydown', (event) => {
         if (
-            !event.target.closest('[data-education-photo]')
-            || !['Enter', ' '].includes(event.key)
-        ) {
+                    !event.target.closest('[data-education-photo]')
+                    || !['Enter', ' '].includes(event.key)
+                    ) {
             return;
         }
 
-        event.preventDefault();
-        rotateStack();
+                    event.preventDefault();
+                    rotateStack();
     });
 
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            clearRotationTimer();
-            return;
+                        clearRotationTimer();
+                    return;
         }
 
-        scheduleRotation();
+                    scheduleRotation();
     });
 
-    reducedMotionQuery.addEventListener('change', scheduleRotation);
+                    reducedMotionQuery.addEventListener('change', scheduleRotation);
 
     window.addEventListener('pagehide', () => {
-        clearRotationTimer();
+                        clearRotationTimer();
 
-        if (transitionId) {
-            window.clearTimeout(transitionId);
+                    if (transitionId) {
+                        window.clearTimeout(transitionId);
         }
-    }, { once: true });
+    }, {once: true });
 };
 
 const initSkillsShowcase = () => {
     const lanes = Array.from(document.querySelectorAll('[data-skills-showcase-lane]'));
 
-    if (!lanes.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    if (!lanes.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return;
     }
 
     const laneStates = lanes.map((lane, index) => {
         const track = lane.querySelector('[data-skills-showcase-track]');
-        const firstGroup = track?.querySelector('.skills-showcase__group');
+                    const firstGroup = track?.querySelector('.skills-showcase__group');
 
-        if (!track || !firstGroup) {
+                    if (!track || !firstGroup) {
             return null;
         }
 
-        const direction = lane.classList.contains('skills-showcase__lane--reverse') ? 1 : -1;
+                    const direction = lane.classList.contains('skills-showcase__lane--reverse') ? 1 : -1;
 
-        return {
-            lane,
-            track,
-            firstGroup,
-            gap: 0,
-            direction,
-            speed: 132 + (index * 6),
-            offset: 0,
-            distance: Math.max(1, firstGroup.scrollWidth),
-            isHovered: false,
-            isPressed: false,
-            pressedItem: null,
+                    return {
+                        lane,
+                        track,
+                        firstGroup,
+                        gap: 0,
+                    direction,
+                    speed: 132 + (index * 6),
+                    offset: 0,
+                    distance: Math.max(1, firstGroup.scrollWidth),
+                    isHovered: false,
+                    isPressed: false,
+                    pressedItem: null,
         };
     }).filter(Boolean);
 
-    if (!laneStates.length) {
+                    if (!laneStates.length) {
         return;
     }
 
     const recalculate = () => {
-        laneStates.forEach((state) => {
-            const trackStyle = window.getComputedStyle(state.track);
-            state.gap = Number.parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0;
-            state.distance = Math.max(1, state.firstGroup.scrollWidth + state.gap);
+                        laneStates.forEach((state) => {
+                            const trackStyle = window.getComputedStyle(state.track);
+                            state.gap = Number.parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0;
+                            state.distance = Math.max(1, state.firstGroup.scrollWidth + state.gap);
 
-            const requiredWidth = state.lane.clientWidth + (state.distance * 2);
+                            const requiredWidth = state.lane.clientWidth + (state.distance * 2);
 
-            while (state.track.scrollWidth < requiredWidth) {
-                const clone = state.firstGroup.cloneNode(true);
-                clone.setAttribute('aria-hidden', 'true');
-                state.track.appendChild(clone);
-            }
+                            while (state.track.scrollWidth < requiredWidth) {
+                                const clone = state.firstGroup.cloneNode(true);
+                                clone.setAttribute('aria-hidden', 'true');
+                                state.track.appendChild(clone);
+                            }
 
-            state.offset %= state.distance;
-        });
+                            state.offset %= state.distance;
+                        });
     };
 
-    let lastFrameTime = 0;
+                    let lastFrameTime = 0;
 
     const render = (timestamp) => {
         if (!lastFrameTime) {
-            lastFrameTime = timestamp;
+                        lastFrameTime = timestamp;
         }
 
-        const deltaSeconds = Math.min((timestamp - lastFrameTime) / 1000, 0.05);
-        lastFrameTime = timestamp;
+                    const deltaSeconds = Math.min((timestamp - lastFrameTime) / 1000, 0.05);
+                    lastFrameTime = timestamp;
 
         laneStates.forEach((state) => {
             if (!document.hidden && !state.isHovered && !state.isPressed) {
-                state.offset = (state.offset + (state.speed * deltaSeconds)) % state.distance;
+                        state.offset = (state.offset + (state.speed * deltaSeconds)) % state.distance;
             }
 
-            const translateX = state.direction < 0
-                ? -state.offset
-                : (-state.distance + state.offset);
+                    const translateX = state.direction < 0
+                    ? -state.offset
+                    : (-state.distance + state.offset);
 
-            state.track.style.transform = `translate3d(${translateX}px, 0, 0)`;
+                    state.track.style.transform = `translate3d(${translateX}px, 0, 0)`;
         });
 
-        window.requestAnimationFrame(render);
+                    window.requestAnimationFrame(render);
     };
 
     laneStates.forEach((state) => {
-        state.lane.addEventListener('pointerover', (event) => {
-            if (event.target.closest('.skills-showcase__item')) {
-                state.isHovered = true;
-            }
-        });
+                        state.lane.addEventListener('pointerover', (event) => {
+                            if (event.target.closest('.skills-showcase__item')) {
+                                state.isHovered = true;
+                            }
+                        });
 
         state.lane.addEventListener('pointerout', (event) => {
             const item = event.target.closest('.skills-showcase__item');
 
-            if (item && !item.contains(event.relatedTarget)) {
-                state.isHovered = false;
+                    if (item && !item.contains(event.relatedTarget)) {
+                        state.isHovered = false;
             }
         });
 
         state.lane.addEventListener('pointerdown', (event) => {
             const item = event.target.closest('.skills-showcase__item');
 
-            if (!item) {
+                    if (!item) {
                 return;
             }
 
-            state.isPressed = true;
-            state.pressedItem = item;
-            item.classList.add('is-pressed');
+                    state.isPressed = true;
+                    state.pressedItem = item;
+                    item.classList.add('is-pressed');
         });
 
         state.lane.addEventListener('pointerleave', () => {
-            state.isHovered = false;
-            state.isPressed = false;
-            state.pressedItem?.classList.remove('is-pressed');
-            state.pressedItem = null;
+                        state.isHovered = false;
+                    state.isPressed = false;
+                    state.pressedItem?.classList.remove('is-pressed');
+                    state.pressedItem = null;
         });
 
         state.lane.addEventListener('pointercancel', () => {
-            state.isPressed = false;
-            state.pressedItem?.classList.remove('is-pressed');
-            state.pressedItem = null;
+                        state.isPressed = false;
+                    state.pressedItem?.classList.remove('is-pressed');
+                    state.pressedItem = null;
         });
     });
 
     window.addEventListener('pointerup', () => {
-        laneStates.forEach((state) => {
-            state.isPressed = false;
-            state.pressedItem?.classList.remove('is-pressed');
-            state.pressedItem = null;
-        });
+                        laneStates.forEach((state) => {
+                            state.isPressed = false;
+                            state.pressedItem?.classList.remove('is-pressed');
+                            state.pressedItem = null;
+                        });
     });
 
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
-            lastFrameTime = 0;
+                        lastFrameTime = 0;
         }
     });
 
-    let recalculateFrame = null;
+                    let recalculateFrame = null;
 
     const scheduleRecalculate = () => {
         if (recalculateFrame) {
-            window.cancelAnimationFrame(recalculateFrame);
+                        window.cancelAnimationFrame(recalculateFrame);
         }
 
         recalculateFrame = window.requestAnimationFrame(() => {
-            recalculateFrame = null;
-            recalculate();
+                        recalculateFrame = null;
+                    recalculate();
         });
     };
 
-    window.addEventListener('resize', scheduleRecalculate);
+                    window.addEventListener('resize', scheduleRecalculate);
 
-    if ('ResizeObserver' in window) {
+                    if ('ResizeObserver' in window) {
         const resizeObserver = new ResizeObserver(scheduleRecalculate);
 
         laneStates.forEach((state) => {
-            resizeObserver.observe(state.lane);
-            resizeObserver.observe(state.firstGroup);
+                        resizeObserver.observe(state.lane);
+                    resizeObserver.observe(state.firstGroup);
         });
     }
 
-    recalculate();
-    window.requestAnimationFrame(render);
+                    recalculate();
+                    window.requestAnimationFrame(render);
 };
 
 const initScrollReveal = () => {
     const revealItems = Array.from(document.querySelectorAll('[data-reveal]'));
 
-    if (!revealItems.length) {
+                    if (!revealItems.length) {
         return;
     }
 
     revealItems.forEach((item) => {
-        item.classList.add('is-revealed');
+                        item.classList.add('is-revealed');
     });
 };
 
 const initCertificateSlider = () => {
     const slider = document.querySelector('[data-certificate-slider]');
-    if (!slider) return;
+                    if (!slider) return;
 
-    const track = slider.querySelector('[data-certificate-track]');
-    const slides = Array.from(slider.querySelectorAll('.certificate-slide'));
-    const prevBtn = slider.querySelector('[data-certificate-nav="prev"]');
-    const nextBtn = slider.querySelector('[data-certificate-nav="next"]');
-    const dots = Array.from(slider.querySelectorAll('[data-certificate-dot]'));
-    const hintEl = slider.querySelector('.certificate-mobile-hint');
+                    const track = slider.querySelector('[data-certificate-track]');
+                    const slides = Array.from(slider.querySelectorAll('.certificate-slide'));
+                    const prevBtn = slider.querySelector('[data-certificate-nav="prev"]');
+                    const nextBtn = slider.querySelector('[data-certificate-nav="next"]');
+                    const dots = Array.from(slider.querySelectorAll('[data-certificate-dot]'));
+                    const hintEl = slider.querySelector('.certificate-mobile-hint');
 
-    if (!track || slides.length === 0) return;
+                    if (!track || slides.length === 0) return;
 
     const getCurrentIndex = () => {
         const trackRect = track.getBoundingClientRect();
-        let closestIndex = 0;
-        let minDiff = Infinity;
+                    let closestIndex = 0;
+                    let minDiff = Infinity;
 
         slides.forEach((slide, index) => {
             const slideRect = slide.getBoundingClientRect();
-            const diff = Math.abs(slideRect.left - trackRect.left);
-            if (diff < minDiff) {
-                minDiff = diff;
-                closestIndex = index;
+                    const diff = Math.abs(slideRect.left - trackRect.left);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                    closestIndex = index;
             }
         });
 
-        return closestIndex;
+                    return closestIndex;
     };
 
     const updateState = (activeIndex) => {
-        dots.forEach((dot, index) => {
-            const isActive = index === activeIndex;
-            dot.classList.toggle('is-active', isActive);
-            dot.setAttribute('aria-selected', String(isActive));
-        });
+                        dots.forEach((dot, index) => {
+                            const isActive = index === activeIndex;
+                            dot.classList.toggle('is-active', isActive);
+                            dot.setAttribute('aria-selected', String(isActive));
+                        });
 
-        if (prevBtn) {
-            prevBtn.disabled = activeIndex === 0;
+                    if (prevBtn) {
+                        prevBtn.disabled = activeIndex === 0;
         }
 
-        if (nextBtn) {
-            nextBtn.disabled = activeIndex === slides.length - 1;
+                    if (nextBtn) {
+                        nextBtn.disabled = activeIndex === slides.length - 1;
         }
 
-        if (hintEl) {
+                    if (hintEl) {
             const isEnglish = document.documentElement.dataset.language === 'en';
-            if (activeIndex === 0) {
-                hintEl.textContent = isEnglish
-                    ? 'Swipe to view more certifications →'
-                    : 'Geser untuk melihat sertifikasi lainnya →';
+                    if (activeIndex === 0) {
+                        hintEl.textContent = isEnglish
+                            ? 'Swipe to view more certifications →'
+                            : 'Geser untuk melihat sertifikasi lainnya →';
             } else {
-                hintEl.textContent = isEnglish
-                    ? '← Swipe to return to first certifications'
-                    : '← Geser untuk kembali ke sertifikasi pertama';
+                        hintEl.textContent = isEnglish
+                            ? '← Swipe to return to first certifications'
+                            : '← Geser untuk kembali ke sertifikasi pertama';
             }
         }
     };
 
     const scrollToIndex = (index) => {
         if (index < 0 || index >= slides.length) return;
-        const targetSlide = slides[index];
-        if (!targetSlide) return;
+                    const targetSlide = slides[index];
+                    if (!targetSlide) return;
 
-        const trackRect = track.getBoundingClientRect();
-        const slideRect = targetSlide.getBoundingClientRect();
-        const targetLeft = track.scrollLeft + (slideRect.left - trackRect.left);
+                    const trackRect = track.getBoundingClientRect();
+                    const slideRect = targetSlide.getBoundingClientRect();
+                    const targetLeft = track.scrollLeft + (slideRect.left - trackRect.left);
 
-        track.scrollTo({
-            left: targetLeft,
-            behavior: 'smooth',
+                    track.scrollTo({
+                        left: targetLeft,
+                    behavior: 'smooth',
         });
     };
 
     prevBtn?.addEventListener('click', () => {
         const currentIndex = getCurrentIndex();
-        scrollToIndex(Math.max(0, currentIndex - 1));
+                    scrollToIndex(Math.max(0, currentIndex - 1));
     });
 
     nextBtn?.addEventListener('click', () => {
         const currentIndex = getCurrentIndex();
-        scrollToIndex(Math.min(slides.length - 1, currentIndex + 1));
+                    scrollToIndex(Math.min(slides.length - 1, currentIndex + 1));
     });
 
     dots.forEach((dot) => {
-        dot.addEventListener('click', () => {
-            const targetIndex = Number(dot.dataset.certificateDot);
-            if (!Number.isNaN(targetIndex)) {
-                scrollToIndex(targetIndex);
-            }
-        });
+                        dot.addEventListener('click', () => {
+                            const targetIndex = Number(dot.dataset.certificateDot);
+                            if (!Number.isNaN(targetIndex)) {
+                                scrollToIndex(targetIndex);
+                            }
+                        });
     });
 
-    let scrollTicking = false;
+                    let scrollTicking = false;
     track.addEventListener('scroll', () => {
         if (scrollTicking) return;
-        scrollTicking = true;
+                    scrollTicking = true;
         window.requestAnimationFrame(() => {
-            updateState(getCurrentIndex());
-            scrollTicking = false;
+                        updateState(getCurrentIndex());
+                    scrollTicking = false;
         });
-    }, { passive: true });
+    }, {passive: true });
 
-    let isPointerDown = false;
-    let startX = 0;
-    let initialScrollLeft = 0;
-    let hasDragged = false;
+                    let isPointerDown = false;
+                    let startX = 0;
+                    let initialScrollLeft = 0;
+                    let hasDragged = false;
 
     track.addEventListener('pointerdown', (e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        if (e.target.closest('a, button')) return;
+                    if (e.target.closest('a, button')) return;
 
-        isPointerDown = true;
-        hasDragged = false;
-        startX = e.pageX;
-        initialScrollLeft = track.scrollLeft;
-        track.style.scrollBehavior = 'auto';
-        track.style.scrollSnapType = 'none';
+                    isPointerDown = true;
+                    hasDragged = false;
+                    startX = e.pageX;
+                    initialScrollLeft = track.scrollLeft;
+                    track.style.scrollBehavior = 'auto';
+                    track.style.scrollSnapType = 'none';
     });
 
     window.addEventListener('pointermove', (e) => {
         if (!isPointerDown) return;
-        const diffX = e.pageX - startX;
+                    const diffX = e.pageX - startX;
         if (Math.abs(diffX) > 4) {
-            hasDragged = true;
-            track.scrollLeft = initialScrollLeft - diffX;
+                        hasDragged = true;
+                    track.scrollLeft = initialScrollLeft - diffX;
         }
     });
 
     const endPointer = () => {
         if (!isPointerDown) return;
-        isPointerDown = false;
-        track.style.scrollBehavior = 'smooth';
-        track.style.scrollSnapType = 'x mandatory';
+                    isPointerDown = false;
+                    track.style.scrollBehavior = 'smooth';
+                    track.style.scrollSnapType = 'x mandatory';
 
-        if (hasDragged) {
+                    if (hasDragged) {
             const nextIndex = getCurrentIndex();
-            scrollToIndex(nextIndex);
+                    scrollToIndex(nextIndex);
         }
     };
 
-    window.addEventListener('pointerup', endPointer);
-    window.addEventListener('pointercancel', endPointer);
+                    window.addEventListener('pointerup', endPointer);
+                    window.addEventListener('pointercancel', endPointer);
 
     window.addEventListener('resize', () => {
-        updateState(getCurrentIndex());
+                        updateState(getCurrentIndex());
     });
 
-    updateState(0);
+                    updateState(0);
 };
 
 const initPage = () => {
-    initThemePicker();
-    initLanguagePicker();
-    initMobileNavigation();
-    initSectionNavigation();
-    initDocumentExplorer();
-    initResumeModal();
-    initHeroSlideshow();
-    initProjectShowcase();
-    initEducationPhotoStack();
-    initSkillsShowcase();
-    initCertificateSlider();
-    initScrollReveal();
+                        initThemePicker();
+                    initLanguagePicker();
+                    initMobileNavigation();
+                    initSectionNavigation();
+                    initDocumentExplorer();
+                    initResumeModal();
+                    initHeroSlideshow();
+                    initProjectShowcase();
+                    initEducationPhotoStack();
+                    initSkillsShowcase();
+                    initCertificateSlider();
+                    initScrollReveal();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    initPageIntro(initPage);
+                        initPageIntro(initPage);
 });

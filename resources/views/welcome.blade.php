@@ -543,8 +543,65 @@
                             'Export Laporan Kepegawaian & Rekapitulasi Presensi (PDF/Excel)'
                         ]
                     ],
+                    [
+                        'id' => 'sistem-wms',
+                        'title' => 'Sistem Manajemen Penerimaan Barang (WMS)',
+                        'category' => 'Sistem Manajemen Gudang',
+                        'image' => 'Sistem WMS.png',
+                        'scope' => 'lokal',
+                        'summary' => 'Sistem manajemen penerimaan barang (WMS) yang dirancang untuk mengelola alur masuk barang, pencatatan stok, dan monitoring gudang secara efisien dan real-time.',
+                        'stack' => [
+                            ['name' => 'ReactJS', 'icon' => 'React.png'],
+                            ['name' => 'Node.js', 'icon' => 'tech/nodejs.svg'],
+                            ['name' => 'PostgreSQL', 'icon' => 'tech/postgresql.svg'],
+                            ['name' => 'Tailwind', 'icon' => 'tech/tailwindcss.svg'],
+                        ],
+                        'description' => 'Platform Warehouse Management System (WMS) berbasis web untuk pengelolaan penerimaan barang secara digital dan terstruktur. Sistem ini menyediakan fitur pencatatan inbound barang, validasi kualitas penerimaan, manajemen lokasi penyimpanan gudang, pelacakan stok real-time, serta pelaporan rekapitulasi penerimaan guna meningkatkan efisiensi operasional logistik.',
+                        'roles' => [
+                            [
+                                'name' => 'Admin Gudang',
+                                'badge' => 'Administrator',
+                                'desc' => 'Akses penuh untuk manajemen master data barang, konfigurasi lokasi gudang, persetujuan penerimaan barang, dan pemantauan laporan eksekutif gudang.'
+                            ],
+                            [
+                                'name' => 'Petugas Penerimaan',
+                                'badge' => 'Operator Inbound',
+                                'desc' => 'Mencatat barang masuk, memverifikasi kuantitas dan kualitas penerimaan, menginput data pengiriman dari supplier, serta memperbarui status penerimaan.'
+                            ],
+                            [
+                                'name' => 'Staff Logistik',
+                                'badge' => 'User Operasional',
+                                'desc' => 'Memantau ketersediaan stok, melihat riwayat penerimaan barang, serta mengakses laporan stok dan rekapitulasi gudang.'
+                            ]
+                        ],
+                        'features' => [
+                            'Pencatatan Penerimaan Barang Masuk (Inbound) Secara Digital',
+                            'Validasi Kualitas & Kuantitas Barang Saat Penerimaan',
+                            'Manajemen Lokasi Penyimpanan & Mapping Area Gudang',
+                            'Monitoring Stok Real-time & Tracking Pergerakan Barang',
+                            'Dashboard Analytics Gudang & Rekapitulasi Penerimaan',
+                            'Export Laporan Penerimaan & Stok Gudang (PDF/Excel)'
+                        ]
+                    ],
                 ];
+
+                $projectsForModal = collect($featuredProjects)->mapWithKeys(function ($p) use ($imagePath) {
+                    $p['image'] = $imagePath($p['image']);
+                    if (!empty($p['stack'])) {
+                        $p['stack'] = array_map(function ($st) use ($imagePath) {
+                            return [
+                                'name' => $st['name'],
+                                'icon' => $imagePath($st['icon']),
+                            ];
+                        }, $p['stack']);
+                    }
+                    return [$p['id'] => $p];
+                });
             @endphp
+
+            <script>
+                window.__PROJECTS_DATA__ = @json($projectsForModal);
+            </script>
 
             <section id="projects" class="content-section projects-section">
                 <div class="page-shell">
