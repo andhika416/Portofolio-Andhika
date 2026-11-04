@@ -1201,6 +1201,7 @@ const initProjectShowcase = () => {
     // 1. Coverflow Carousel Setup & Elements
     const coverflowWrapper = document.querySelector('.project-coverflow-wrapper');
     const stage = coverflowWrapper?.querySelector('[data-coverflow-stage]');
+    const track = coverflowWrapper?.querySelector('[data-coverflow-track]');
     const prevBtn = coverflowWrapper?.querySelector('[data-coverflow-nav="prev"]');
     const nextBtn = coverflowWrapper?.querySelector('[data-coverflow-nav="next"]');
     const pagination = coverflowWrapper?.querySelector('[data-coverflow-pagination]');
@@ -1226,7 +1227,7 @@ const initProjectShowcase = () => {
         allCards.forEach((card) => {
             if (!visibleCards.includes(card)) {
                 card.style.display = 'none';
-                card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2');
+                card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2', 'is-hidden-left', 'is-hidden-right', 'is-hidden');
                 card.classList.add('is-hidden');
             } else {
                 card.style.display = 'flex';
@@ -1235,7 +1236,7 @@ const initProjectShowcase = () => {
 
         // Apply 3D Coverflow positioning to visible cards
         visibleCards.forEach((card, index) => {
-            card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2', 'is-hidden');
+            card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2', 'is-hidden-left', 'is-hidden-right', 'is-hidden');
 
             // Circular shortest distance from currentIndex
             let diff = index - currentIndex;
@@ -1257,8 +1258,11 @@ const initProjectShowcase = () => {
             } else if (diff === 2) {
                 card.classList.add('is-next-2');
                 card.setAttribute('aria-hidden', 'true');
+            } else if (diff < 0) {
+                card.classList.add('is-hidden-left');
+                card.setAttribute('aria-hidden', 'true');
             } else {
-                card.classList.add('is-hidden');
+                card.classList.add('is-hidden-right');
                 card.setAttribute('aria-hidden', 'true');
             }
         });
@@ -1344,6 +1348,78 @@ const initProjectShowcase = () => {
         }
     });
 
+    // Prevent default browser drag on images
+    track?.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+    });
+
+    // Mouse Drag / Cursor Gestures (Menggeser dengan kursor mouse)
+    let isMouseDown = false;
+    let isDragging = false;
+    let startMouseX = 0;
+    let startMouseY = 0;
+    let currentDragDeltaX = 0;
+    const dragThreshold = 35; // Pixel threshold to trigger slide
+
+    const onMouseDown = (e) => {
+        if (e.button !== 0) return;
+        if (e.target.closest('[data-project-modal-open]') || e.target.closest('[data-device-toggle]') || e.target.closest('.project-coverflow-nav')) {
+            return;
+        }
+
+        isMouseDown = true;
+        isDragging = false;
+        startMouseX = e.clientX;
+        startMouseY = e.clientY;
+        currentDragDeltaX = 0;
+    };
+
+    const onMouseMove = (e) => {
+        if (!isMouseDown) return;
+        const deltaX = e.clientX - startMouseX;
+        const deltaY = e.clientY - startMouseY;
+
+        if (!isDragging && Math.abs(deltaX) > 6 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            isDragging = true;
+            stage?.classList.add('is-dragging');
+        }
+
+        if (isDragging) {
+            e.preventDefault();
+            currentDragDeltaX = deltaX;
+        }
+    };
+
+    const onMouseUp = () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        stage?.classList.remove('is-dragging');
+
+        if (isDragging) {
+            if (currentDragDeltaX < -dragThreshold) {
+                goToNext();
+            } else if (currentDragDeltaX > dragThreshold) {
+                goToPrev();
+            }
+
+            const captureClick = (clickEvent) => {
+                clickEvent.preventDefault();
+                clickEvent.stopPropagation();
+                window.removeEventListener('click', captureClick, true);
+            };
+            window.addEventListener('click', captureClick, true);
+            setTimeout(() => {
+                window.removeEventListener('click', captureClick, true);
+            }, 60);
+
+            isDragging = false;
+        }
+    };
+
+    stage?.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
     // Touch swipe gestures for mobile
     let touchStartX = 0;
     let touchStartY = 0;
@@ -1359,7 +1435,7 @@ const initProjectShowcase = () => {
         if (e.changedTouches.length === 1) {
             const deltaX = e.changedTouches[0].clientX - touchStartX;
             const deltaY = e.changedTouches[0].clientY - touchStartY;
-            if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY)) {
                 if (deltaX < 0) {
                     goToNext();
                 } else {
@@ -1369,23 +1445,38 @@ const initProjectShowcase = () => {
         }
     }, { passive: true });
 
-    // Filter Buttons Integration (Semua, Publik, Lokal)
+    // Smooth Filter Buttons Integration (Semua, Publik, Lokal)
     filterButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
             const filter = btn.getAttribute('data-project-filter');
+            if (filter === activeFilter) return;
+
             filterButtons.forEach((b) => b.classList.remove('is-active'));
             btn.classList.add('is-active');
-
             activeFilter = filter;
-            if (filter === 'all') {
-                visibleCards = [...allCards];
-            } else {
-                visibleCards = allCards.filter(card => card.getAttribute('data-project-scope') === filter);
+
+            // Smooth crossfade out of track
+            if (track) {
+                track.classList.add('is-filtering');
             }
 
-            currentIndex = 0;
-            rebuildPagination();
-            updateCoverflow();
+            window.setTimeout(() => {
+                if (filter === 'all') {
+                    visibleCards = [...allCards];
+                } else {
+                    visibleCards = allCards.filter(card => card.getAttribute('data-project-scope') === filter);
+                }
+
+                currentIndex = 0;
+                rebuildPagination();
+                updateCoverflow();
+
+                window.requestAnimationFrame(() => {
+                    if (track) {
+                        track.classList.remove('is-filtering');
+                    }
+                });
+            }, 260);
         });
     });
 
