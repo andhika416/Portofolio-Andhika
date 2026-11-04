@@ -2124,6 +2124,253 @@ html[data-theme="dark"] .theme-toggle__icon--dark {
     }
 }
 
+/* ==========================================================================
+   3D COVERFLOW CAROUSEL (PROJECT SHOWCASE)
+   ========================================================================== */
+
+.project-coverflow-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 24px auto 0;
+    padding: 10px 0 24px;
+    user-select: none;
+}
+
+.project-coverflow-stage {
+    position: relative;
+    width: 100%;
+    min-height: 570px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1200px;
+    -webkit-perspective: 1200px;
+    outline: none;
+    padding: 24px 0 32px;
+}
+
+.project-coverflow-track {
+    position: relative;
+    width: 100%;
+    height: 530px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navigasi Panah Kiri & Kanan */
+.project-coverflow-nav {
+    position: absolute;
+    top: 48%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line-subtle, rgba(0, 0, 0, 0.1));
+    background: var(--surface, #ffffff);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .project-coverflow-nav {
+    background: #232334;
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.project-coverflow-nav--prev {
+    left: 8px;
+}
+
+.project-coverflow-nav--next {
+    right: 8px;
+}
+
+.project-coverflow-nav:hover {
+    background: var(--teal, #0f6576);
+    color: #ffffff;
+    border-color: var(--teal);
+    box-shadow: 0 10px 28px rgba(15, 101, 118, 0.4);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.project-coverflow-nav:active {
+    transform: translateY(-50%) scale(0.94);
+}
+
+/* Indikator Dots */
+.project-coverflow-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.project-coverflow-dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background: var(--line-subtle, rgba(0, 0, 0, 0.2));
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .project-coverflow-dot {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.project-coverflow-dot.is-active {
+    width: 26px;
+    border-radius: 999px;
+    background: var(--teal, #0f6576);
+    box-shadow: 0 2px 8px rgba(15, 101, 118, 0.4);
+}
+
+.project-coverflow-dot:hover:not(.is-active) {
+    background: rgba(15, 101, 118, 0.5);
+    transform: scale(1.2);
+}
+
+/* Card Styling inside Coverflow Track */
+.project-coverflow-track .project-card-v2 {
+    position: absolute;
+    width: 380px;
+    max-width: min(380px, calc(100vw - 48px));
+    will-change: transform, opacity, box-shadow;
+    transition: transform 0.5s cubic-bezier(0.2, 0.85, 0.25, 1), opacity 0.45s ease, filter 0.45s ease, box-shadow 0.45s ease;
+    transform-origin: center center;
+    margin: 0;
+}
+
+/* 3D Coverflow State Classes */
+.project-coverflow-track .project-card-v2.is-active {
+    transform: translate3d(0, 0, 0) scale(1);
+    z-index: 10;
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.16);
+}
+
+[data-theme="dark"] .project-coverflow-track .project-card-v2.is-active {
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+}
+
+.project-coverflow-track .project-card-v2.is-prev-1 {
+    transform: translate3d(-60%, 0, -40px) scale(0.86);
+    z-index: 6;
+    opacity: 0.88;
+    cursor: pointer;
+    filter: brightness(0.96);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+}
+
+.project-coverflow-track .project-card-v2.is-next-1 {
+    transform: translate3d(60%, 0, -40px) scale(0.86);
+    z-index: 6;
+    opacity: 0.88;
+    cursor: pointer;
+    filter: brightness(0.96);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+}
+
+.project-coverflow-track .project-card-v2.is-prev-2 {
+    transform: translate3d(-108%, 0, -80px) scale(0.72);
+    z-index: 3;
+    opacity: 0.55;
+    cursor: pointer;
+    filter: brightness(0.9);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.project-coverflow-track .project-card-v2.is-next-2 {
+    transform: translate3d(108%, 0, -80px) scale(0.72);
+    z-index: 3;
+    opacity: 0.55;
+    cursor: pointer;
+    filter: brightness(0.9);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.project-coverflow-track .project-card-v2.is-hidden {
+    transform: scale(0.55);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.project-coverflow-track .project-card-v2.is-prev-1:hover,
+.project-coverflow-track .project-card-v2.is-next-1:hover {
+    filter: brightness(1);
+    opacity: 0.96;
+}
+
+@media (max-width: 900px) {
+    .project-coverflow-stage {
+        min-height: 560px;
+    }
+    .project-coverflow-track {
+        height: 520px;
+    }
+    .project-coverflow-track .project-card-v2 {
+        width: 340px;
+    }
+    .project-coverflow-track .project-card-v2.is-prev-1 {
+        transform: translate3d(-52%, 0, -35px) scale(0.85);
+    }
+    .project-coverflow-track .project-card-v2.is-next-1 {
+        transform: translate3d(52%, 0, -35px) scale(0.85);
+    }
+    .project-coverflow-track .project-card-v2.is-prev-2,
+    .project-coverflow-track .project-card-v2.is-next-2 {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .project-coverflow-stage {
+        min-height: 540px;
+        padding: 12px 0 20px;
+    }
+    .project-coverflow-track {
+        height: 500px;
+    }
+    .project-coverflow-track .project-card-v2 {
+        width: 290px;
+        max-width: calc(100vw - 40px);
+    }
+    .project-coverflow-track .project-card-v2.is-prev-1 {
+        transform: translate3d(-44%, 0, -25px) scale(0.85);
+        opacity: 0.45;
+    }
+    .project-coverflow-track .project-card-v2.is-next-1 {
+        transform: translate3d(44%, 0, -25px) scale(0.85);
+        opacity: 0.45;
+    }
+    .project-coverflow-nav {
+        width: 40px;
+        height: 40px;
+    }
+    .project-coverflow-nav--prev {
+        left: 2px;
+    }
+    .project-coverflow-nav--next {
+        right: 2px;
+    }
+}
+
 /* Card Container (Clean White Card) */
 .project-card-v2 {
     display: flex;

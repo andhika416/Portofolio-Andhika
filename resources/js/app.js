@@ -1198,27 +1198,200 @@ const initHeroSlideshow = () => {
 };
 
 const initProjectShowcase = () => {
-    // 1. Filter Bar Buttons (Semua, Publik, Lokal)
+    // 1. Coverflow Carousel Setup & Elements
+    const coverflowWrapper = document.querySelector('.project-coverflow-wrapper');
+    const stage = coverflowWrapper?.querySelector('[data-coverflow-stage]');
+    const prevBtn = coverflowWrapper?.querySelector('[data-coverflow-nav="prev"]');
+    const nextBtn = coverflowWrapper?.querySelector('[data-coverflow-nav="next"]');
+    const pagination = coverflowWrapper?.querySelector('[data-coverflow-pagination]');
+    const allCards = Array.from(document.querySelectorAll('.project-card-v2[data-project-scope]'));
     const filterButtons = Array.from(document.querySelectorAll('[data-project-filter]'));
-    const projectCards = Array.from(document.querySelectorAll('[data-project-scope]'));
 
+    let activeFilter = 'all';
+    let visibleCards = [...allCards];
+    let currentIndex = 0;
+
+    const updateCoverflow = () => {
+        const total = visibleCards.length;
+        if (total === 0) return;
+
+        // Circular wrap-around index
+        if (currentIndex < 0) {
+            currentIndex = (currentIndex % total + total) % total;
+        } else if (currentIndex >= total) {
+            currentIndex = currentIndex % total;
+        }
+
+        // Hide cards not in the current filter
+        allCards.forEach((card) => {
+            if (!visibleCards.includes(card)) {
+                card.style.display = 'none';
+                card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2');
+                card.classList.add('is-hidden');
+            } else {
+                card.style.display = 'flex';
+            }
+        });
+
+        // Apply 3D Coverflow positioning to visible cards
+        visibleCards.forEach((card, index) => {
+            card.classList.remove('is-active', 'is-prev-1', 'is-next-1', 'is-prev-2', 'is-next-2', 'is-hidden');
+
+            // Circular shortest distance from currentIndex
+            let diff = index - currentIndex;
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+
+            if (diff === 0) {
+                card.classList.add('is-active');
+                card.setAttribute('aria-hidden', 'false');
+            } else if (diff === -1) {
+                card.classList.add('is-prev-1');
+                card.setAttribute('aria-hidden', 'true');
+            } else if (diff === 1) {
+                card.classList.add('is-next-1');
+                card.setAttribute('aria-hidden', 'true');
+            } else if (diff === -2) {
+                card.classList.add('is-prev-2');
+                card.setAttribute('aria-hidden', 'true');
+            } else if (diff === 2) {
+                card.classList.add('is-next-2');
+                card.setAttribute('aria-hidden', 'true');
+            } else {
+                card.classList.add('is-hidden');
+                card.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        updatePagination();
+    };
+
+    const updatePagination = () => {
+        if (!pagination) return;
+        const dots = Array.from(pagination.querySelectorAll('.project-coverflow-dot'));
+        dots.forEach((dot, idx) => {
+            const isActive = idx === currentIndex;
+            dot.classList.toggle('is-active', isActive);
+            dot.setAttribute('aria-selected', String(isActive));
+        });
+    };
+
+    const rebuildPagination = () => {
+        if (!pagination) return;
+        pagination.innerHTML = '';
+        const total = visibleCards.length;
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = `project-coverflow-dot${i === currentIndex ? ' is-active' : ''}`;
+            dot.setAttribute('aria-label', `Lihat proyek slide ${i + 1}`);
+            dot.setAttribute('aria-selected', String(i === currentIndex));
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentIndex = i;
+                updateCoverflow();
+            });
+            pagination.appendChild(dot);
+        }
+    };
+
+    const goToNext = () => {
+        if (visibleCards.length === 0) return;
+        currentIndex = (currentIndex + 1) % visibleCards.length;
+        updateCoverflow();
+    };
+
+    const goToPrev = () => {
+        if (visibleCards.length === 0) return;
+        currentIndex = (currentIndex - 1 + visibleCards.length) % visibleCards.length;
+        updateCoverflow();
+    };
+
+    nextBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToNext();
+    });
+
+    prevBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        goToPrev();
+    });
+
+    // Clicking side cards shifts them to center
+    allCards.forEach((card) => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('[data-device-toggle]') || e.target.closest('[data-project-modal-open]')) {
+                return;
+            }
+
+            const cardIndex = visibleCards.indexOf(card);
+            if (cardIndex !== -1 && cardIndex !== currentIndex) {
+                e.preventDefault();
+                currentIndex = cardIndex;
+                updateCoverflow();
+            }
+        });
+    });
+
+    // Keyboard navigation (ArrowLeft & ArrowRight)
+    stage?.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            goToNext();
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            goToPrev();
+        }
+    });
+
+    // Touch swipe gestures for mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    stage?.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    stage?.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length === 1) {
+            const deltaX = e.changedTouches[0].clientX - touchStartX;
+            const deltaY = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX < 0) {
+                    goToNext();
+                } else {
+                    goToPrev();
+                }
+            }
+        }
+    }, { passive: true });
+
+    // Filter Buttons Integration (Semua, Publik, Lokal)
     filterButtons.forEach((btn) => {
         btn.addEventListener('click', () => {
             const filter = btn.getAttribute('data-project-filter');
-
             filterButtons.forEach((b) => b.classList.remove('is-active'));
             btn.classList.add('is-active');
 
-            projectCards.forEach((card) => {
-                const scope = card.getAttribute('data-project-scope');
-                if (filter === 'all' || scope === filter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+            activeFilter = filter;
+            if (filter === 'all') {
+                visibleCards = [...allCards];
+            } else {
+                visibleCards = allCards.filter(card => card.getAttribute('data-project-scope') === filter);
+            }
+
+            currentIndex = 0;
+            rebuildPagination();
+            updateCoverflow();
         });
     });
+
+    // Initial Coverflow Render
+    rebuildPagination();
+    updateCoverflow();
 
     // 2. Device Toggle Buttons (Laptop <-> HP View Switcher)
     const deviceToggles = Array.from(document.querySelectorAll('[data-device-toggle]'));

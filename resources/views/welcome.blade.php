@@ -626,76 +626,94 @@
                         </button>
                     </div>
 
-                    <div class="project-showcase-grid" data-reveal data-reveal-delay="180">
-                        @foreach ($featuredProjects as $project)
-                            <article class="project-card-v2 elevated-panel" data-project-card-id="{{ $project['id'] }}" data-project-scope="{{ $project['scope'] }}">
-                                <div class="project-card-v2__media-wrapper" data-tilt-wrapper>
-                                    @if (!empty($project['mobile_image']))
-                                        <button
-                                            type="button"
-                                            class="project-device-toggle"
-                                            data-device-toggle
-                                            data-desktop-src="{{ $imagePath($project['image']) }}"
-                                            data-mobile-src="{{ $imagePath($project['mobile_image']) }}"
-                                            aria-label="Tukar tampilan Laptop / HP"
-                                            title="Ubah Tampilan Laptop / HP"
-                                        >
-                                            <span class="project-device-toggle__icon project-device-toggle__icon--mobile" aria-hidden="true">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
-                                                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                                                </svg>
-                                            </span>
-                                            <span class="project-device-toggle__icon project-device-toggle__icon--desktop" aria-hidden="true" style="display: none;">
-                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                                                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                                                </svg>
-                                            </span>
-                                            <span class="project-device-toggle__label" data-device-label>HP</span>
-                                        </button>
-                                    @endif
+                    <div class="project-coverflow-wrapper" data-reveal data-reveal-delay="180">
+                        <button type="button" class="project-coverflow-nav project-coverflow-nav--prev" data-coverflow-nav="prev" aria-label="Proyek sebelumnya">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
 
-                                    <div class="project-card-v2__media" data-tilt-card>
-                                        <img
-                                            src="{{ $imagePath($project['image']) }}"
-                                            alt="Tampilan {{ $project['title'] }}"
-                                            class="project-card-v2__image"
-                                            data-project-card-image
-                                            loading="lazy"
-                                        >
-                                    </div>
-                                </div>
-                                <div class="project-card-v2__body">
-                                    <span class="project-card-v2__category">{{ $project['category'] }}</span>
-                                    <h3 class="project-card-v2__title">{{ $project['title'] }}</h3>
-                                    <p class="project-card-v2__summary">{{ $project['summary'] }}</p>
-
-                                    <div class="project-card-v2__footer">
-                                        <div class="project-card-v2__capsules" aria-label="Framework dan Teknologi">
-                                            @foreach ($project['stack'] as $tech)
-                                                <div class="project-capsule">
-                                                    <span class="project-capsule__icon" aria-hidden="true">
-                                                        <img src="{{ $imagePath($tech['icon']) }}" alt="" loading="lazy">
+                        <div class="project-coverflow-stage" data-coverflow-stage tabindex="0" role="region" aria-label="Koleksi Proyek Unggulan">
+                            <div class="project-coverflow-track" data-coverflow-track>
+                                @foreach ($featuredProjects as $project)
+                                    <article class="project-card-v2 elevated-panel" data-project-card-id="{{ $project['id'] }}" data-project-scope="{{ $project['scope'] }}">
+                                        <div class="project-card-v2__media-wrapper" data-tilt-wrapper>
+                                            @if (!empty($project['mobile_image']))
+                                                <button
+                                                    type="button"
+                                                    class="project-device-toggle"
+                                                    data-device-toggle
+                                                    data-desktop-src="{{ $imagePath($project['image']) }}"
+                                                    data-mobile-src="{{ $imagePath($project['mobile_image']) }}"
+                                                    aria-label="Tukar tampilan Laptop / HP"
+                                                    title="Ubah Tampilan Laptop / HP"
+                                                >
+                                                    <span class="project-device-toggle__icon project-device-toggle__icon--mobile" aria-hidden="true">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+                                                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                                                        </svg>
                                                     </span>
-                                                    <span class="project-capsule__label">{{ $tech['name'] }}</span>
-                                                </div>
-                                            @endforeach
-                                        </div>
+                                                    <span class="project-device-toggle__icon project-device-toggle__icon--desktop" aria-hidden="true" style="display: none;">
+                                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                                                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="project-device-toggle__label" data-device-label>HP</span>
+                                                </button>
+                                            @endif
 
-                                        <button
-                                            type="button"
-                                            class="project-card-v2__detail-btn"
-                                            data-project-modal-open="{{ $project['id'] }}"
-                                            aria-label="Lihat detail {{ $project['title'] }}"
-                                        >
-                                            Detail
-                                        </button>
-                                    </div>
-                                </div>
-                            </article>
-                        @endforeach
+                                            <div class="project-card-v2__media" data-tilt-card>
+                                                <img
+                                                    src="{{ $imagePath($project['image']) }}"
+                                                    alt="Tampilan {{ $project['title'] }}"
+                                                    class="project-card-v2__image"
+                                                    data-project-card-image
+                                                    loading="lazy"
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="project-card-v2__body">
+                                            <span class="project-card-v2__category">{{ $project['category'] }}</span>
+                                            <h3 class="project-card-v2__title">{{ $project['title'] }}</h3>
+                                            <p class="project-card-v2__summary">{{ $project['summary'] }}</p>
+
+                                            <div class="project-card-v2__footer">
+                                                <div class="project-card-v2__capsules" aria-label="Framework dan Teknologi">
+                                                    @foreach ($project['stack'] as $tech)
+                                                        <div class="project-capsule">
+                                                            <span class="project-capsule__icon" aria-hidden="true">
+                                                                <img src="{{ $imagePath($tech['icon']) }}" alt="" loading="lazy">
+                                                            </span>
+                                                            <span class="project-capsule__label">{{ $tech['name'] }}</span>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    class="project-card-v2__detail-btn"
+                                                    data-project-modal-open="{{ $project['id'] }}"
+                                                    aria-label="Lihat detail {{ $project['title'] }}"
+                                                >
+                                                    Detail
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <button type="button" class="project-coverflow-nav project-coverflow-nav--next" data-coverflow-nav="next" aria-label="Proyek berikutnya">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+
+                        <div class="project-coverflow-pagination" data-coverflow-pagination aria-label="Indikator slide proyek"></div>
                     </div>
                 </div>
             </section>
