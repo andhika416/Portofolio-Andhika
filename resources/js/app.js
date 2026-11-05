@@ -162,6 +162,151 @@ const translationsEn = new Map(Object.entries({
     'Sertifikat RevoU': 'RevoU Certificates',
     'Platform Pengembangan Skill & Karier': 'Skill & Career Development Platform',
     'Tech Academy & Mini Course': 'Tech Academy & Mini Course',
+    'Admin Gudang': 'Warehouse Admin',
+    'Admin Inventaris': 'Inventory Admin',
+    'Admin Laboratorium K3': 'HSE Laboratory Admin',
+    'Admin Logistik': 'Logistics Admin',
+    'Administrator': 'Administrator',
+    'Administrator RW': 'Neighborhood Administrator',
+    'Akses penuh ke manajemen data pegawai, pengaturan peran & hak akses (RBAC), verifikasi pengajuan kepegawaian, dan pelaporan eksekutif.': 'Full access to employee master data, role-based permission settings (RBAC), HR workflow approvals, and executive analytics.',
+    'Akses penuh untuk manajemen data, validasi pengajuan tingkat akhir, konfigurasi alur persetujuan, dan pemantauan laporan eksekutif.': 'Full access to data management, final service approval, approval workflow configuration, and executive reports.',
+    'Akses penuh untuk manajemen master data barang, konfigurasi lokasi gudang, persetujuan penerimaan barang, dan pemantauan laporan eksekutif gudang.': 'Full access to master items, warehouse zone configuration, inbound approval, and executive warehouse analytics.',
+    'Analis Lab': 'Lab Analyst',
+    'Aplikasi web khusus untuk tata kelola dan pengawasan inventaris bahan kimia berbahaya (B3) di laboratorium/industri. Menyediakan integrasi dokumen Lembar Data Keselamatan Bahan (MSDS/LDKB), klasifikasi tingkat bahaya (GHS), dan pemantauan masa berlaku bahan.': 'A specialized web application for managing hazardous chemical inventories in laboratory and industrial settings. Provides integration of Safety Data Sheets (MSDS), GHS hazard classifications, and expiration tracking.',
+    'Auditor / Inspector K3': 'HSE Auditor / Inspector',
+    'Bertanggung jawab melakukan pemeriksaan kelayakan dokumen, pemrosesan teknis, penjadwalan inspeksi, dan pengisian catatan evaluasi.': 'Responsible for document eligibility checks, technical processing, inspection scheduling, and evaluation notes.',
+    'Cetak Laporan Rekapitulasi dalam Format PDF/Excel': 'Export Summary Reports in PDF/Excel Format',
+    'Dapat mengajukan permohonan layanan K3 secara online, mengunggah persyaratan, serta melacak progres pengajuan secara real-time.': 'Can submit HSE service applications online, upload requirements, and track application status in real time.',
+    'Dashboard Analytics & Rekapitulasi Layanan K3': 'Analytics Dashboard & HSE Service Summary',
+    'Dashboard Analytics Gudang & Rekapitulasi Penerimaan': 'Warehouse Analytics Dashboard & Receiving Summary',
+    'Dashboard Analytics Potensi Bahaya & Kepatuhan Keselamatan': 'Hazard Analytics & Chemical Safety Compliance Dashboard',
+    'Dashboard Analytics SDM & Notifikasi Pengumuman Internal': 'HR Analytics Dashboard & Internal Staff Bulletins',
+    'Database Kependudukan & Demografi Warga Terintegrasi': 'Integrated Citizen Demographics & Population Database',
+    'Deskripsi Web': 'Web Description',
+    'Detail': 'Details',
+    'E-Rukun Warga (Sistem Informasi RW)': 'E-Community (Neighborhood Information System)',
+    'Export Laporan Kepegawaian & Rekapitulasi Presensi (PDF/Excel)': 'Personnel Reporting & Attendance Timesheet Export (PDF/Excel)',
+    'Export Laporan Penerimaan & Stok Gudang (PDF/Excel)': 'Receiving Reports & Inventory Export (PDF/Excel)',
+    'Export Laporan Rekapitulasi Stok Peralatan (PDF & Excel)': 'Equipment Stock Summary Export (PDF & Excel)',
+    'Fitur Apa Saja': 'Key Features',
+    'Framework dan Teknologi': 'Frameworks & Technologies',
+    'HP': 'Mobile',
+    'Indikator slide proyek': 'Project slide indicator',
+    'Integrasi Repository Lembar Data Keselamatan Bahan (MSDS/LDKB)': 'Material Safety Data Sheet (MSDS) Repository Integration',
+    'Inventarisasi Bahan Kimia K3': 'HSE Chemical Inventory',
+    'Kanal Pengaduan & Aspirasi Lingkungan Warga': 'Citizen Inquiries & Neighborhood Feedback Channel',
+    'Karyawan / Pegawai': 'Employee / Staff',
+    'Katalog Bahan Kimia dengan Klasifikasi GHS & Simbol Bahaya': 'Chemical Catalog with GHS Classification & Hazard Pictograms',
+    'Katalog Inventaris Peralatan K3 Terkategori Rapi': 'Categorized HSE Equipment Inventory Catalog',
+    'Ketua RT': 'Block Head / RT Head',
+    'Ketua RW / Admin RW': 'Neighborhood Head / RW Admin',
+    'Klik tombol Detail pada kartu proyek untuk melihat deskripsi, role pengguna, dan fitur lengkap.': 'Click the Detail button on any project card to view descriptions, user roles, and full features.',
+    'Koleksi Proyek Unggulan': 'Featured Projects Collection',
+    'Koleksi pembelajaran dan sertifikat resmi dari Dicoding Indonesia.': 'Official learning and certification collection from Dicoding Indonesia.',
+    'Koleksi sertifikat BNSP yang tersedia pada folder images dan dapat dipreview langsung dari halaman galeri.': 'BNSP certificate collection available in the images folder and directly previewable from the gallery page.',
+    'Koleksi sertifikat pelatihan dari Kementerian Ketenagakerjaan RI yang tersedia pada folder images.': 'Training certificate collection from the Ministry of Manpower of the Republic of Indonesia available in the images folder.',
+    'Kumpulan sertifikat Essential Skills dari program GNIK dan pembelajaran pengembangan kompetensi.': 'Essential Skills certificate collection from the GNIK program and competency development courses.',
+    'Kumpulan sertifikat pelatihan Digitalent yang tersedia pada folder images.': 'Digitalent training certificate collection available in the images folder.',
+    'Kumpulan sertifikat pelatihan RevoU yang tersedia pada folder images.': 'RevoU training certificate collection available in the images folder.',
+    'Kumpulan sertifikat pelatihan dan peningkatan skill MySkill yang tersedia pada folder images.': 'MySkill training and skill development certificate collection available in the images folder.',
+    'Kumpulan sertifikat pembelajaran Cisco Networking Academy yang berfokus pada data science dan cybersecurity.': 'Cisco Networking Academy learning certificate collection focusing on data science and cybersecurity.',
+    'Kumpulan sertifikat pembelajaran dan kompetensi Microsoft yang tersedia pada folder images.': 'Microsoft learning and competency certificate collection available in the images folder.',
+    'Lab Manager': 'Lab Manager',
+    'Laptop': 'Laptop',
+    'Layanan Mandiri Surat Pengantar Digital (Domisili, Keterangan, dll)': 'Digital Self-Service Cover Letters (Residency, Statements, etc.)',
+    'Log Pemakaian & Mutasi Stok Bahan Kimia Real-time': 'Real-Time Chemical Usage & Stock Depletion Logging',
+    'Lokal': 'Local',
+    'Manajemen Data Induk Kepegawaian & Struktur Organisasi': 'Master Employee Records & Organizational Hierarchy',
+    'Manajemen Lokasi Penyimpanan & Mapping Area Gudang': 'Warehouse Storage Bin Management & Zone Mapping',
+    'Manajer / Supervisor': 'Manager / Supervisor',
+    'Melakukan absensi harian, mengajukan permohonan cuti/izin mandiri, melihat struktur organisasi, dan memantau status pengajuan.': 'Performs daily digital check-ins, requests leaves/permits, views org charts, and tracks request approvals.',
+    'Melihat ketersediaan stok peralatan K3 di katalog digital dan mengajukan permohonan peminjaman alat operasional.': 'Browses equipment availability via the digital catalog and submits operational equipment checkout requests.',
+    'Memantau ketersediaan stok, melihat riwayat penerimaan barang, serta mengakses laporan stok dan rekapitulasi gudang.': 'Monitors stock availability, views inbound receiving logs, and accesses inventory and receiving summaries.',
+    'Memeriksa riwayat penggunaan bahan kimia, memantau tingkat risiko penyimpanan, dan mencetak rekap kepatuhan B3.': 'Inspects chemical usage logs, monitors storage risk levels, and exports hazardous substance compliance reports.',
+    'Memuat dokumen...': 'Loading document...',
+    'Memverifikasi dan menyetujui pengajuan cuti, lembur, dan izin anggota tim di bawah divisinya.': 'Reviews and authorizes leave, overtime, and absence requests for team members within their department.',
+    'Memverifikasi status kependudukan warga di tingkat RT sebelum surat diajukan ke tingkat RW.': 'Verifies resident identity and block residency status prior to forwarding letters to the neighborhood level.',
+    'Mencatat barang masuk, memverifikasi kuantitas dan kualitas penerimaan, menginput data pengiriman dari supplier, serta memperbarui status penerimaan.': 'Logs inbound shipments, verifies received item quantity and quality, inputs supplier manifests, and updates receipt status.',
+    'Mencatat penggunaan harian reagen/bahan kimia, mengunggah file MSDS, serta memperbarui kuantitas stok terpakai.': 'Records daily chemical reagent usage, uploads MSDS files, and updates depleted stock quantities.',
+    'Mencatat transaksi kelayakan alat, keluar-masuk barang, kondisi fisik peralatan, dan memperbarui status perawatan/kalibrasi.': 'Logs equipment condition, incoming/outgoing transactions, physical inspection results, and maintenance/calibration status.',
+    'Mengajukan permohonan surat pengantar online, memantau pengumuman lingkungan, dan mengirimkan aspirasi/aduan.': 'Submits online cover letter requests, views neighborhood announcements, and lodges community feedback/inquiries.',
+    'Mengelola data kewilayahan seluruh RT, menyetujui pengantar tingkat RW, menerbitkan pengumuman resmi, dan mengelola transparansi.': 'Manages demographic records across all blocks, approves neighborhood letters, posts bulletins, and ensures fiscal transparency.',
+    'Mengelola master data peralatan, menentukan lokasi penyimpanan, menyetujui peminjaman alat, serta melakukan audit stok tahunan.': 'Manages master equipment data, designates storage bins, approves tool loans, and conducts annual stock audits.',
+    'Mengontrol akses bahan kimia sensitif, mengesahkan batas ambang penyimpanan aman, dan menyetujui dokumen MSDS baru.': 'Controls access to sensitive chemicals, validates safe storage thresholds, and approves new MSDS documents.',
+    'Modul Transparansi Kas & Laporan Iuran Kegiatan RW': 'Financial Transparency Module & Community Dues Reporting',
+    'Monitoring Jadwal Kalibrasi & Masa Pakai Peralatan K3': 'Calibration Schedule & Equipment Lifespan Monitoring',
+    'Monitoring Stok Real-time & Tracking Pergerakan Barang': 'Real-Time Stock Monitoring & Goods Movement Tracking',
+    'Notifikasi Alert Kedaluwarsa & Peringatan Ambang Batas Stok': 'Expiration Alert Notifications & Threshold Warnings',
+    'Notifikasi Pengumuman & Standar Keselamatan Kerja': 'Safety Announcements & Standard Operating Procedure Alerts',
+    'Operator Gudang': 'Warehouse Operator',
+    'Operator Inbound': 'Inbound Operator',
+    'Pemohon / Worker': 'Applicant / Worker',
+    'Pencatatan Penerimaan Barang Masuk (Inbound) Secara Digital': 'Digital Inbound Goods Receiving & Waybill Logging',
+    'Pencatatan Transaksi Mutasi Keluar, Masuk & Peminjaman Alat': 'Tool Checkout, Return & Inventory Movement Logging',
+    'Pengguna Alat': 'Tool User',
+    'Peringatan Stok Minimum & Alerts Perlu Maintenance': 'Low Stock Warnings & Maintenance Due Alerts',
+    'Petugas Analis / Kimiawan': 'Analyst / Chemist',
+    'Petugas Gudang': 'Warehouse Officer',
+    'Petugas K3': 'HSE Officer',
+    'Petugas Penerimaan': 'Receiving Officer',
+    'Platform Human Resource Information System (HRIS) berbasis web terpadu untuk efisiensi tata kelola kepegawaian perusahaan. Sistem ini mengotomatiskan pencatatan absensi digital, pengajuan dan persetujuan cuti/izin mandiri, manajemen struktur peran & hak akses pengguna (RBAC), pengumuman internal, serta pelaporan kepegawaian.': 'An integrated web-based Human Resource Information System (HRIS) for enterprise workforce management. Automates digital attendance, self-service leave/permit workflows, Role-Based Access Control (RBAC), internal bulletins, and personnel reporting.',
+    'Platform Warehouse Management System (WMS) berbasis web untuk pengelolaan penerimaan barang secara digital dan terstruktur. Sistem ini menyediakan fitur pencatatan inbound barang, validasi kualitas penerimaan, manajemen lokasi penyimpanan gudang, pelacakan stok real-time, serta pelaporan rekapitulasi penerimaan guna meningkatkan efisiensi operasional logistik.': 'A web-based Warehouse Management System (WMS) for digital and structured inbound receiving. Features inbound goods logging, receiving quality inspection, storage bin mapping, real-time inventory tracking, and receiving analytics to boost logistics efficiency.',
+    'Platform digital terpadu untuk pengelolaan dan pelayanan Keselamatan dan Kesehatan Kerja (K3). Sistem ini mengotomatiskan alur pengajuan layanan K3, verifikasi dokumen, pemantauan tindak lanjut, dan pelaporan eksekutif guna mewujudkan lingkungan kerja yang aman dan patuh regulasi.': 'An integrated digital platform for Occupational Health and Safety (HSE) management. The system automates HSE service submissions, document verification, action tracking, and executive reporting to foster a compliant, safe workplace.',
+    'Platform layanan publik dan administrasi tingkat Rukun Warga (RW) berbasis web. Mempermudah warga dalam pengajuan pengantar surat mandiri, menyajikan papan informasi & agenda lingkungan, serta membantu transparansi tata kelola wilayah.': 'A web-based public service and neighborhood administration portal. Enables residents to request official cover letters online, view local event announcements, and foster transparent community governance.',
+    'Portal Absensi Digital Real-time & Monitoring Kehadiran': 'Real-Time Digital Attendance Portal & Punctuality Monitoring',
+    'Portal Digital Kependudukan': 'Digital Citizen Portal',
+    'Portal Pengajuan Layanan K3 Online Mandiri': 'Self-Service Online HSE Service Request Portal',
+    'Portal Pengumuman Digital & Kalender Agenda Lingkungan RW': 'Digital Bulletin Board & Community Event Calendar',
+    'Portofolio Andhika': 'Andhika Portfolio',
+    'Portofolio | Andhika': 'Portfolio | Andhika',
+    'Preview Resume Andhika Firjatullah': 'Resume Preview - Andhika Firjatullah',
+    'Proyek berikutnya': 'Next project',
+    'Proyek sebelumnya': 'Previous project',
+    'Publik': 'Public',
+    'Role Apa Saja': 'User Roles',
+    'Role-Based Access Control (RBAC) & Management Hak Akses': 'Role-Based Access Control (RBAC) & Permission Management',
+    'Safety Auditor': 'Safety Auditor',
+    'Semua': 'All',
+    'Sertifikat program Magang dan Studi Independen Bersertifikat yang ditampilkan langsung dari koleksi dokumen pada folder images.': 'Certified Internship and Independent Study program certificate displayed directly from the document collection in the images folder.',
+    'Sistem Informasi HRIS': 'HRIS Information System',
+    'Sistem Informasi K3': 'HSE Information System',
+    'Sistem Labeling Kode Inventaris & Barcode Tagging': 'Inventory Asset Coding & Barcode Tagging System',
+    'Sistem Logistik & Inventaris': 'Logistics & Inventory System',
+    'Sistem Manajemen Gudang': 'Warehouse Management System',
+    'Sistem Manajemen Penerimaan Barang (WMS)': 'Inbound Warehouse Management System (WMS)',
+    'Sistem Manajemen SDM': 'Human Resources Management System',
+    'Sistem Manajerial K3 B3': 'Hazardous Substance HSE Management System',
+    'Sistem Pengajuan & Approval Cuti, Lembur, dan Izin Online': 'Online Leave, Overtime & Absence Approval Workflows',
+    'Sistem informasi RW yang membantu pengurusan pengantar digital, pendataan kependudukan warga, pengumuman, dan transparansi kegiatan.': 'A community information system assisting digital cover letters, citizen demographics, announcements, and neighborhood transparency.',
+    'Sistem informasi manajemen sumber daya manusia (HRIS) yang mengintegrasikan pengelolaan data pegawai, absensi, pengajuan cuti, dan struktur organisasi.': 'A Human Resource Information System (HRIS) integrating employee records, digital attendance, leave requests, and organizational hierarchy.',
+    'Sistem inventarisasi bahan kimia yang membantu pencatatan stok, klasifikasi bahaya GHS, MSDS, dan pengelolaan penggunaan bahan berbahaya.': 'A chemical inventory system supporting stock management, GHS hazard classification, MSDS integration, and hazardous substance control.',
+    'Sistem inventarisasi peralatan K3 yang membantu pencatatan, pemantauan stok, kalibrasi, dan pengelolaan logistik keselamatan kerja secara efisien.': 'An HSE equipment inventory system facilitating asset records, stock tracking, calibration, and efficient workplace safety logistics.',
+    'Sistem manajemen dan pengawasan stok alat Keselamatan dan Kesehatan Kerja (K3) berbasis web. Dirancang untuk memastikan seluruh inventaris APD, perlengkapan rescue, APAR, dan sensor terdata dengan akurat, siap pakai, serta terpantau masa perawatannya.': 'A web-based HSE equipment inventory and tracking system. Designed to ensure all PPE, rescue gear, fire extinguishers, and sensors are accurately cataloged, inspection-ready, and monitored for maintenance intervals.',
+    'Sistem manajemen penerimaan barang (WMS) yang dirancang untuk mengelola alur masuk barang, pencatatan stok, dan monitoring gudang secara efisien dan real-time.': 'A warehouse management system (WMS) designed to manage inbound goods workflows, stock logging, and real-time warehouse monitoring efficiently.',
+    'Staff Logistik': 'Logistics Staff',
+    'Staff Operasional': 'Operations Staff',
+    'Super Admin / Pengelola K3': 'Super Admin / HSE Manager',
+    'Super Admin HR': 'HR Super Admin',
+    'Tampilan Mobile Responsive & Cetak Dokumen PDF Pengantar': 'Mobile Responsive Design & Instant PDF Letter Generation',
+    'Tampilkan foto pendidikan berikutnya': 'Show next education photo',
+    'Tracking Status Pengajuan Real-time dengan Status Timeline': 'Real-Time Request Tracking with Visual Status Timeline',
+    'Tracking Volume Storage, Expired Date & Ambang Toleransi': 'Storage Volume Tracking, Expiration Dates & Safety Limits',
+    'Tukar tampilan Laptop / HP': 'Toggle Laptop / Mobile view',
+    'Tutup': 'Close',
+    'Tutup modal detail proyek': 'Close project detail modal',
+    'Ubah Tampilan Laptop / HP': 'Toggle Laptop / Mobile View',
+    'Ubah ke tampilan HP': 'Switch to mobile view',
+    'Ubah ke tampilan Laptop': 'Switch to laptop view',
+    'User Mandiri': 'Self-Service User',
+    'User Operasional': 'Operations User',
+    'Validasi Kualitas & Kuantitas Barang Saat Penerimaan': 'Inbound Quality Inspection & Quantity Verification',
+    'Verifikasi Multi-level & Penjadwalan Inspeksi K3': 'Multi-Level Verification & HSE Inspection Scheduling',
+    'Verifikator Divisi': 'Departmental Verifier',
+    'Verifikator Field': 'Field Verifier',
+    'Verifikator RT': 'Block Verifier',
+    'Warga / Masyarakat': 'Resident / Citizen',
+    'Warga Lingkungan': 'Local Resident',
+    'Website layanan K3 yang memudahkan pengajuan kebutuhan, pemantauan status, dan penyampaian layanan keselamatan & kesehatan kerja secara terstruktur.': 'An HSE service website streamlining request submissions, status monitoring, and structured workplace safety & health delivery.',
 }));
 
 const translateInterfaceValue = (value, language) => {
@@ -220,6 +365,12 @@ const translateInterfaceValue = (value, language) => {
 
     if (photoLabel) {
         return `${photoLabel[1]} photo`;
+    }
+
+    const viewDetail = normalized.match(/^Lihat detail (.+)$/i);
+
+    if (viewDetail) {
+        return `View details for ${translateInterfaceValue(viewDetail[1], language)}`;
     }
 
     return value;
@@ -359,6 +510,22 @@ const initLanguagePicker = () => {
         } catch {
             // The selected language still applies for the current page.
         }
+
+        document.querySelectorAll('[data-device-toggle]').forEach(btn => {
+            const isMobileView = btn.classList.contains('is-active');
+            const label = btn.querySelector('[data-device-label]');
+            if (selectedLanguage === 'en') {
+                if (label) label.textContent = isMobileView ? 'Laptop' : 'Mobile';
+                btn.setAttribute('title', isMobileView ? 'Switch to laptop view' : 'Switch to mobile view');
+                btn.setAttribute('aria-label', isMobileView ? 'Switch to laptop view' : 'Toggle Laptop / Mobile view');
+            } else {
+                if (label) label.textContent = isMobileView ? 'Laptop' : 'HP';
+                btn.setAttribute('title', isMobileView ? 'Ubah ke tampilan Laptop' : 'Ubah ke tampilan HP');
+                btn.setAttribute('aria-label', isMobileView ? 'Ubah ke tampilan Laptop' : 'Tukar tampilan Laptop / HP');
+            }
+        });
+
+        window.dispatchEvent(new CustomEvent('app:language-change', { detail: { language: selectedLanguage } }));
     };
 
     toggle.addEventListener('click', () => {
@@ -1515,14 +1682,16 @@ const initProjectShowcase = () => {
             img.style.opacity = '0.3';
 
             setTimeout(() => {
+                const isEn = document.documentElement.dataset.language === 'en';
                 if (isMobileView) {
                     // Switch to Desktop
                     btn.classList.remove('is-active');
                     img.src = desktopSrc;
-                    if (label) label.textContent = 'HP';
+                    if (label) label.textContent = isEn ? 'Mobile' : 'HP';
                     if (mobileIcon) mobileIcon.style.display = 'flex';
                     if (desktopIcon) desktopIcon.style.display = 'none';
-                    btn.setAttribute('title', 'Ubah ke tampilan HP');
+                    btn.setAttribute('title', isEn ? 'Switch to mobile view' : 'Ubah ke tampilan HP');
+                    btn.setAttribute('aria-label', isEn ? 'Switch to mobile view' : 'Tukar tampilan Laptop / HP');
                 } else {
                     // Switch to Mobile
                     btn.classList.add('is-active');
@@ -1530,7 +1699,8 @@ const initProjectShowcase = () => {
                     if (label) label.textContent = 'Laptop';
                     if (mobileIcon) mobileIcon.style.display = 'none';
                     if (desktopIcon) desktopIcon.style.display = 'flex';
-                    btn.setAttribute('title', 'Ubah ke tampilan Laptop');
+                    btn.setAttribute('title', isEn ? 'Switch to laptop view' : 'Ubah ke tampilan Laptop');
+                    btn.setAttribute('aria-label', isEn ? 'Switch to laptop view' : 'Tukar tampilan Laptop / HP');
                 }
                 img.style.opacity = '1';
             }, 180);
@@ -1702,54 +1872,60 @@ const initProjectShowcase = () => {
 
     const mergedProjectsData = Object.assign({}, projectsData, window.__PROJECTS_DATA__ || {});
 
+    let activeModalProjectId = null;
+
     const populateModal = (data) => {
         if (!data) return;
 
-        if (modalCategory) modalCategory.textContent = data.category || '';
-        if (modalTitle) modalTitle.textContent = data.title || '';
-        if (modalDescription) modalDescription.textContent = data.description || '';
+        const currentLang = document.documentElement.dataset.language || 'id';
+        const t = (val) => translateInterfaceValue(val, currentLang);
+
+        if (modalCategory) modalCategory.textContent = t(data.category || '');
+        if (modalTitle) modalTitle.textContent = t(data.title || '');
+        if (modalDescription) modalDescription.textContent = t(data.description || '');
 
         if (modalStack) {
             modalStack.innerHTML = (data.stack || []).map(tech => {
                 const iconSrc = tech.icon ? (tech.icon.startsWith('/') ? tech.icon : '/images/' + tech.icon) : '';
                 return `
-                < div class= "project-capsule" >
-                <span class="project-capsule__icon">
-                        <img src="${iconSrc}" alt="" loading="lazy">
+                    <div class="project-capsule">
+                        <span class="project-capsule__icon">
+                            <img src="${iconSrc}" alt="" loading="lazy">
                         </span>
                         <span class="project-capsule__label">${tech.name}</span>
                     </div>
-                    `;
+                `;
             }).join('');
         }
 
-                    if (modalRoles) {
-                        modalRoles.innerHTML = (data.roles || []).map(role => `
+        if (modalRoles) {
+            modalRoles.innerHTML = (data.roles || []).map(role => `
                 <div class="project-modal__role-card">
                     <div class="project-modal__role-header">
-                        <span class="project-modal__role-name">${role.name}</span>
-                        <span class="project-modal__role-badge">${role.badge}</span>
+                        <span class="project-modal__role-name">${t(role.name)}</span>
+                        <span class="project-modal__role-badge">${t(role.badge)}</span>
                     </div>
-                    <p class="project-modal__role-desc">${role.desc}</p>
+                    <p class="project-modal__role-desc">${t(role.desc)}</p>
                 </div>
             `).join('');
         }
 
-                    if (modalFeatures) {
-                        modalFeatures.innerHTML = (data.features || []).map(feature => `
+        if (modalFeatures) {
+            modalFeatures.innerHTML = (data.features || []).map(feature => `
                 <li class="project-modal__feature-item">
                     <span class="project-modal__feature-check">✓</span>
-                    <span>${feature}</span>
+                    <span>${t(feature)}</span>
                 </li>
             `).join('');
         }
     };
 
     const openModal = (projectId) => {
-                    const currentData = (window.__PROJECTS_DATA__ && window.__PROJECTS_DATA__[projectId]) || mergedProjectsData[projectId] || projectsData[projectId];
-                    if (!currentData) return;
+        activeModalProjectId = projectId;
+        const currentData = (window.__PROJECTS_DATA__ && window.__PROJECTS_DATA__[projectId]) || mergedProjectsData[projectId] || projectsData[projectId];
+        if (!currentData) return;
 
-                    populateModal(currentData);
+        populateModal(currentData);
                     modal.classList.add('is-active');
                     modal.setAttribute('aria-hidden', 'false');
                     document.body.classList.add('project-modal-open');
@@ -1778,7 +1954,16 @@ const initProjectShowcase = () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('is-active')) {
-                        closeModal();
+            closeModal();
+        }
+    });
+
+    window.addEventListener('app:language-change', () => {
+        if (activeModalProjectId && modal.classList.contains('is-active')) {
+            const currentData = (window.__PROJECTS_DATA__ && window.__PROJECTS_DATA__[activeModalProjectId]) || mergedProjectsData[activeModalProjectId] || projectsData[activeModalProjectId];
+            if (currentData) {
+                populateModal(currentData);
+            }
         }
     });
 };
