@@ -120,6 +120,7 @@ const translationsEn = new Map(Object.entries({
     'Navigasi layer sertifikasi': 'Certification layer navigation',
     'Layer 1 (4 sertifikasi)': 'Layer 1 (4 certificates)',
     'Layer 2 (4 sertifikasi)': 'Layer 2 (4 certificates)',
+    'Layer 3 (2 sertifikasi)': 'Layer 3 (2 certificates)',
     'Siap berkolaborasi untuk proyek berikutnya? Langsung hubungi saja.': 'Ready to collaborate on your next project? Get in touch.',
     'Daftar kontak dan sosial media': 'Contact and social media list',
     'Galeri Sertifikasi': 'Certification Gallery',
@@ -155,6 +156,12 @@ const translationsEn = new Map(Object.entries({
     'Membangun Aplikasi Gen AI dengan Microsoft Azure': 'Building Gen AI Applications with Microsoft Azure',
     'Memulai Pemrograman dengan Python': 'Getting Started with Python Programming',
     'Pengenalan Data Science dan Pemanfaatannya di Berbagai Sektor': 'Introduction to Data Science and Its Applications Across Sectors',
+    'Koleksi sertifikat MySkill yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.': 'A collection of MySkill certificates available for direct preview. Select a document from the list to view the active PDF without leaving the page.',
+    'Koleksi sertifikat RevoU yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.': 'A collection of RevoU certificates available for direct preview. Select a document from the list to view the active PDF without leaving the page.',
+    'Sertifikat MySkill': 'MySkill Certificates',
+    'Sertifikat RevoU': 'RevoU Certificates',
+    'Platform Pengembangan Skill & Karier': 'Skill & Career Development Platform',
+    'Tech Academy & Mini Course': 'Tech Academy & Mini Course',
 }));
 
 const translateInterfaceValue = (value, language) => {

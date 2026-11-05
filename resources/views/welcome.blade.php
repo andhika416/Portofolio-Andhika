@@ -848,6 +848,20 @@
                             'url' => route('certificates.digitalent'),
                             'count' => 2,
                         ],
+                        [
+                            'name' => 'MySkill',
+                            'label' => 'Platform Pengembangan Skill & Karier',
+                            'image' => 'MySkill.png',
+                            'url' => route('certificates.myskill'),
+                            'count' => 7,
+                        ],
+                        [
+                            'name' => 'RevoU',
+                            'label' => 'Tech Academy & Mini Course',
+                            'image' => 'RevoU.png',
+                            'url' => route('certificates.revou'),
+                            'count' => 1,
+                        ],
                     ];
                     $certificateLayers = array_chunk($certificateCards, 4);
                 @endphp
@@ -925,22 +939,16 @@
                             <div class="certificate-nav-indicator" data-certificate-indicator>
                                 <span class="certificate-layer-badge">GESER</span>
                                 <div class="certificate-nav-dots" role="tablist" aria-label="Navigasi layer sertifikasi">
-                                    <button
-                                        type="button"
-                                        class="certificate-nav-dot is-active"
-                                        role="tab"
-                                        aria-selected="true"
-                                        data-certificate-dot="0"
-                                        aria-label="Layer 1 (4 sertifikasi)"
-                                    ></button>
-                                    <button
-                                        type="button"
-                                        class="certificate-nav-dot"
-                                        role="tab"
-                                        aria-selected="false"
-                                        data-certificate-dot="1"
-                                        aria-label="Layer 2 (4 sertifikasi)"
-                                    ></button>
+                                    @foreach ($certificateLayers as $dotIndex => $layerGroup)
+                                        <button
+                                            type="button"
+                                            class="certificate-nav-dot{{ $dotIndex === 0 ? ' is-active' : '' }}"
+                                            role="tab"
+                                            aria-selected="{{ $dotIndex === 0 ? 'true' : 'false' }}"
+                                            data-certificate-dot="{{ $dotIndex }}"
+                                            aria-label="Layer {{ $dotIndex + 1 }} ({{ count($layerGroup) }} sertifikasi)"
+                                        ></button>
+                                    @endforeach
                                 </div>
                             </div>
 

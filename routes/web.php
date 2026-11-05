@@ -351,3 +351,91 @@ Route::get('/certifications/digitalent', function () {
         'activeIndex' => $activeIndex,
     ]);
 })->name('certificates.digitalent');
+
+Route::get('/certifications/myskill', function () {
+    $documents = [
+        [
+            'title' => 'Apps Development with Flutter',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - APPS DEVELOPMENT WITH FLUTTER.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'CI/CD',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - CI CD.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Database Testing',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - DATABASE TESTING.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Frontend and Backend Integration',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - FRONTEND AND BACKEND INTEGRATION.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Troubleshooting & Debugging',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - TROUBLESHOOTING & DEBUGGING.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'Website Development Fundamental',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - WEBSITE DEVELOPMENT FUNDAMENTAL.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+        [
+            'title' => 'WordPress Development',
+            'subtitle' => 'MySkill Certificate',
+            'file' => 'My Skill - WORDPRESS DEVELOPMENT.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'MySkill Certificates',
+        'heroTitle' => 'Sertifikat MySkill',
+        'heroDescription' => 'Koleksi sertifikat MySkill yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.',
+        'brandName' => 'MySkill',
+        'brandImage' => 'MySkill.png',
+        'brandImageAlt' => 'Logo MySkill',
+        'brandNote' => 'Kumpulan sertifikat pelatihan dan peningkatan skill MySkill yang tersedia pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.myskill');
+
+Route::get('/certifications/revou', function () {
+    $documents = [
+        [
+            'title' => 'Software Engineering',
+            'subtitle' => 'RevoU Certificate',
+            'file' => 'RevoU - Software Engineering.pdf',
+            'previewRatio' => '297 / 210',
+        ],
+    ];
+
+    $requestedIndex = (int) request()->query('doc', 0);
+    $activeIndex = max(0, min($requestedIndex, count($documents) - 1));
+
+    return view('certificates.gallery', [
+        'pageTitle' => 'RevoU Certificates',
+        'heroTitle' => 'Sertifikat RevoU',
+        'heroDescription' => 'Koleksi sertifikat RevoU yang dapat dipreview langsung di halaman ini. Pilih dokumen dari daftar untuk melihat PDF aktif tanpa keluar dari halaman.',
+        'brandName' => 'RevoU',
+        'brandImage' => 'RevoU.png',
+        'brandImageAlt' => 'Logo RevoU',
+        'brandNote' => 'Kumpulan sertifikat pelatihan RevoU yang tersedia pada folder images.',
+        'documents' => $documents,
+        'activeIndex' => $activeIndex,
+    ]);
+})->name('certificates.revou');
